@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký ZaloPay Merchant - Tạo tài khoản doanh nghiệp</title>
+    <meta name="description" content="Đăng ký tài khoản ZaloPay Merchant để bắt đầu sử dụng giải pháp thanh toán trực tuyến hàng đầu Việt Nam">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="/css/merchant.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="/images/zalopay-logo.png" alt="ZaloPay" height="40" class="me-2">
+                <span class="fw-bold text-primary">ZaloPay Merchant</span>
+            </a>
+            
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">Trang chủ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg border-0">
+                    <div class="card-body p-5">
+                        <!-- Header -->
+                        <div class="text-center mb-5">
+                            <h1 class="display-5 fw-bold text-primary mb-3">Đăng ký ZaloPay Merchant</h1>
+                            <p class="lead text-muted">
+                                Tạo tài khoản doanh nghiệp để bắt đầu sử dụng giải pháp thanh toán trực tuyến
+                            </p>
+                        </div>
+
+                        <!-- OAuth Signup Options -->
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-6">
+                                <div class="oauth-card h-100 p-4 border rounded-3 text-center">
+                                    <div class="oauth-icon bg-danger text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                                        <i class="fab fa-google fa-2x"></i>
+                                    </div>
+                                    <h4 class="fw-bold mb-3">Đăng ký với Google</h4>
+                                    <p class="text-muted mb-4">
+                                        Sử dụng tài khoản Google để đăng ký nhanh chóng và an toàn
+                                    </p>
+                                    <button class="btn btn-outline-danger btn-lg w-100" onclick="signupWithGoogle()">
+                                        <i class="fab fa-google me-2"></i>Đăng ký với Google
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="oauth-card h-100 p-4 border rounded-3 text-center">
+                                    <div class="oauth-icon bg-dark text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                                        <i class="fab fa-apple fa-2x"></i>
+                                    </div>
+                                    <h4 class="fw-bold mb-3">Đăng ký với Apple</h4>
+                                    <p class="text-muted mb-4">
+                                        Sử dụng Apple ID để đăng ký với tính năng bảo mật cao
+                                    </p>
+                                    <button class="btn btn-outline-dark btn-lg w-100" onclick="signupWithApple()">
+                                        <i class="fab fa-apple me-2"></i>Đăng ký với Apple
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="text-center mb-4">
+                            <hr class="my-4">
+                            <span class="text-muted bg-light px-3">Hoặc đăng ký bằng email</span>
+                        </div>
+
+                        <!-- Email Signup Form -->
+                        <form id="emailSignupForm" class="needs-validation" novalidate>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="firstName" class="form-label">Họ và tên đệm *</label>
+                                    <input type="text" class="form-control form-control-lg" id="firstName" required>
+                                    <div class="invalid-feedback">
+                                        Vui lòng nhập họ và tên đệm
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="lastName" class="form-label">Tên *</label>
+                                    <input type="text" class="form-control form-control-lg" id="lastName" required>
+                                    <div class="invalid-feedback">
+                                        Vui lòng nhập tên
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="email" class="form-label">Email doanh nghiệp *</label>
+                                    <input type="email" class="form-control form-control-lg" id="email" required>
+                                    <div class="invalid-feedback">
+                                        Vui lòng nhập email hợp lệ
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label">Số điện thoại *</label>
+                                    <input type="tel" class="form-control form-control-lg" id="phone" required>
+                                    <div class="invalid-feedback">
+                                        Vui lòng nhập số điện thoại
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="company" class="form-label">Tên công ty *</label>
+                                    <input type="text" class="form-control form-control-lg" id="company" required>
+                                    <div class="invalid-feedback">
+                                        Vui lòng nhập tên công ty
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="password" class="form-label">Mật khẩu *</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control form-control-lg" id="password" required>
+                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('password')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Vui lòng nhập mật khẩu (ít nhất 8 ký tự)
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="confirmPassword" class="form-label">Xác nhận mật khẩu *</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control form-control-lg" id="confirmPassword" required>
+                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('confirmPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Mật khẩu xác nhận không khớp
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                        <label class="form-check-label" for="agreeTerms">
+                                            Tôi đồng ý với <a href="#" class="text-primary">Điều khoản sử dụng</a> 
+                                            và <a href="#" class="text-primary">Chính sách bảo mật</a> của ZaloPay Merchant
+                                        </label>
+                                        <div class="invalid-feedback">
+                                            Vui lòng đồng ý với điều khoản sử dụng
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="agreeMarketing">
+                                        <label class="form-check-label" for="agreeMarketing">
+                                            Tôi muốn nhận thông tin về sản phẩm và dịch vụ mới từ ZaloPay
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="fas fa-user-plus me-2"></i>Tạo tài khoản
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Login Link -->
+                        <div class="text-center mt-4">
+                            <p class="text-muted">
+                                Đã có tài khoản? 
+                                <a href="/auth_login.html" class="text-primary fw-bold">Đăng nhập ngay</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">© 2024 ZaloPay Merchant. Tất cả quyền được bảo lưu.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-white me-3">Điều khoản sử dụng</a>
+                    <a href="#" class="text-white">Chính sách bảo mật</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="/js/merchant.js"></script>
+    <script src="/js/auth.js"></script>
+    
+    <script>
+        // Form validation
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+        // Password validation
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+            
+            if (password !== confirmPassword) {
+                this.setCustomValidity('Mật khẩu xác nhận không khớp');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+
+        // OAuth signup functions
+        function signupWithGoogle() {
+            // Redirect to Google OAuth
+            const googleAuthUrl = '/api/oauth/google/authorize?redirect_uri=' + encodeURIComponent(window.location.origin + '/google_auth.html');
+            window.location.href = googleAuthUrl;
+        }
+
+        function signupWithApple() {
+            // Redirect to Apple OAuth
+            const appleAuthUrl = '/api/oauth/apple/authorize?redirect_uri=' + encodeURIComponent(window.location.origin + '/apple_auth.html');
+            window.location.href = appleAuthUrl;
+        }
+
+        // Toggle password visibility
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>

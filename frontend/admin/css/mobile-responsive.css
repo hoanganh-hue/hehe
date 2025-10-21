@@ -1,0 +1,740 @@
+/* ==============================================
+   MOBILE-FIRST RESPONSIVE FRAMEWORK
+   ZaloPay Admin Portal - Mobile Optimization
+   ============================================== */
+
+/* CSS Variables cho consistent theming */
+:root {
+  /* Breakpoints */
+  --mobile-xs: 320px;
+  --mobile-sm: 480px;
+  --mobile-md: 768px;
+  --mobile-lg: 1024px;
+  --mobile-xl: 1200px;
+
+  /* Touch targets */
+  --touch-target-min: 44px;
+  --touch-target-comfortable: 48px;
+
+  /* Typography scaling */
+  --font-size-xs: 0.75rem;   /* 12px */
+  --font-size-sm: 0.875rem;  /* 14px */
+  --font-size-base: 1rem;    /* 16px */
+  --font-size-lg: 1.125rem;  /* 18px */
+  --font-size-xl: 1.25rem;   /* 20px */
+  --font-size-2xl: 1.5rem;   /* 24px */
+  --font-size-3xl: 1.875rem; /* 30px */
+  --font-size-4xl: 2.25rem;  /* 36px */
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;  /* 4px */
+  --spacing-sm: 0.5rem;   /* 8px */
+  --spacing-md: 1rem;     /* 16px */
+  --spacing-lg: 1.5rem;   /* 24px */
+  --spacing-xl: 2rem;     /* 32px */
+  --spacing-2xl: 3rem;    /* 48px */
+
+  /* Colors */
+  --primary-color: #0068FF;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --info-color: #17a2b8;
+  --light-color: #f8f9fa;
+  --dark-color: #343a40;
+}
+
+/* ==============================================
+   MOBILE-FIRST BASE STYLES (320px+)
+   ============================================== */
+
+/* Global mobile-first resets */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Touch-friendly interactions */
+a, button, input, select, textarea, [role="button"] {
+  min-height: var(--touch-target-min);
+  min-width: var(--touch-target-min);
+  touch-action: manipulation;
+}
+
+/* Remove tap highlight trên mobile */
+a, button, input, select, textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ==============================================
+   TYPOGRAPHY SCALING
+   ============================================== */
+
+/* Mobile-first typography */
+h1, .h1 { font-size: var(--font-size-2xl); font-weight: 700; line-height: 1.2; margin-bottom: var(--spacing-md); }
+h2, .h2 { font-size: var(--font-size-xl); font-weight: 600; line-height: 1.3; margin-bottom: var(--spacing-sm); }
+h3, .h3 { font-size: var(--font-size-lg); font-weight: 600; line-height: 1.4; margin-bottom: var(--spacing-sm); }
+h4, .h4 { font-size: var(--font-size-base); font-weight: 500; line-height: 1.4; margin-bottom: var(--spacing-xs); }
+h5, .h5 { font-size: var(--font-size-sm); font-weight: 500; line-height: 1.4; margin-bottom: var(--spacing-xs); }
+h6, .h6 { font-size: var(--font-size-xs); font-weight: 500; line-height: 1.4; margin-bottom: var(--spacing-xs); }
+
+p {
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+}
+
+/* ==============================================
+   LAYOUT & GRID SYSTEM
+   ============================================== */
+
+/* Mobile-first container */
+.container-fluid {
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Mobile-first cards */
+.card {
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  margin-bottom: var(--spacing-md);
+  background: white;
+}
+
+.card-header {
+  background: var(--light-color);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  padding: var(--spacing-md);
+  font-weight: 600;
+}
+
+.card-body {
+  padding: var(--spacing-md);
+}
+
+/* Mobile-first buttons */
+.btn {
+  min-height: var(--touch-target-min);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  border-radius: 0.375rem;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-sm {
+  min-height: 36px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+}
+
+.btn-lg {
+  min-height: var(--touch-target-comfortable);
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-lg);
+}
+
+/* Button groups mobile optimization */
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.btn-group .btn {
+  border-radius: 0.375rem !important;
+  margin: 0;
+}
+
+/* ==============================================
+   NAVIGATION & SIDEBAR
+   ============================================== */
+
+/* Mobile-first sidebar (hidden by default) */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100vh;
+  background: white;
+  z-index: 1040;
+  transition: left 0.3s ease-in-out;
+  box-shadow: 0.125rem 0 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.show {
+  left: 0;
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1039;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.sidebar-backdrop.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mobile navigation toggle */
+.nav-toggle {
+  position: fixed;
+  top: var(--spacing-sm);
+  left: var(--spacing-sm);
+  z-index: 1041;
+  width: var(--touch-target-comfortable);
+  height: var(--touch-target-comfortable);
+  background: var(--primary-color);
+  border: none;
+  border-radius: 0.375rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.15);
+}
+
+/* ==============================================
+   TABLES & DATA DISPLAY
+   ============================================== */
+
+/* Mobile-first tables */
+.table-responsive {
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  background: white;
+  margin-bottom: var(--spacing-md);
+}
+
+.table {
+  margin-bottom: 0;
+  font-size: var(--font-size-sm);
+}
+
+.table th {
+  background: var(--light-color);
+  font-weight: 600;
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: var(--spacing-sm);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.125);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.table td {
+  padding: var(--spacing-sm);
+  vertical-align: middle;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Mobile table optimization */
+@media (max-width: 767.98px) {
+  .table-responsive {
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    margin: 0 -15px;
+  }
+
+  .table {
+    min-width: 600px; /* Force horizontal scroll */
+  }
+
+  .table thead {
+    display: none; /* Hide headers on mobile */
+  }
+
+  .table tbody tr {
+    display: block;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.5rem;
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: white;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  }
+
+  .table tbody td {
+    display: block;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: var(--spacing-xs) 0;
+    text-align: left;
+  }
+
+  .table tbody td:last-child {
+    border-bottom: none;
+  }
+
+  /* Add labels for mobile table cells */
+  .table tbody td:before {
+    content: attr(data-label) ": ";
+    font-weight: 600;
+    color: var(--dark-color);
+    display: inline-block;
+    min-width: 80px;
+  }
+}
+
+/* ==============================================
+   CARDS & STATISTICS
+   ============================================== */
+
+/* Mobile-first statistics cards */
+.card.border-left-primary,
+.card.border-left-success,
+.card.border-left-warning,
+.card.border-left-danger,
+.card.border-left-info {
+  border-left: 0.25rem solid;
+  border-radius: 0.5rem;
+  transition: transform 0.15s ease-in-out;
+}
+
+.card.border-left-primary { border-left-color: var(--primary-color); }
+.card.border-left-success { border-left-color: var(--success-color); }
+.card.border-left-warning { border-left-color: var(--warning-color); }
+.card.border-left-danger { border-left-color: var(--danger-color); }
+.card.border-left-info { border-left-color: var(--info-color); }
+
+.card:hover {
+  transform: translateY(-0.125rem);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* ==============================================
+   FORMS & INPUTS
+   ============================================== */
+
+/* Mobile-first forms */
+.form-control {
+  min-height: var(--touch-target-min);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-base);
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(0, 104, 255, 0.25);
+}
+
+.form-select {
+  min-height: var(--touch-target-min);
+  padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-base);
+  background-position: right var(--spacing-sm) center;
+}
+
+/* Form labels mobile optimization */
+.form-label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  margin-bottom: var(--spacing-xs);
+  color: var(--dark-color);
+}
+
+/* ==============================================
+   CHARTS & VISUALIZATIONS
+   ============================================== */
+
+/* Mobile-first chart containers */
+.chart-area,
+.chart-pie,
+.chart-line,
+.chart-bar {
+  position: relative;
+  height: 300px;
+  margin: var(--spacing-md) 0;
+}
+
+.chart-area canvas,
+.chart-pie canvas,
+.chart-line canvas,
+.chart-bar canvas {
+  max-height: 100%;
+  width: 100% !important;
+}
+
+/* ==============================================
+   UTILITIES & HELPERS
+   ============================================== */
+
+/* Mobile-first spacing utilities */
+.mb-1 { margin-bottom: var(--spacing-xs) !important; }
+.mb-2 { margin-bottom: var(--spacing-sm) !important; }
+.mb-3 { margin-bottom: var(--spacing-md) !important; }
+.mb-4 { margin-bottom: var(--spacing-lg) !important; }
+.mb-5 { margin-bottom: var(--spacing-xl) !important; }
+
+.mt-1 { margin-top: var(--spacing-xs) !important; }
+.mt-2 { margin-top: var(--spacing-sm) !important; }
+.mt-3 { margin-top: var(--spacing-md) !important; }
+.mt-4 { margin-top: var(--spacing-lg) !important; }
+.mt-5 { margin-top: var(--spacing-xl) !important; }
+
+/* Mobile-first display utilities */
+.d-mobile-block { display: block !important; }
+.d-mobile-flex { display: flex !important; }
+.d-mobile-none { display: none !important; }
+
+/* Text alignment mobile-first */
+.text-mobile-center { text-align: center !important; }
+.text-mobile-left { text-align: left !important; }
+.text-mobile-right { text-align: right !important; }
+
+/* ==============================================
+   BREAKPOINT: SMALL MOBILE (480px+)
+   ============================================== */
+
+@media (min-width: 480px) {
+  .btn-group {
+    flex-direction: row;
+  }
+
+  .btn-group .btn:not(:last-child) {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+
+  .btn-group .btn:not(:first-child) {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+}
+
+/* ==============================================
+   BREAKPOINT: TABLET (768px+)
+   ============================================== */
+
+@media (min-width: 768px) {
+  /* Container adjustments */
+  .container-fluid {
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
+  }
+
+  /* Typography scaling */
+  h1, .h1 { font-size: var(--font-size-3xl); }
+  h2, .h2 { font-size: var(--font-size-2xl); }
+  h3, .h3 { font-size: var(--font-size-xl); }
+
+  /* Card layouts */
+  .card-body {
+    padding: var(--spacing-lg);
+  }
+
+  /* Show sidebar on tablet+ */
+  .sidebar {
+    position: relative;
+    left: 0;
+    width: 260px;
+    height: auto;
+    box-shadow: none;
+  }
+
+  /* Hide mobile nav toggle */
+  .nav-toggle {
+    display: none;
+  }
+
+  /* Table improvements for tablet */
+  .table {
+    font-size: var(--font-size-base);
+  }
+
+  .table th {
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-md);
+  }
+
+  .table td {
+    padding: var(--spacing-md);
+  }
+
+  /* Restore table headers on tablet+ */
+  .table thead {
+    display: table-header-group;
+  }
+
+  .table tbody tr {
+    display: table-row;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 0;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .table tbody td {
+    display: table-cell;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: var(--spacing-md);
+    text-align: left;
+  }
+
+  .table tbody td:before {
+    content: none;
+  }
+
+  /* Two column layout for cards */
+  .row .col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  /* Button group horizontal on tablet+ */
+  .btn-group {
+    flex-direction: row;
+  }
+
+  /* Display utilities for tablet+ */
+  .d-tablet-block { display: block !important; }
+  .d-tablet-flex { display: flex !important; }
+  .d-tablet-none { display: none !important; }
+}
+
+/* ==============================================
+   BREAKPOINT: DESKTOP (1024px+)
+   ============================================== */
+
+@media (min-width: 1024px) {
+  /* Container max-width */
+  .container-fluid {
+    max-width: 1200px;
+  }
+
+  /* Typography for desktop */
+  h1, .h1 { font-size: var(--font-size-4xl); }
+  h2, .h2 { font-size: var(--font-size-3xl); }
+
+  /* Four column layout for statistics */
+  .row .col-xl-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+
+  /* Chart heights for desktop */
+  .chart-area,
+  .chart-pie,
+  .chart-line,
+  .chart-bar {
+    height: 400px;
+  }
+
+  /* Desktop spacing */
+  .card {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  /* Display utilities for desktop+ */
+  .d-desktop-block { display: block !important; }
+  .d-desktop-flex { display: flex !important; }
+  .d-desktop-none { display: none !important; }
+}
+
+/* ==============================================
+   BREAKPOINT: LARGE DESKTOP (1200px+)
+   ============================================== */
+
+@media (min-width: 1200px) {
+  /* Maximum container width */
+  .container-fluid {
+    max-width: 1400px;
+  }
+
+  /* Enhanced hover effects for desktop */
+  .card:hover {
+    transform: translateY(-0.25rem);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* ==============================================
+   ACCESSIBILITY & TOUCH ENHANCEMENTS
+   ============================================== */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card {
+    border: 2px solid var(--dark-color);
+  }
+
+  .btn {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --light-color: #2d3748;
+    --dark-color: #e2e8f0;
+  }
+
+  body {
+    background-color: #1a202c;
+    color: var(--dark-color);
+  }
+
+  .card {
+    background: #2d3748;
+    color: var(--dark-color);
+  }
+
+  .table {
+    color: var(--dark-color);
+  }
+}
+
+/* ==============================================
+   PRINT STYLES
+   ============================================== */
+
+@media print {
+  .sidebar,
+  .nav-toggle,
+  .btn,
+  .card-header {
+    display: none !important;
+  }
+
+  .card {
+    border: 1px solid #000;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .table {
+    font-size: 12px;
+  }
+}
+
+/* ==============================================
+   UTILITY CLASSES FOR MOBILE OPTIMIZATION
+   ============================================== */
+
+/* Touch-friendly sizing */
+.touch-target {
+  min-height: var(--touch-target-comfortable);
+  min-width: var(--touch-target-comfortable);
+}
+
+/* Mobile-optimized margins */
+.mobile-m-0 { margin: 0; }
+.mobile-m-1 { margin: var(--spacing-xs); }
+.mobile-m-2 { margin: var(--spacing-sm); }
+.mobile-m-3 { margin: var(--spacing-md); }
+.mobile-m-4 { margin: var(--spacing-lg); }
+.mobile-m-5 { margin: var(--spacing-xl); }
+
+/* Mobile-optimized padding */
+.mobile-p-0 { padding: 0; }
+.mobile-p-1 { padding: var(--spacing-xs); }
+.mobile-p-2 { padding: var(--spacing-sm); }
+.mobile-p-3 { padding: var(--spacing-md); }
+.mobile-p-4 { padding: var(--spacing-lg); }
+.mobile-p-5 { padding: var(--spacing-xl); }
+
+/* Mobile text utilities */
+.text-mobile-xs { font-size: var(--font-size-xs); }
+.text-mobile-sm { font-size: var(--font-size-sm); }
+.text-mobile-base { font-size: var(--font-size-base); }
+.text-mobile-lg { font-size: var(--font-size-lg); }
+.text-mobile-xl { font-size: var(--font-size-xl); }
+
+/* Mobile spacing shortcuts */
+.mobile-stack > * + * {
+  margin-top: var(--spacing-md);
+}
+
+.mobile-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Vietnamese text optimization */
+:lang(vi) {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.6;
+}
+
+/* Focus indicators for accessibility */
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Loading states */
+.loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid var(--primary-color);
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

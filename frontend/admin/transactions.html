@@ -1,0 +1,315 @@
+
+
+Quản lý giao dịch - ZaloPay Admin Portal
+
+
+<div class="container-fluid">
+    <!-- Page header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">Quản lý giao dịch</h1>
+            <p class="text-muted">Theo dõi và quản lý các giao dịch thanh toán</p>
+        </div>
+        <div>
+            <button class="btn btn-success" onclick="exportTransactions()">
+                <i class="fas fa-download me-1"></i>Xuất dữ liệu
+            </button>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Tổng giao dịch</h6>
+                            <h4>{{ "{:,}".format(total_amount|int) }} ₫</h4>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-credit-card fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Thành công</h6>
+                            <h4>{{ completed_transactions_count }}</h4>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-check-circle fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Đang xử lý</h6>
+                            <h4>{{ pending_transactions_count }}</h4>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-clock fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Thất bại</h6>
+                            <h4>{{ failed_transactions_count }}</h4>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-times-circle fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3">
+                <div class="col-md-3">
+                    <label for="status" class="form-label">Trạng thái</label>
+                    <select class="form-select" id="status" name="status">
+                        <option value="">Tất cả</option>
+                        
+                        <option value="{{ status.value }}" {{ 'selected' if status_filter == status.value }}>
+                            Đang xử lý
+                            {% elif status.value == 'completed' %}Thành công
+                            {% elif status.value == 'failed' %}Thất bại
+                            {% elif status.value == 'cancelled' %}Đã hủy
+                            {% else %}{{ status.value }}
+                            
+                        </option>
+                        
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="date_from" class="form-label">Từ ngày</label>
+                    <input type="date" class="form-control" id="date_from" name="date_from" value="{{ date_from }}">
+                </div>
+                <div class="col-md-3">
+                    <label for="date_to" class="form-label">Đến ngày</label>
+                    <input type="date" class="form-control" id="date_to" name="date_to" value="{{ date_to }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">&nbsp;</label>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-1"></i>Lọc
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Transactions table -->
+    <div class="card">
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Danh sách giao dịch 
+                <span class="badge bg-secondary">{{ transactions.total }} kết quả</span>
+            </h6>
+        </div>
+        <div class="card-body">
+            
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Mã giao dịch</th>
+                            <th>Partner ID</th>
+                            <th>Số tiền</th>
+                            <th>Phương thức</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày tạo</th>
+                            <th>Mô tả</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td>
+                                <code>{{ transaction.transaction_id }}</code>
+                            </td>
+                            <td>
+                                <span class="badge bg-info">{{ transaction.partner_id }}</span>
+                            </td>
+                            <td>
+                                <strong>{{ "{:,}".format(transaction.amount|int) }} ₫</strong>
+                                
+                                <br><small class="text-muted">Phí: {{ "{:,}".format(transaction.fee_amount|int) }} ₫</small>
+                                
+                            </td>
+                            <td>
+                                
+                                    <span class="badge bg-secondary">{{ transaction.payment_method }}</span>
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                
+                            </td>
+                            <td>
+                                <span class="badge {{ get_status_badge_class(transaction.status.value) }}">
+                                    Đang xử lý
+                                    {% elif transaction.status.value == 'completed' %}Thành công
+                                    {% elif transaction.status.value == 'failed' %}Thất bại
+                                    {% elif transaction.status.value == 'cancelled' %}Đã hủy
+                                    {% else %}{{ transaction.status.value }}
+                                    
+                                </span>
+                            </td>
+                            <td>
+                                {{ transaction.created_at.strftime('%d/%m/%Y %H:%M') }}
+                                
+                                <br><small class="text-muted">Hoàn thành: {{ transaction.completed_at.strftime('%d/%m/%Y %H:%M') }}</small>
+                                
+                            </td>
+                            <td>
+                                <div class="text-truncate" style="max-width: 200px;" title="{{ transaction.description }}">
+                                    {{ transaction.description or 'Không có mô tả' }}
+                                </div>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-outline-primary" 
+                                        onclick="viewTransaction('{{ transaction.transaction_id }}')" data-bs-toggle="tooltip" title="Xem chi tiết">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            
+            <nav aria-label="Transaction pagination">
+                <ul class="pagination justify-content-center">
+                    
+                    <li class="page-item">
+                        <a class="page-link" href="#">
+                            Trước
+                        </a>
+                    </li>
+                    
+                    
+                    
+                        
+                            
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    {{ page_num }}
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page_num }}</span>
+                            </li>
+                            
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">…</span>
+                        </li>
+                        
+                    
+                    
+                    
+                    <li class="page-item">
+                        <a class="page-link" href="#">
+                            Tiếp
+                        </a>
+                    </li>
+                    
+                </ul>
+            </nav>
+            
+            {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">Không có dữ liệu</h5>
+                <p class="text-muted">Không tìm thấy giao dịch nào với điều kiện lọc hiện tại</p>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Transaction Detail Modal -->
+<div class="modal fade" id="transactionDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết giao dịch</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="transactionDetailContent">
+                <!-- Content will be loaded via AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+function viewTransaction(transactionId) {
+    // Load transaction details via AJAX
+    fetch(`/admin/api/transactions/${transactionId}`)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('transactionDetailContent').innerHTML = html;
+            new bootstrap.Modal(document.getElementById('transactionDetailModal')).show();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire('Lỗi', 'Không thể tải thông tin giao dịch', 'error');
+        });
+}
+
+function exportTransactions() {
+    const params = new URLSearchParams(window.location.search);
+    const exportUrl = `/admin/api/transactions/export?${params.toString()}`;
+    
+    Swal.fire({
+        title: 'Xuất dữ liệu',
+        text: 'Chọn định dạng file xuất',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'CSV',
+        cancelButtonText: 'Hủy',
+        showDenyButton: true,
+        denyButtonText: 'PDF'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.open(`${exportUrl}&format=csv`);
+        } else if (result.isDenied) {
+            window.open(`${exportUrl}&format=pdf`);
+        }
+    });
+}
+
+// Initialize tooltips
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+</script>

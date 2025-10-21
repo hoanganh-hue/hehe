@@ -1,0 +1,363 @@
+
+
+Quản lý Admin - ZaloPay Admin Portal
+
+
+<div class="container-fluid">
+    <!-- Page header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">Quản lý Admin</h1>
+            <p class="text-muted">Quản lý tài khoản quản trị viên hệ thống</p>
+        </div>
+        <div>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">
+                <i class="fas fa-plus me-1"></i>Tạo tài khoản
+            </button>
+        </div>
+    </div>
+
+    <!-- Users table -->
+    <div class="card">
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Danh sách Admin 
+                <span class="badge bg-secondary">{{ users.total }} tài khoản</span>
+            </h6>
+        </div>
+        <div class="card-body">
+            
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên đăng nhập</th>
+                            <th>Họ tên</th>
+                            <th>Email</th>
+                            <th>Vai trò</th>
+                            <th>Trạng thái</th>
+                            <th>Đăng nhập cuối</th>
+                            <th>Ngày tạo</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-sm me-2">
+                                        <div class="bg-primary rounded-circle text-white d-flex align-items-center justify-content-center user-avatar-circle">
+                                            {{ user.username[0].upper() }}
+                                        </div>
+                                    </div>
+                                    <strong>{{ user.username }}</strong>
+                                </div>
+                            </td>
+                            <td>{{ user.full_name or '-' }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                <span class="badge {{ 'bg-danger' if user.role == 'super_admin' else 'bg-primary' }}">
+                                    Super Admin
+                                    {% else %}Admin
+                                    
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge {{ 'bg-success' if user.is_active else 'bg-secondary' }}">
+                                    {{ 'Hoạt động' if user.is_active else 'Tạm khóa' }}
+                                </span>
+                            </td>
+                            <td>
+                                
+                                    {{ user.last_login.strftime('%d/%m/%Y %H:%M') }}
+                                {% else %}
+                                    <span class="text-muted">Chưa đăng nhập</span>
+                                
+                            </td>
+                            <td>{{ user.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" 
+                                            onclick="editUser({{ user.id }})" data-bs-toggle="tooltip" title="Chỉnh sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    
+                                    <button type="button" class="btn btn-sm btn-outline-{{ 'secondary' if user.is_active else 'success' }}" 
+                                            onclick="toggleUserStatus({{ user.id }}, {{ user.is_active|lower }})" 
+                                            data-bs-toggle="tooltip" title="{{ 'Tạm khóa' if user.is_active else 'Kích hoạt' }}">
+                                        <i class="fas fa-{{ 'ban' if user.is_active else 'check' }}"></i>
+                                    </button>
+                                    
+                                </div>
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            
+            <nav aria-label="User pagination">
+                <ul class="pagination justify-content-center">
+                    
+                    <li class="page-item">
+                        <a class="page-link" href="#">Trước</a>
+                    </li>
+                    
+                    
+                    
+                        
+                            
+                            <li class="page-item">
+                                <a class="page-link" href="#">{{ page_num }}</a>
+                            </li>
+                            {% else %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page_num }}</span>
+                            </li>
+                            
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">…</span>
+                        </li>
+                        
+                    
+                    
+                    
+                    <li class="page-item">
+                        <a class="page-link" href="#">Tiếp</a>
+                    </li>
+                    
+                </ul>
+            </nav>
+            
+            {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">Chưa có tài khoản admin nào</h5>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Create User Modal -->
+<div class="modal fade" id="createUserModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tạo tài khoản Admin</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="createUserForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Tên đăng nhập <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="full_name" class="form-label">Họ tên</label>
+                        <input type="text" class="form-control" id="full_name" name="full_name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mật khẩu <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                        <div class="form-text">Tối thiểu 8 ký tự</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Vai trò</label>
+                        <select class="form-select" id="role" name="role">
+                            <option value="admin" selected>Admin</option>
+                            <option value="super_admin">Super Admin</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Tạo tài khoản</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit User Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chỉnh sửa tài khoản</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="editUserForm">
+                <div class="modal-body">
+                    <input type="hidden" id="edit_user_id" name="user_id">
+                    <div class="mb-3">
+                        <label for="edit_username" class="form-label">Tên đăng nhập</label>
+                        <input type="text" class="form-control" id="edit_username" name="username" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="edit_email" name="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_full_name" class="form-label">Họ tên</label>
+                        <input type="text" class="form-control" id="edit_full_name" name="full_name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_role" class="form-label">Vai trò</label>
+                        <select class="form-select" id="edit_role" name="role">
+                            <option value="admin">Admin</option>
+                            <option value="super_admin">Super Admin</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new_password" class="form-label">Mật khẩu mới</label>
+                        <input type="password" class="form-control" id="new_password" name="new_password">
+                        <div class="form-text">Để trống nếu không muốn thay đổi mật khẩu</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+function editUser(userId) {
+    // Load user data via AJAX
+    fetch(`/admin/api/users/${userId}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('edit_user_id').value = data.id;
+            document.getElementById('edit_username').value = data.username;
+            document.getElementById('edit_email').value = data.email;
+            document.getElementById('edit_full_name').value = data.full_name || '';
+            document.getElementById('edit_role').value = data.role;
+            
+            // Set form action for submission
+            document.getElementById('editUserForm').action = `/admin/users/${userId}/edit`;
+            new bootstrap.Modal(document.getElementById('editUserModal')).show();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire('Lỗi', 'Không thể tải thông tin người dùng', 'error');
+        });
+}
+
+// Handle form submission for create user
+document.getElementById('createUserForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    fetch('/admin/users/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            Swal.fire('Thành công', result.message, 'success').then(() => {
+                location.reload();
+            });
+        } else {
+            Swal.fire('Lỗi', result.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        Swal.fire('Lỗi', 'Có lỗi xảy ra khi tạo tài khoản', 'error');
+    });
+});
+
+// Handle form submission for edit user
+document.getElementById('editUserForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    const userId = document.getElementById('edit_user_id').value;
+
+    fetch(`/admin/users/${userId}/edit`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            Swal.fire('Thành công', result.message, 'success').then(() => {
+                location.reload();
+            });
+        } else {
+            Swal.fire('Lỗi', result.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        Swal.fire('Lỗi', 'Có lỗi xảy ra khi cập nhật tài khoản', 'error');
+    });
+});
+
+function toggleUserStatus(userId, isActive) {
+    const action = isActive ? 'deactivate' : 'activate';
+    const actionText = isActive ? 'tạm khóa' : 'kích hoạt';
+    
+    Swal.fire({
+        title: `Xác nhận ${actionText}`,
+        text: `Bạn có chắc chắn muốn ${actionText} tài khoản này?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: actionText.charAt(0).toUpperCase() + actionText.slice(1),
+        cancelButtonText: 'Hủy'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/admin/users/${userId}/${action}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire('Thành công', `Đã ${actionText} tài khoản`, 'success')
+                        .then(() => location.reload());
+                } else {
+                    Swal.fire('Lỗi', data.message || 'Có lỗi xảy ra', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire('Lỗi', 'Có lỗi xảy ra khi xử lý yêu cầu', 'error');
+            });
+        }
+    });
+}
+
+// Initialize tooltips
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+</script>

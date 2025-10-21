@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng dẫn sử dụng - ZaloPay Merchant</title>
+    <meta name="description" content="Hướng dẫn chi tiết cách sử dụng ZaloPay Merchant từ A đến Z">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="/css/merchant.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="/images/zalopay-logo.png" alt="ZaloPay" height="40" class="me-2">
+                <span class="fw-bold text-primary">ZaloPay Merchant</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#features">Tính năng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#pricing">Bảng giá</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact.html">Liên hệ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/faq.html">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary ms-2" href="/auth_signup.html">Đăng ký ngay</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section bg-gradient-primary text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-4 fw-bold mb-3">Hướng dẫn sử dụng</h1>
+                    <p class="lead">
+                        Từng bước hướng dẫn chi tiết cách sử dụng ZaloPay Merchant hiệu quả
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Table of Contents -->
+    <section class="py-4 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="toc-card p-4 border rounded-3 bg-white shadow-sm">
+                        <h5 class="fw-bold mb-3">Mục lục</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li><a href="#getting-started" class="text-decoration-none">1. Bắt đầu</a></li>
+                                    <li><a href="#account-setup" class="text-decoration-none">2. Thiết lập tài khoản</a></li>
+                                    <li><a href="#payment-methods" class="text-decoration-none">3. Phương thức thanh toán</a></li>
+                                    <li><a href="#api-integration" class="text-decoration-none">4. Tích hợp API</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li><a href="#dashboard" class="text-decoration-none">5. Sử dụng Dashboard</a></li>
+                                    <li><a href="#reports" class="text-decoration-none">6. Báo cáo & Thống kê</a></li>
+                                    <li><a href="#security" class="text-decoration-none">7. Bảo mật</a></li>
+                                    <li><a href="#troubleshooting" class="text-decoration-none">8. Xử lý sự cố</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guide Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <!-- Getting Started -->
+                    <div id="getting-started" class="guide-section mb-5">
+                        <h2 class="fw-bold mb-4">
+                            <span class="badge bg-primary me-2">1</span>
+                            Bắt đầu với ZaloPay Merchant
+                        </h2>
+                        
+                        <div class="guide-card p-4 border rounded-3 mb-4">
+                            <h4 class="fw-bold mb-3">Đăng ký tài khoản</h4>
+                            <ol>
+                                <li>Truy cập <a href="/auth_signup.html" class="text-primary">trang đăng ký</a></li>
+                                <li>Chọn phương thức đăng ký (Google, Apple, hoặc Email)</li>
+                                <li>Điền thông tin doanh nghiệp</li>
+                                <li>Xác thực email và hoàn tất đăng ký</li>
+                            </ol>
+                            
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <strong>Lưu ý:</strong> Bạn cần chuẩn bị giấy phép kinh doanh và các giấy tờ pháp lý để xác thực tài khoản.
+                            </div>
+                        </div>
+                        
+                        <div class="guide-card p-4 border rounded-3 mb-4">
+                            <h4 class="fw-bold mb-3">Xác thực tài khoản</h4>
+                            <p>Để sử dụng đầy đủ tính năng, bạn cần xác thực tài khoản:</p>
+                            <ul>
+                                <li>Upload giấy phép kinh doanh</li>
+                                <li>Cung cấp thông tin ngân hàng</li>
+                                <li>Xác thực danh tính người đại diện</li>
+                                <li>Chờ phê duyệt (1-3 ngày làm việc)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Account Setup -->
+                    <div id="account-setup" class="guide-section mb-5">
+                        <h2 class="fw-bold mb-4">
+                            <span class="badge bg-primary me-2">2</span>
+                            Thiết lập tài khoản
+                        </h2>
+                        
+                        <div class="guide-card p-4 border rounded-3 mb-4">
+                            <h4 class="fw-bold mb-3">Thông tin doanh nghiệp</h4>
+                            <p>Điền đầy đủ thông tin doanh nghiệp để tăng độ tin cậy:</p>
+                            <ul>
+                                <li>Tên công ty chính thức</li>
+                                <li>Địa chỉ trụ sở</li>
+                                <li>Số điện thoại liên hệ</li>
+                                <li>Website (nếu có)</li>
+                                <li>Mô tả hoạt động kinh doanh</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="guide-card p-4 border rounded-3 mb-4">
+                            <h4 class="fw-bold mb-3">Thiết lập ngân hàng</h4>
+                            <p>Kết nối tài khoản ngân hàng để nhận tiền:</p>
+                            <ol>
+                                <li>Vào <strong>Settings > Banking</strong></li>
+                                <li>Thêm tài khoản ngân hàng</li>
+                                <li>Xác thực tài khoản (micro-deposit)</li>
+                                <li>Thiết lập lịch rút tiền</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Payment Methods -->
+                    <div id="payment-methods" class="guide-section mb-5">
+                        <h2 class="fw-bold mb-4">
+                            <span class="badge bg-primary me-2">3</span>
+                            Phương thức thanh toán
+                        </h2>
+                        
+                        <div class="guide-card p-4 border rounded-3 mb-4">
+                            <h4 class="fw-bold mb-3">Kích hoạt phương thức thanh toán</h4>
+                            <p>ZaloPay Merchant hỗ trợ nhiều phương thức thanh toán:</p>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="payment-method p-3 border rounded-3">
+                                        <h6 class="fw-bold">Thẻ tín dụng/ghi nợ</h6>
+                                        <p class="text-muted small">Visa, Mastercard, JCB</p>
+                                        <span class="badge bg-success">Tự động kích hoạt</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="payment-method p-3 border rounded-3">
+                                        <h6 class="fw-bold">Ví điện tử</h6>
+                                        <p class="text-muted small">ZaloPay, MoMo, VNPay</p>
+                                        <span class="badge bg-warning">Cần kích hoạt</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="payment-method p-3 border rounded-3">
+                                        <h6 class="fw-bold">Chuyển khoản</h6>
+                                        <p class="text-muted small">ATM, Internet Banking</p>
+                                        <span class="badge bg-info">Cần kích hoạt</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="payment-method p-3 border rounded-3">
+                                        <h6 class="fw-bold">QR Code</h6>
+                                        <p class="text-muted small">Thanh toán bằng QR</p>
+                                        <span class="badge bg-success">Tự động kích hoạt</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- API Integration -->
+                    <div id="api-integration" class="guide-section mb-5">
+                        <h2 class="fw-bold mb-4">
+                            <span class="badge bg-primary me-2">4</span>
+                            Tích hợp API
+                        </h2>
+                        
+                        <div class="guide-card p-4 border rounded-3 mb-4">
+                            <h4 class="fw-bold mb-3">Lấy API Key</h4>
+                            <ol>
+                                <li>Vào <strong>Settings > API Keys</strong></li>
+                                <li>Click <strong>"Create New Key"</strong></li>
+                                <li>Đặt tên cho API key</li>
+                                <li>Chọn quyền truy cập (Read/Write)</li>
+                                <li>Lưu API key an toàn</li>
+                            </ol>
+                            
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <strong>Cảnh báo:</strong> Không chia sẻ API key với bên thứ ba. Nếu bị lộ, hãy tạo key mới ngay lập tức.
+                            </div>
+                        </div>
+                        
+                        <div class="guide-card p-4 border rounded-3 mb-4">
+                            <h4 class="fw-bold mb-3">Tích hợp cơ bản</h4>
+                            <p>Ví dụ tích hợp với JavaScript:</p>
+                            <pre class="bg-light p-3 rounded"><code>// Khởi tạo ZaloPay Merchant
+const zalopay = new ZaloPayMerchant({
+    apiKey: 'your-api-key',
+    environment: 'sandbox' // hoặc 'production'
+});
+
+// Tạo giao dịch
+const transaction = await zalopay.createTransaction({
+    amount: 100000,
+    currency: 'VND',
+    description: 'Thanh toán đơn hàng #123',
+    returnUrl: 'https://yoursite.com/success',
+    cancelUrl: 'https://yoursite.com/cancel'
+});</code></pre>
+                        </div>
+                        
+                        <div class="guide-card p-4 border rounded-3 mb-4">
+                            <h4 class="fw-bold mb-3">Webhook</h4>
+                            <p>Thiết lập webhook để nhận thông báo real-time:</p>
+                            <ol>
+                                <li>Vào <strong>Settings > Webhooks</strong></li>
+                                <li>Thêm URL endpoint</li>
+                                <li>Chọn events cần lắng nghe</li>
+                                <li>Test webhook</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard -->
+                    <div id="dashboard" class="guide-section mb-5">
+                        <h2 class="fw-bold mb-4">
+                            <span class="badge bg-primary me-2">5</span>
+                            Sử dụng Dashboard
+                        </h2>
+                        
+                        <div class="guide-card p-4 border rounded-3 mb-4">
+                            <h4 class="fw-bold mb-3">Tổng quan Dashboard</h4>
+                            <p>Dashboard cung cấp cái nhìn tổng quan về hoạt động kinh doanh:</p>
+                            <ul>
+                                <li><strong>Doanh thu:</strong> Tổng doanh thu theo ngày/tuần/tháng</li>
+                                <li><strong>Giao dịch:</strong> Số lượng và tỷ lệ thành công</li>
+                                <li><strong>Phương thức:</strong> Phân bổ theo phương thức thanh toán</li>
+                                <li><strong>Xu hướng:</strong> Biểu đồ xu hướng giao dịch</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="guide-card p-4 border rounded-3 mb-4">
+                            <h4 class="fw-bold mb-3">Quản lý giao dịch</h4>
+                            <p>Trong mục <strong>Transactions</strong>, bạn có thể:</p>
+                            <ul>
+                                <li>Xem danh sách tất cả giao dịch</li>
+                                <li>Lọc theo trạng thái, thời gian, phương thức</li>
+                                <li>Xuất báo cáo Excel/CSV</li>
+                                <li>Xem chi tiết từng giao dịch</li>
+                                <li>Hoàn tiền (refund) nếu cần</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Reports -->
+                    <div id="reports" class="guide-section mb-5">
+                        <h2 class="fw-bold mb-4">
+                            <span class="badge bg-primary me-2">6</span>
+                            Báo cáo & Thống kê
+                        </h2>
+                        
+                        <div class="guide-card p-4 border rounded-3 mb-4">
+                            <h4 class="fw-bold mb-3">Báo cáo doanh thu</h4>
+                            <p>Tạo báo cáo chi tiết về doanh thu:</p>
+                            <ol>
+                                <li>Vào <strong>Reports > Revenue</strong></li>
+                                <li>Chọn khoảng thời gian</li>
+                                <li>Chọn phương thức thanh toán</li>
+                                <li>Xuất báo cáo PDF/Excel</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="guide-card p-4 border rounded-3 mb-4">
+                            <h4 class="fw-bold mb-3">Phân tích xu hướng</h4>
+                            <p>Sử dụng các biểu đồ để phân tích:</p>
+                            <ul>
+                                <li>Xu hướng giao dịch theo thời gian</li>
+                                <li>Phân bổ theo phương thức thanh toán</li>
+                                <li>So sánh doanh thu các tháng</li>
+                                <li>Tỷ lệ thành công/thất bại</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Security -->
+                    <div id="security" class="guide-section mb-5">
+                        <h2 class="fw-bold mb-4">
+                            <span class="badge bg-primary me-2">7</span>
+                            Bảo mật
+                        </h2>
+                        
+                        <div class="guide-card p-4 border rounded-3 mb-4">
+                            <h4 class="fw-bold mb-3">Bảo mật tài khoản</h4>
+                            <ul>
+                                <li>Sử dụng mật khẩu mạnh</li>
+                                <li>Bật xác thực 2 lớp (2FA)</li>
+                                <li>Thường xuyên thay đổi API key</li>
+                                <li>Không chia sẻ thông tin đăng nhập</li>
+                                <li>Kiểm tra log đăng nhập thường xuyên</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="guide-card p-4 border rounded-3 mb-4">
+                            <h4 class="fw-bold mb-3">Bảo mật giao dịch</h4>
+                            <ul>
+                                <li>Sử dụng HTTPS cho website</li>
+                                <li>Mã hóa dữ liệu nhạy cảm</li>
+                                <li>Validate dữ liệu đầu vào</li>
+                                <li>Sử dụng webhook để xác thực</li>
+                                <li>Giám sát giao dịch bất thường</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Troubleshooting -->
+                    <div id="troubleshooting" class="guide-section mb-5">
+                        <h2 class="fw-bold mb-4">
+                            <span class="badge bg-primary me-2">8</span>
+                            Xử lý sự cố
+                        </h2>
+                        
+                        <div class="guide-card p-4 border rounded-3 mb-4">
+                            <h4 class="fw-bold mb-3">Giao dịch thất bại</h4>
+                            <p><strong>Nguyên nhân thường gặp:</strong></p>
+                            <ul>
+                                <li>Thông tin thẻ không chính xác</li>
+                                <li>Thẻ bị khóa hoặc hết hạn</li>
+                                <li>Số dư không đủ</li>
+                                <li>Lỗi kết nối mạng</li>
+                            </ul>
+                            
+                            <p><strong>Giải pháp:</strong></p>
+                            <ul>
+                                <li>Kiểm tra thông tin thẻ</li>
+                                <li>Liên hệ ngân hàng phát hành thẻ</li>
+                                <li>Thử phương thức thanh toán khác</li>
+                                <li>Kiểm tra kết nối mạng</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="guide-card p-4 border rounded-3 mb-4">
+                            <h4 class="fw-bold mb-3">Lỗi tích hợp API</h4>
+                            <p><strong>Kiểm tra:</strong></p>
+                            <ul>
+                                <li>API key có đúng không</li>
+                                <li>URL endpoint có chính xác không</li>
+                                <li>Format dữ liệu có đúng không</li>
+                                <li>Headers có đầy đủ không</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Help Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="display-5 fw-bold mb-3">Cần hỗ trợ thêm?</h2>
+                    <p class="lead text-muted mb-4">
+                        Nếu bạn gặp khó khăn trong quá trình sử dụng, 
+                        đội ngũ hỗ trợ của chúng tôi luôn sẵn sàng giúp đỡ.
+                    </p>
+                    <div class="d-flex gap-3 justify-content-center">
+                        <a href="/contact.html" class="btn btn-primary btn-lg">
+                            <i class="fas fa-envelope me-2"></i>Liên hệ hỗ trợ
+                        </a>
+                        <a href="/faq.html" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-question-circle me-2"></i>Xem FAQ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">ZaloPay Merchant</h5>
+                    <p class="text-muted">
+                        Giải pháp thanh toán trực tuyến hàng đầu Việt Nam, 
+                        được tin tưởng bởi hàng nghìn doanh nghiệp.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Sản phẩm</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Thanh toán online</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">QR Code</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">API Integration</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Webhook</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Hỗ trợ</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/guide.html" class="text-muted text-decoration-none">Hướng dẫn</a></li>
+                        <li><a href="/faq.html" class="text-muted text-decoration-none">FAQ</a></li>
+                        <li><a href="/contact.html" class="text-muted text-decoration-none">Liên hệ</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Tài liệu API</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Công ty</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Về chúng tôi</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Tin tức</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Tuyển dụng</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Đối tác</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Pháp lý</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Điều khoản sử dụng</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Chính sách bảo mật</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Cookie Policy</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="my-4">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-muted mb-0">
+                        © 2024 ZaloPay Merchant. Tất cả quyền được bảo lưu.
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="text-muted mb-0">
+                        Được phát triển bởi <strong>ZaloPay Team</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="/js/merchant.js"></script>
+    
+    <script>
+        // Smooth scrolling for table of contents
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

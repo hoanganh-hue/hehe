@@ -1,0 +1,79 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+frontend/dist/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Environment files
+.env
+*.env
+.env.*
+.env.Production
+.venv
+venv/
+ENV/
+env_template.txt
+backend/env_template.txt
+backend/config.py
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# OS
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Sensitive data - keep structure but don't track actual sensitive files
+secrets/*.txt
+mongodb-keyfile
+
+# Cache
+.cache/
+*.cache
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+beef.db
+
+# SSL certificates (keep structure, track config only)
+nginx/ssl/*.pem
+nginx/ssl/*.key
+nginx/ssl/*.crt
+certbot/conf/live/
+certbot/conf/archive/
+certbot/conf/renewal/
+
+# Temporary files
+*.swp
+*.swo
+*~
+.tmp/
+temp/
+

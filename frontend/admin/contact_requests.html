@@ -1,0 +1,651 @@
+
+
+Quản lý Liên hệ - ZaloPay Admin Portal
+
+
+<div class="container-fluid">
+    <!-- Page header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">Quản lý Liên hệ</h1>
+            <p class="text-muted">Xử lý các yêu cầu liên hệ từ khách hàng và đối tác</p>
+        </div>
+        <div>
+            <button class="btn btn-success me-2" onclick="exportContacts()">
+                <i class="fas fa-download me-1"></i>Xuất Excel
+            </button>
+            <div class="btn-group" role="group">
+                <button class="btn btn-outline-primary active" onclick="filterByStatus('')">Tất cả</button>
+                <button class="btn btn-outline-warning" onclick="filterByStatus('pending')">Chờ xử lý</button>
+                <button class="btn btn-outline-info" onclick="filterByStatus('processing')">Đang xử lý</button>
+                <button class="btn btn-outline-success" onclick="filterByStatus('resolved')">Đã giải quyết</button>
+                <button class="btn btn-outline-secondary" onclick="filterByStatus('closed')">Đã đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Tổng liên hệ
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalContacts">
+                                342
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-envelope fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Chờ xử lý
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="pendingContacts">
+                                45
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clock fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Đang xử lý
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="processingContacts">
+                                23
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-cog fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Đã giải quyết
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="resolvedContacts">
+                                274
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Tìm kiếm</label>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Tên, email, tin nhắn...">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Trạng thái</label>
+                    <select class="form-select" id="statusFilter">
+                        <option value="">Tất cả</option>
+                        <option value="pending">Chờ xử lý</option>
+                        <option value="processing">Đang xử lý</option>
+                        <option value="resolved">Đã giải quyết</option>
+                        <option value="closed">Đã đóng</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Độ ưu tiên</label>
+                    <select class="form-select" id="priorityFilter">
+                        <option value="">Tất cả</option>
+                        <option value="low">Thấp</option>
+                        <option value="normal">Bình thường</option>
+                        <option value="high">Cao</option>
+                        <option value="urgent">Khẩn cấp</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Ngày gửi</label>
+                    <input type="date" class="form-control" id="dateFilter">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Người xử lý</label>
+                    <select class="form-select" id="assigneeFilter">
+                        <option value="">Tất cả</option>
+                        <option value="admin1">Admin 1</option>
+                        <option value="admin2">Admin 2</option>
+                        <option value="support1">Support 1</option>
+                        <option value="unassigned">Chưa phân công</option>
+                    </select>
+                </div>
+                <div class="col-md-1 d-flex align-items-end">
+                    <button class="btn btn-primary w-100" onclick="applyFilters()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Requests Table -->
+    <div class="card">
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Danh sách liên hệ
+                <span class="badge bg-secondary" id="totalRecords">342 kết quả</span>
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="contactsTable">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>ID</th>
+                            <th>Tên khách hàng</th>
+                            <th>Email</th>
+                            <th>Tin nhắn</th>
+                            <th>Độ ưu tiên</th>
+                            <th>Ngày gửi</th>
+                            <th>Người xử lý</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox" name="contactSelect" value="1"></td>
+                            <td>CTR-001</td>
+                            <td>
+                                <div class="fw-bold">Nguyễn Văn A</div>
+                                <small class="text-muted">+84 987 654 321</small>
+                            </td>
+                            <td>nguyenvana@example.com</td>
+                            <td>
+                                <div class="text-truncate" style="max-width: 200px;">
+                                    Tôi muốn tham gia trở thành đối tác ZaloPay cho cửa hàng của mình...
+                                </div>
+                            </td>
+                            <td><span class="badge bg-warning">Cao</span></td>
+                            <td>04/10/2025 09:30</td>
+                            <td>
+                                <span class="badge bg-info">Admin 1</span>
+                            </td>
+                            <td><span class="badge bg-warning">Chờ xử lý</span></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="viewContact(1)" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="assignContact(1)" title="Phân công">
+                                        <i class="fas fa-user-plus"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-info" onclick="replyContact(1)" title="Trả lời">
+                                        <i class="fas fa-reply"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteContact(1)" title="Xóa">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="contactSelect" value="2"></td>
+                            <td>CTR-002</td>
+                            <td>
+                                <div class="fw-bold">Trần Thị B</div>
+                                <small class="text-muted">+84 976 543 210</small>
+                            </td>
+                            <td>tranthib@company.com</td>
+                            <td>
+                                <div class="text-truncate" style="max-width: 200px;">
+                                    Xin chào, tôi cần hỗ trợ tích hợp API thanh toán...
+                                </div>
+                            </td>
+                            <td><span class="badge bg-success">Bình thường</span></td>
+                            <td>04/10/2025 08:45</td>
+                            <td>
+                                <span class="badge bg-info">Support 1</span>
+                            </td>
+                            <td><span class="badge bg-info">Đang xử lý</span></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="viewContact(2)" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="assignContact(2)" title="Phân công">
+                                        <i class="fas fa-user-plus"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-info" onclick="replyContact(2)" title="Trả lời">
+                                        <i class="fas fa-reply"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteContact(2)" title="Xóa">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="contactSelect" value="3"></td>
+                            <td>CTR-003</td>
+                            <td>
+                                <div class="fw-bold">Lê Văn C</div>
+                                <small class="text-muted">+84 965 432 109</small>
+                            </td>
+                            <td>levanc@shop.vn</td>
+                            <td>
+                                <div class="text-truncate" style="max-width: 200px;">
+                                    Chúng tôi đang gặp vấn đề với việc thanh toán QR Code...
+                                </div>
+                            </td>
+                            <td><span class="badge bg-danger">Khẩn cấp</span></td>
+                            <td>03/10/2025 16:20</td>
+                            <td>
+                                <span class="badge bg-info">Admin 2</span>
+                            </td>
+                            <td><span class="badge bg-success">Đã giải quyết</span></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="viewContact(3)" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="assignContact(3)" title="Phân công">
+                                        <i class="fas fa-user-plus"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-info" onclick="replyContact(3)" title="Trả lời">
+                                        <i class="fas fa-reply"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteContact(3)" title="Xóa">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Contact pagination" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <span class="page-link">Trước</span>
+                    </li>
+                    <li class="page-item active">
+                        <span class="page-link">1</span>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Tiếp</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- View Contact Modal -->
+<div class="modal fade" id="viewContactModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết liên hệ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="contactDetailsBody">
+                <!-- Contact details will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-info" onclick="replyFromModal()">Trả lời</button>
+                <button type="button" class="btn btn-success" onclick="markAsResolved()">Đánh dấu đã giải quyết</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reply Modal -->
+<div class="modal fade" id="replyContactModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Trả lời liên hệ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="replyForm">
+                    <div class="mb-3">
+                        <label class="form-label">Trả lời đến:</label>
+                        <input type="email" class="form-control" id="replyTo" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tiêu đề:</label>
+                        <input type="text" class="form-control" id="replySubject">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nội dung trả lời:</label>
+                        <textarea class="form-control" id="replyContent" rows="6" placeholder="Nhập nội dung trả lời..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Trạng thái mới:</label>
+                        <select class="form-select" id="newStatus">
+                            <option value="processing">Đang xử lý</option>
+                            <option value="resolved">Đã giải quyết</option>
+                            <option value="closed">Đã đóng</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="sendReply()">Gửi trả lời</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Assign Contact Modal -->
+<div class="modal fade" id="assignContactModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Phân công xử lý</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="assignForm">
+                    <div class="mb-3">
+                        <label class="form-label">Chọn người xử lý:</label>
+                        <select class="form-select" id="assignTo" required>
+                            <option value="">Chọn người xử lý</option>
+                            <option value="admin1">Admin 1</option>
+                            <option value="admin2">Admin 2</option>
+                            <option value="support1">Support 1</option>
+                            <option value="support2">Support 2</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Độ ưu tiên:</label>
+                        <select class="form-select" id="assignPriority">
+                            <option value="low">Thấp</option>
+                            <option value="normal" selected>Bình thường</option>
+                            <option value="high">Cao</option>
+                            <option value="urgent">Khẩn cấp</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ghi chú:</label>
+                        <textarea class="form-control" id="assignNote" rows="3" placeholder="Ghi chú cho người xử lý..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="saveAssignment()">Phân công</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.border-left-primary {
+    border-left: 0.25rem solid #4e73df !important;
+}
+.border-left-warning {
+    border-left: 0.25rem solid #f6c23e !important;
+}
+.border-left-info {
+    border-left: 0.25rem solid #36b9cc !important;
+}
+.border-left-success {
+    border-left: 0.25rem solid #1cc88a !important;
+}
+.text-gray-800 {
+    color: #5a5c69 !important;
+}
+.text-xs {
+    font-size: 0.7rem;
+}
+.font-weight-bold {
+    font-weight: 700 !important;
+}
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+</style>
+
+<script>
+let currentContactId = null;
+
+function filterByStatus(status) {
+    document.getElementById('statusFilter').value = status;
+    applyFilters();
+    
+    // Update active button
+    document.querySelectorAll('.btn-group .btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+function applyFilters() {
+    const search = document.getElementById('searchInput').value;
+    const status = document.getElementById('statusFilter').value;
+    const priority = document.getElementById('priorityFilter').value;
+    const date = document.getElementById('dateFilter').value;
+    const assignee = document.getElementById('assigneeFilter').value;
+    
+    // Here you would make an AJAX call to filter the data
+    console.log('Applying filters:', { search, status, priority, date, assignee });
+    
+    // For demo purposes, we'll just show a loading message
+    showToast('Đang áp dụng bộ lọc...', 'info');
+}
+
+function viewContact(contactId) {
+    currentContactId = contactId;
+    
+    // Mock contact data
+    const contactData = {
+        1: {
+            id: 'CTR-001',
+            name: 'Nguyễn Văn A',
+            email: 'nguyenvana@example.com',
+            phone: '+84 987 654 321',
+            message: 'Tôi muốn tham gia trở thành đối tác ZaloPay cho cửa hàng của mình. Cửa hàng chúng tôi chuyên bán thực phẩm sạch và đã hoạt động được 3 năm. Xin hãy tư vấn cho chúng tôi quy trình đăng ký.',
+            priority: 'Cao',
+            status: 'Chờ xử lý',
+            date: '04/10/2025 09:30',
+            assignee: 'Admin 1'
+        }
+    };
+    
+    const contact = contactData[contactId] || contactData[1];
+    
+    document.getElementById('contactDetailsBody').innerHTML = `
+        <div class="row">
+            <div class="col-md-6">
+                <h6>Thông tin khách hàng:</h6>
+                <p><strong>ID:</strong> ${contact.id}</p>
+                <p><strong>Tên:</strong> ${contact.name}</p>
+                <p><strong>Email:</strong> ${contact.email}</p>
+                <p><strong>Điện thoại:</strong> ${contact.phone}</p>
+            </div>
+            <div class="col-md-6">
+                <h6>Thông tin xử lý:</h6>
+                <p><strong>Độ ưu tiên:</strong> <span class="badge bg-warning">${contact.priority}</span></p>
+                <p><strong>Trạng thái:</strong> <span class="badge bg-warning">${contact.status}</span></p>
+                <p><strong>Ngày gửi:</strong> ${contact.date}</p>
+                <p><strong>Người xử lý:</strong> <span class="badge bg-info">${contact.assignee}</span></p>
+            </div>
+        </div>
+        <hr>
+        <h6>Nội dung tin nhắn:</h6>
+        <div class="bg-light p-3 rounded">
+            ${contact.message}
+        </div>
+    `;
+    
+    new bootstrap.Modal(document.getElementById('viewContactModal')).show();
+}
+
+function replyContact(contactId) {
+    currentContactId = contactId;
+    document.getElementById('replyTo').value = 'nguyenvana@example.com';
+    document.getElementById('replySubject').value = 'Re: Đăng ký đối tác ZaloPay';
+    new bootstrap.Modal(document.getElementById('replyContactModal')).show();
+}
+
+function assignContact(contactId) {
+    currentContactId = contactId;
+    new bootstrap.Modal(document.getElementById('assignContactModal')).show();
+}
+
+function sendReply() {
+    const replyTo = document.getElementById('replyTo').value;
+    const subject = document.getElementById('replySubject').value;
+    const content = document.getElementById('replyContent').value;
+    const newStatus = document.getElementById('newStatus').value;
+    
+    if (!content.trim()) {
+        showToast('Vui lòng nhập nội dung trả lời', 'error');
+        return;
+    }
+    
+    // Here you would send the reply via API
+    console.log('Sending reply:', { replyTo, subject, content, newStatus });
+    
+    showToast('Đã gửi trả lời thành công!', 'success');
+    bootstrap.Modal.getInstance(document.getElementById('replyContactModal')).hide();
+    
+    // Update status in table
+    updateContactStatus(currentContactId, newStatus);
+}
+
+function saveAssignment() {
+    const assignTo = document.getElementById('assignTo').value;
+    const priority = document.getElementById('assignPriority').value;
+    const note = document.getElementById('assignNote').value;
+    
+    if (!assignTo) {
+        showToast('Vui lòng chọn người xử lý', 'error');
+        return;
+    }
+    
+    // Here you would save the assignment via API
+    console.log('Saving assignment:', { assignTo, priority, note });
+    
+    showToast('Đã phân công thành công!', 'success');
+    bootstrap.Modal.getInstance(document.getElementById('assignContactModal')).hide();
+}
+
+function deleteContact(contactId) {
+    if (confirm('Bạn có chắc chắn muốn xóa liên hệ này?')) {
+        // Here you would delete via API
+        console.log('Deleting contact:', contactId);
+        showToast('Đã xóa liên hệ thành công!', 'success');
+        
+        // Remove row from table
+        document.querySelector(`input[value="${contactId}"]`).closest('tr').remove();
+    }
+}
+
+function updateContactStatus(contactId, newStatus) {
+    // Update status badge in table
+    const statusMap = {
+        'pending': { class: 'bg-warning', text: 'Chờ xử lý' },
+        'processing': { class: 'bg-info', text: 'Đang xử lý' },
+        'resolved': { class: 'bg-success', text: 'Đã giải quyết' },
+        'closed': { class: 'bg-secondary', text: 'Đã đóng' }
+    };
+    
+    const status = statusMap[newStatus] || statusMap['pending'];
+    // Update the status badge in the table row
+}
+
+function exportContacts() {
+    showToast('Đang xuất dữ liệu...', 'info');
+    // Here you would export to Excel
+    setTimeout(() => {
+        showToast('Đã xuất file Excel thành công!', 'success');
+    }, 2000);
+}
+
+function markAsResolved() {
+    updateContactStatus(currentContactId, 'resolved');
+    showToast('Đã đánh dấu là đã giải quyết!', 'success');
+    bootstrap.Modal.getInstance(document.getElementById('viewContactModal')).hide();
+}
+
+function replyFromModal() {
+    bootstrap.Modal.getInstance(document.getElementById('viewContactModal')).hide();
+    setTimeout(() => {
+        replyContact(currentContactId);
+    }, 300);
+}
+
+function showToast(message, type = 'info') {
+    // Simple toast notification
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    toast.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.remove();
+    }, 5000);
+}
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    
+    // Select all checkbox functionality
+    document.getElementById('selectAll').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('input[name="contactSelect"]');
+        checkboxes.forEach(cb => cb.checked = this.checked);
+    });
+});
+</script>

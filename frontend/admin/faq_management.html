@@ -1,0 +1,827 @@
+
+
+Quản lý FAQ - ZaloPay Admin Portal
+
+
+<div class="container-fluid">
+    <!-- Page header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">Quản lý FAQ</h1>
+            <p class="text-muted">Quản lý câu hỏi thường gặp và câu trả lời cho khách hàng</p>
+        </div>
+        <div>
+            <button class="btn btn-primary me-2" onclick="createNewFAQ()">
+                <i class="fas fa-plus me-1"></i>Thêm FAQ mới
+            </button>
+            <button class="btn btn-success me-2" onclick="exportFAQs()">
+                <i class="fas fa-download me-1"></i>Xuất danh sách
+            </button>
+            <div class="btn-group" role="group">
+                <button class="btn btn-outline-primary active" onclick="filterByStatus('')">Tất cả</button>
+                <button class="btn btn-outline-success" onclick="filterByStatus('published')">Hiển thị</button>
+                <button class="btn btn-outline-warning" onclick="filterByStatus('draft')">Bản nháp</button>
+                <button class="btn btn-outline-secondary" onclick="filterByStatus('archived')">Ẩn</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Tổng FAQs
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalFAQs">
+                                156
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-question-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Đang hiển thị
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="publishedFAQs">
+                                89
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-eye fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Bản nháp
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="draftFAQs">
+                                23
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-edit fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Lượt xem (tuần)
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="weeklyViews">
+                                12,456
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-chart-line fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Management -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <!-- Popular FAQs Alert -->
+            <div class="card border-left-info shadow mb-4">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                FAQs phổ biến nhất tuần này
+                            </div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                "Cách tích hợp API thanh toán" - 1,234 lượt xem
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-info btn-sm" onclick="viewPopularFAQs()">
+                                <i class="fas fa-chart-bar me-1"></i>Xem thống kê
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <!-- FAQ Categories -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Danh mục FAQ</h6>
+                    <button class="btn btn-sm btn-primary" onclick="manageFAQCategories()">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between">
+                            <span>Thanh toán</span>
+                            <span class="badge bg-primary">34</span>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between">
+                            <span>Tài khoản</span>
+                            <span class="badge bg-primary">28</span>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between">
+                            <span>API Tích hợp</span>
+                            <span class="badge bg-primary">22</span>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between">
+                            <span>Đối tác</span>
+                            <span class="badge bg-primary">18</span>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between">
+                            <span>Bảo mật</span>
+                            <span class="badge bg-primary">15</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advanced Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Tìm kiếm</label>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Câu hỏi, từ khóa...">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Trạng thái</label>
+                    <select class="form-select" id="statusFilter">
+                        <option value="">Tất cả</option>
+                        <option value="published">Hiển thị</option>
+                        <option value="draft">Bản nháp</option>
+                        <option value="archived">Ẩn</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Danh mục</label>
+                    <select class="form-select" id="categoryFilter">
+                        <option value="">Tất cả</option>
+                        <option value="payment">Thanh toán</option>
+                        <option value="account">Tài khoản</option>
+                        <option value="api">API Tích hợp</option>
+                        <option value="merchant">Đối tác</option>
+                        <option value="security">Bảo mật</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Sắp xếp theo</label>
+                    <select class="form-select" id="sortFilter">
+                        <option value="updated_desc">Cập nhật mới nhất</option>
+                        <option value="created_desc">Tạo mới nhất</option>
+                        <option value="views_desc">Lượt xem nhiều nhất</option>
+                        <option value="alphabetical">Thứ tự ABC</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Ngày tạo</label>
+                    <input type="date" class="form-control" id="dateFilter">
+                </div>
+                <div class="col-md-1 d-flex align-items-end">
+                    <button class="btn btn-primary w-100" onclick="applyFilters()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Management Table -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Danh sách FAQ
+                <span class="badge bg-secondary" id="totalRecords">156 kết quả</span>
+            </h6>
+            <div>
+                <button class="btn btn-sm btn-outline-primary" onclick="bulkPublish()">
+                    <i class="fas fa-eye me-1"></i>Xuất bản hàng loạt
+                </button>
+                <button class="btn btn-sm btn-outline-warning" onclick="bulkArchive()">
+                    <i class="fas fa-archive me-1"></i>Ẩn hàng loạt
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="faqTable">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>ID</th>
+                            <th>Câu hỏi</th>
+                            <th>Danh mục</th>
+                            <th>Trạng thái</th>
+                            <th>Lượt xem</th>
+                            <th>Tạo bởi</th>
+                            <th>Cập nhật</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox" name="faqSelect" value="FAQ-001"></td>
+                            <td>FAQ-001</td>
+                            <td>
+                                <div class="fw-bold">Làm thế nào để tích hợp API thanh toán ZaloPay?</div>
+                                <small class="text-muted">Hướng dẫn chi tiết cách tích hợp API...</small>
+                            </td>
+                            <td><span class="badge bg-info">API Tích hợp</span></td>
+                            <td><span class="badge bg-success">Hiển thị</span></td>
+                            <td>
+                                <div class="fw-bold">1,234</div>
+                                <small class="text-muted">+45 tuần này</small>
+                            </td>
+                            <td>
+                                <div>Admin</div>
+                                <small class="text-muted">02/10/2025</small>
+                            </td>
+                            <td>
+                                <div>04/10/2025</div>
+                                <small class="text-muted">10:30</small>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="viewFAQ('FAQ-001')" title="Xem">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-warning" onclick="editFAQ('FAQ-001')" title="Chỉnh sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-info" onclick="duplicateFAQ('FAQ-001')" title="Sao chép">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteFAQ('FAQ-001')" title="Xóa">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="faqSelect" value="FAQ-002"></td>
+                            <td>FAQ-002</td>
+                            <td>
+                                <div class="fw-bold">Phí giao dịch ZaloPay là bao nhiêu?</div>
+                                <small class="text-muted">Thông tin về các loại phí...</small>
+                            </td>
+                            <td><span class="badge bg-primary">Thanh toán</span></td>
+                            <td><span class="badge bg-success">Hiển thị</span></td>
+                            <td>
+                                <div class="fw-bold">892</div>
+                                <small class="text-muted">+12 tuần này</small>
+                            </td>
+                            <td>
+                                <div>Support</div>
+                                <small class="text-muted">01/10/2025</small>
+                            </td>
+                            <td>
+                                <div>03/10/2025</div>
+                                <small class="text-muted">14:20</small>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="viewFAQ('FAQ-002')" title="Xem">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-warning" onclick="editFAQ('FAQ-002')" title="Chỉnh sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-info" onclick="duplicateFAQ('FAQ-002')" title="Sao chép">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteFAQ('FAQ-002')" title="Xóa">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="faqSelect" value="FAQ-003"></td>
+                            <td>FAQ-003</td>
+                            <td>
+                                <div class="fw-bold">Làm sao để tạo tài khoản đối tác?</div>
+                                <small class="text-muted">Quy trình đăng ký...</small>
+                            </td>
+                            <td><span class="badge bg-warning">Đối tác</span></td>
+                            <td><span class="badge bg-secondary">Bản nháp</span></td>
+                            <td>
+                                <div class="fw-bold">-</div>
+                                <small class="text-muted">Chưa xuất bản</small>
+                            </td>
+                            <td>
+                                <div>Content Team</div>
+                                <small class="text-muted">04/10/2025</small>
+                            </td>
+                            <td>
+                                <div>04/10/2025</div>
+                                <small class="text-muted">09:15</small>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="viewFAQ('FAQ-003')" title="Xem">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-warning" onclick="editFAQ('FAQ-003')" title="Chỉnh sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="publishFAQ('FAQ-003')" title="Xuất bản">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteFAQ('FAQ-003')" title="Xóa">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="FAQ pagination" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <span class="page-link">Trước</span>
+                    </li>
+                    <li class="page-item active">
+                        <span class="page-link">1</span>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Tiếp</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- View/Edit FAQ Modal -->
+<div class="modal fade" id="faqModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="faqModalTitle">Thêm FAQ mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="faqForm">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <label class="form-label">Câu hỏi:</label>
+                                <input type="text" class="form-control" id="faqQuestion" required placeholder="Nhập câu hỏi...">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Câu trả lời:</label>
+                                <div id="faqAnswerEditor" style="min-height: 300px; border: 1px solid #ddd; padding: 10px;">
+                                    <p>Nhập câu trả lời chi tiết tại đây...</p>
+                                </div>
+                                <input type="hidden" id="faqAnswer">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Từ khóa (SEO):</label>
+                                <input type="text" class="form-control" id="faqKeywords" placeholder="thanh toán, api, tích hợp...">
+                                <small class="text-muted">Cách nhau bằng dấu phẩy</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Danh mục:</label>
+                                <select class="form-select" id="faqCategory" required>
+                                    <option value="">Chọn danh mục</option>
+                                    <option value="payment">Thanh toán</option>
+                                    <option value="account">Tài khoản</option>
+                                    <option value="api">API Tích hợp</option>
+                                    <option value="merchant">Đối tác</option>
+                                    <option value="security">Bảo mật</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Trạng thái:</label>
+                                <select class="form-select" id="faqStatus">
+                                    <option value="draft">Bản nháp</option>
+                                    <option value="published">Hiển thị</option>
+                                    <option value="archived">Ẩn</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Thứ tự hiển thị:</label>
+                                <input type="number" class="form-control" id="faqOrder" value="0" min="0">
+                                <small class="text-muted">Số nhỏ hơn hiển thị trước</small>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="faqFeatured">
+                                    <label class="form-check-label" for="faqFeatured">
+                                        FAQ nổi bật
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="faqNotifyUsers">
+                                    <label class="form-check-label" for="faqNotifyUsers">
+                                        Thông báo người dùng
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Thống kê</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-2">
+                                        <small class="text-muted">Lượt xem:</small>
+                                        <div class="fw-bold" id="faqViews">0</div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <small class="text-muted">Đánh giá hữu ích:</small>
+                                        <div class="fw-bold text-success" id="faqHelpfulRating">0%</div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <small class="text-muted">Cập nhật cuối:</small>
+                                        <div class="fw-bold" id="faqLastUpdated">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-outline-primary" onclick="saveFAQAsDraft()">Lưu bản nháp</button>
+                <button type="button" class="btn btn-success" onclick="publishFAQNow()">Xuất bản ngay</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Categories Management Modal -->
+<div class="modal fade" id="categoriesModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Quản lý danh mục FAQ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6>Danh sách danh mục</h6>
+                    <button class="btn btn-sm btn-primary" onclick="addNewCategory()">
+                        <i class="fas fa-plus me-1"></i>Thêm mới
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Tên danh mục</th>
+                                <th>Mã</th>
+                                <th>Số FAQ</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categoriesTableBody">
+                            <tr>
+                                <td>Thanh toán</td>
+                                <td><code>payment</code></td>
+                                <td>34</td>
+                                <td><span class="badge bg-success">Kích hoạt</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-warning" onclick="editCategory('payment')">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory('payment')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.border-left-primary {
+    border-left: 0.25rem solid #4e73df !important;
+}
+.border-left-warning {
+    border-left: 0.25rem solid #f6c23e !important;
+}
+.border-left-info {
+    border-left: 0.25rem solid #36b9cc !important;
+}
+.border-left-success {
+    border-left: 0.25rem solid #1cc88a !important;
+}
+.text-gray-800 {
+    color: #5a5c69 !important;
+}
+.text-xs {
+    font-size: 0.7rem;
+}
+.font-weight-bold {
+    font-weight: 700 !important;
+}
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+</style>
+
+<script>
+let currentFAQId = null;
+let isEditMode = false;
+
+function filterByStatus(status) {
+    document.getElementById('statusFilter').value = status;
+    applyFilters();
+    
+    // Update active button
+    document.querySelectorAll('.btn-group .btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+function applyFilters() {
+    const search = document.getElementById('searchInput').value;
+    const status = document.getElementById('statusFilter').value;
+    const category = document.getElementById('categoryFilter').value;
+    const sort = document.getElementById('sortFilter').value;
+    const date = document.getElementById('dateFilter').value;
+    
+    console.log('Applying filters:', { search, status, category, sort, date });
+    showToast('Đang áp dụng bộ lọc...', 'info');
+}
+
+function createNewFAQ() {
+    isEditMode = false;
+    currentFAQId = null;
+    
+    document.getElementById('faqModalTitle').textContent = 'Thêm FAQ mới';
+    document.getElementById('faqForm').reset();
+    document.getElementById('faqAnswerEditor').innerHTML = '<p>Nhập câu trả lời chi tiết tại đây...</p>';
+    document.getElementById('faqViews').textContent = '0';
+    document.getElementById('faqHelpfulRating').textContent = '0%';
+    document.getElementById('faqLastUpdated').textContent = '-';
+    
+    new bootstrap.Modal(document.getElementById('faqModal')).show();
+}
+
+function viewFAQ(faqId) {
+    // Implementation for viewing FAQ
+    console.log('Viewing FAQ:', faqId);
+    editFAQ(faqId, true); // Open in view mode
+}
+
+function editFAQ(faqId, viewOnly = false) {
+    isEditMode = true;
+    currentFAQId = faqId;
+    
+    // Mock FAQ data
+    const faqData = {
+        'FAQ-001': {
+            question: 'Làm thế nào để tích hợp API thanh toán ZaloPay?',
+            answer: '<p>Bạn có thể tích hợp API thanh toán ZaloPay bằng cách theo các bước sau:</p><ol><li>Đăng ký tài khoản đối tác</li><li>Lấy API key và secret key</li><li>Tích hợp API theo tài liệu</li></ol>',
+            category: 'api',
+            status: 'published',
+            keywords: 'api, tích hợp, thanh toán',
+            order: 1,
+            featured: true,
+            views: 1234,
+            helpful: 89.5,
+            lastUpdated: '04/10/2025 10:30'
+        }
+    };
+    
+    const faq = faqData[faqId] || faqData['FAQ-001'];
+    
+    document.getElementById('faqModalTitle').textContent = viewOnly ? 'Xem FAQ' : 'Chỉnh sửa FAQ';
+    document.getElementById('faqQuestion').value = faq.question;
+    document.getElementById('faqAnswerEditor').innerHTML = faq.answer;
+    document.getElementById('faqAnswer').value = faq.answer;
+    document.getElementById('faqCategory').value = faq.category;
+    document.getElementById('faqStatus').value = faq.status;
+    document.getElementById('faqKeywords').value = faq.keywords;
+    document.getElementById('faqOrder').value = faq.order;
+    document.getElementById('faqFeatured').checked = faq.featured;
+    document.getElementById('faqViews').textContent = faq.views.toLocaleString();
+    document.getElementById('faqHelpfulRating').textContent = faq.helpful + '%';
+    document.getElementById('faqLastUpdated').textContent = faq.lastUpdated;
+    
+    new bootstrap.Modal(document.getElementById('faqModal')).show();
+}
+
+function duplicateFAQ(faqId) {
+    console.log('Duplicating FAQ:', faqId);
+    editFAQ(faqId);
+    document.getElementById('faqModalTitle').textContent = 'Sao chép FAQ';
+    document.getElementById('faqQuestion').value += ' (Copy)';
+    currentFAQId = null;
+    isEditMode = false;
+}
+
+function deleteFAQ(faqId) {
+    if (confirm('Bạn có chắc chắn muốn xóa FAQ này?')) {
+        console.log('Deleting FAQ:', faqId);
+        showToast('Đã xóa FAQ thành công!', 'success');
+        
+        // Remove row from table
+        document.querySelector(`input[value="${faqId}"]`).closest('tr').remove();
+    }
+}
+
+function publishFAQ(faqId) {
+    console.log('Publishing FAQ:', faqId);
+    showToast('Đã xuất bản FAQ thành công!', 'success');
+}
+
+function saveFAQAsDraft() {
+    const question = document.getElementById('faqQuestion').value;
+    const answer = document.getElementById('faqAnswerEditor').innerHTML;
+    const category = document.getElementById('faqCategory').value;
+    
+    if (!question || !answer || !category) {
+        showToast('Vui lòng điền đầy đủ thông tin bắt buộc', 'error');
+        return;
+    }
+    
+    console.log('Saving FAQ as draft');
+    showToast('Đã lưu bản nháp thành công!', 'success');
+    bootstrap.Modal.getInstance(document.getElementById('faqModal')).hide();
+}
+
+function publishFAQNow() {
+    const question = document.getElementById('faqQuestion').value;
+    const answer = document.getElementById('faqAnswerEditor').innerHTML;
+    const category = document.getElementById('faqCategory').value;
+    
+    if (!question || !answer || !category) {
+        showToast('Vui lòng điền đầy đủ thông tin bắt buộc', 'error');
+        return;
+    }
+    
+    console.log('Publishing FAQ now');
+    showToast('Đã xuất bản FAQ thành công!', 'success');
+    bootstrap.Modal.getInstance(document.getElementById('faqModal')).hide();
+}
+
+function bulkPublish() {
+    const selected = Array.from(document.querySelectorAll('input[name="faqSelect"]:checked')).map(cb => cb.value);
+    
+    if (selected.length === 0) {
+        showToast('Vui lòng chọn ít nhất một FAQ', 'error');
+        return;
+    }
+    
+    if (confirm(`Xuất bản ${selected.length} FAQs đã chọn?`)) {
+        console.log('Bulk publishing:', selected);
+        showToast(`Đã xuất bản ${selected.length} FAQs thành công!`, 'success');
+    }
+}
+
+function bulkArchive() {
+    const selected = Array.from(document.querySelectorAll('input[name="faqSelect"]:checked')).map(cb => cb.value);
+    
+    if (selected.length === 0) {
+        showToast('Vui lòng chọn ít nhất một FAQ', 'error');
+        return;
+    }
+    
+    if (confirm(`Ẩn ${selected.length} FAQs đã chọn?`)) {
+        console.log('Bulk archiving:', selected);
+        showToast(`Đã ẩn ${selected.length} FAQs thành công!`, 'success');
+    }
+}
+
+function manageFAQCategories() {
+    new bootstrap.Modal(document.getElementById('categoriesModal')).show();
+}
+
+function addNewCategory() {
+    const name = prompt('Nhập tên danh mục mới:');
+    if (name) {
+        const code = prompt('Nhập mã danh mục (viết thường, không dấu):');
+        if (code) {
+            console.log('Adding new category:', { name, code });
+            showToast('Đã thêm danh mục mới thành công!', 'success');
+        }
+    }
+}
+
+function editCategory(categoryCode) {
+    console.log('Editing category:', categoryCode);
+    showToast('Chức năng chỉnh sửa danh mục', 'info');
+}
+
+function deleteCategory(categoryCode) {
+    if (confirm('Bạn có chắc chắn muốn xóa danh mục này?')) {
+        console.log('Deleting category:', categoryCode);
+        showToast('Đã xóa danh mục thành công!', 'success');
+    }
+}
+
+function viewPopularFAQs() {
+    showToast('Hiển thị thống kê FAQs phổ biến', 'info');
+}
+
+function exportFAQs() {
+    showToast('Đang xuất danh sách FAQ...', 'info');
+    setTimeout(() => {
+        showToast('Đã xuất file thành công!', 'success');
+    }, 2000);
+}
+
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    toast.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.remove();
+    }, 5000);
+}
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    
+    // Select all checkbox functionality
+    document.getElementById('selectAll').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('input[name="faqSelect"]');
+        checkboxes.forEach(cb => cb.checked = this.checked);
+    });
+    
+    // Simple rich text editor for FAQ answer
+    const editor = document.getElementById('faqAnswerEditor');
+    if (editor) {
+        editor.contentEditable = true;
+        editor.addEventListener('input', function() {
+            document.getElementById('faqAnswer').value = this.innerHTML;
+        });
+    }
+});
+</script>

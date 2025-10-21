@@ -1,0 +1,71 @@
+
+
+Báo cáo lỗi - ZaloPay Merchant
+
+
+<main class="main-content">
+    <div class="container mt-5 pt-5">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mb-5">Báo cáo lỗi</h1>
+                
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <form>
+                            <div class="mb-3">
+                                <label for="bug_title" class="form-label">Tiêu đề lỗi</label>
+                                <input type="text" class="form-control" id="bug_title" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="bug_type" class="form-label">Loại lỗi</label>
+                                <select class="form-select" id="bug_type" required>
+                                    <option value="">Chọn loại lỗi</option>
+                                    <option value="ui">Giao diện</option>
+                                    <option value="function">Chức năng</option>
+                                    <option value="performance">Hiệu suất</option>
+                                    <option value="security">Bảo mật</option>
+                                    <option value="other">Khác</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="bug_description" class="form-label">Mô tả chi tiết</label>
+                                <textarea class="form-control" id="bug_description" rows="5" required></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="steps_to_reproduce" class="form-label">Các bước tái hiện lỗi</label>
+                                <textarea class="form-control" id="steps_to_reproduce" rows="3"></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="expected_result" class="form-label">Kết quả mong đợi</label>
+                                <textarea class="form-control" id="expected_result" rows="2"></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="actual_result" class="form-label">Kết quả thực tế</label>
+                                <textarea class="form-control" id="actual_result" rows="2"></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="browser_info" class="form-label">Thông tin trình duyệt</label>
+                                <input type="text" class="form-control" id="browser_info" placeholder="Ví dụ: Chrome 91.0.4472.124">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="screenshot" class="form-label">Ảnh chụp màn hình (nếu có)</label>
+                                <input type="file" class="form-control" id="screenshot" accept="image/*">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Gửi báo cáo</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+

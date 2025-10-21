@@ -1,0 +1,150 @@
+# Pylint configuration for ZaloPay Phishing Platform
+# Ignores false positives on Windows development environment
+
+[MASTER]
+# Disable specific checks that cause false positives
+disable=
+    import-error,
+    no-member,
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+    too-few-public-methods,
+    too-many-arguments,
+    too-many-locals,
+    too-many-branches,
+    too-many-statements,
+    broad-except,
+    unused-argument,
+    unused-variable,
+    redefined-outer-name,
+    consider-using-f-string,
+    line-too-long
+
+# Ignore specific modules that may not be available in development
+ignored-modules=
+    pymongo,
+    redis,
+    influxdb_client,
+    google.auth,
+    google.oauth2,
+    googleapiclient,
+    passlib,
+    argon2,
+    websockets,
+    jinja2,
+    requests,
+    jwt
+
+# Ignore specific directories and files
+ignore-paths=
+    __pycache__,
+    .git,
+    node_modules,
+    venv,
+    env,
+    .env
+
+[MESSAGES CONTROL]
+# Disable specific message types
+disable=
+    C0114,  # missing-module-docstring
+    C0115,  # missing-class-docstring
+    C0116,  # missing-function-docstring
+    R0903,  # too-few-public-methods
+    R0913,  # too-many-arguments
+    R0914,  # too-many-locals
+    R0912,  # too-many-branches
+    R0915,  # too-many-statements
+    W0703,  # broad-except
+    W0613,  # unused-argument
+    W0612,  # unused-variable
+    W0621,  # redefined-outer-name
+    C0209,  # consider-using-f-string
+    C0301,  # line-too-long
+
+[FORMAT]
+# Maximum number of characters on a single line
+max-line-length=120
+
+# Maximum number of lines in a module
+max-module-lines=1000
+
+
+[VARIABLES]
+# List of additional names supposed to be defined in builtins
+additional-builtins=
+
+[TYPECHECK]
+# List of module names for which member attributes should not be checked
+ignored-modules=
+    pymongo,
+    redis,
+    influxdb_client,
+    google.auth,
+    google.oauth2,
+    googleapiclient,
+    passlib,
+    argon2,
+    websockets,
+    jinja2,
+    requests,
+    jwt
+
+# List of classes names for which member attributes should not be checked
+ignored-classes=
+
+[DESIGN]
+# Maximum number of arguments for function / method
+max-args=10
+
+# Maximum number of attributes for a class
+max-attributes=15
+
+# Maximum number of boolean expressions in an if statement
+max-bool-expr=5
+
+# Maximum number of branch for function / method body
+max-branches=15
+
+# Maximum number of locals for function / method body
+max-locals=20
+
+# Maximum number of parents for a class
+max-parents=7
+
+# Maximum number of public methods for a class
+max-public-methods=20
+
+# Maximum number of return / yield for function / method body
+max-returns=6
+
+# Maximum number of statements in function / method body
+max-statements=50
+
+[IMPORTS]
+# Deprecated modules which should not be used
+deprecated-modules=
+
+# Create a graph of every (i.e. internal and external) dependencies in the
+# given file (report RP0402 must not be disabled)
+import-graph=
+
+# Create a graph of external dependencies in the given file (report RP0402 must
+# not be disabled)
+ext-import-graph=
+
+# Create a graph of internal dependencies in the given file (report RP0402 must
+# not be disabled)
+int-import-graph=
+
+# Force import order to recognize a module as part of the standard
+# compatibility libraries.
+known-standard-library=
+
+# Force import order to recognize a module as part of a third party library.
+known-third-party=
+
+[EXCEPTIONS]
+# Exceptions that will emit a warning when being caught.
+overgeneral-exceptions=Exception

@@ -1,0 +1,404 @@
+
+
+Trạng thái đơn vay - ZaloPay Merchant
+
+
+<main class="main-content">
+    <div class="container mt-5 pt-5">
+        <!-- Page Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="text-primary mb-1">Trạng thái đơn vay</h1>
+                        <p class="text-muted mb-0">Theo dõi tiến độ xử lý các đơn vay của bạn</p>
+                    </div>
+                    <div>
+                        <a href="loan_application.html" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Đăng ký vay mới
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Trạng thái</label>
+                                <select class="form-select" id="statusFilter">
+                                    <option value="">Tất cả trạng thái</option>
+                                    <option value="pending">Chờ xử lý</option>
+                                    <option value="reviewing">Đang xem xét</option>
+                                    <option value="approved">Đã duyệt</option>
+                                    <option value="rejected">Từ chối</option>
+                                    <option value="disbursed">Đã giải ngân</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Loại vay</label>
+                                <select class="form-select" id="typeFilter">
+                                    <option value="">Tất cả loại vay</option>
+                                    <option value="individual">Cá nhân KD</option>
+                                    <option value="business">Hộ kinh doanh</option>
+                                    <option value="enterprise">Doanh nghiệp</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Khoảng thời gian</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="date" class="form-control" id="fromDate">
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="date" class="form-control" id="toDate">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button class="btn btn-primary w-100" onclick="filterLoans()">
+                                    <i class="fas fa-search"></i> Lọc
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loan Applications List -->
+        <div class="row" id="loansList">
+            <!-- Sample Loan Application 1 -->
+            <div class="col-12 mb-4 loan-item" data-status="approved" data-type="business">
+                <div class="card border-success">
+                    <div class="card-header bg-success text-white">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-store me-2"></i>Đơn vay Hộ kinh doanh
+                                    <span class="badge bg-light text-success ms-2">ĐÃ DUYỆT</span>
+                                </h5>
+                                <small>Mã đơn: ZLP-20241005-001</small>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <div class="text-white">
+                                    <strong>800.000.000 VNĐ</strong><br>
+                                    <small>Ngày nộp: 01/10/2024</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="mb-2"><strong>Tên doanh nghiệp:</strong> Cửa hàng Thời trang ABC</p>
+                                        <p class="mb-2"><strong>Ngành nghề:</strong> Bán lẻ thời trang</p>
+                                        <p class="mb-2"><strong>Thời hạn vay:</strong> 36 tháng</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="mb-2"><strong>Lãi suất:</strong> 0.8%/tháng</p>
+                                        <p class="mb-2"><strong>Mục đích:</strong> Mở rộng cửa hàng</p>
+                                        <p class="mb-2"><strong>Ngày duyệt:</strong> 03/10/2024</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="progress-section">
+                                    <h6 class="text-primary mb-3">Tiến độ xử lý</h6>
+                                    <div class="progress mb-2" style="height: 8px;">
+                                        <div class="progress-bar bg-success" style="width: 100%"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-success"><i class="fas fa-check"></i> Hoàn thành</small>
+                                        <small class="text-muted">100%</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="viewLoanDetail('ZLP-20241005-001')">
+                                        <i class="fas fa-eye me-1"></i>Xem chi tiết
+                                    </button>
+                                    <button class="btn btn-success btn-sm" onclick="downloadContract('ZLP-20241005-001')">
+                                        <i class="fas fa-download me-1"></i>Tải hợp đồng
+                                    </button>
+                                    <button class="btn btn-info btn-sm" onclick="schedulePayment('ZLP-20241005-001')">
+                                        <i class="fas fa-calendar me-1"></i>Lịch trả nợ
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sample Loan Application 2 -->
+            <div class="col-12 mb-4 loan-item" data-status="reviewing" data-type="individual">
+                <div class="card border-info">
+                    <div class="card-header bg-info text-white">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-user-tie me-2"></i>Đơn vay Cá nhân kinh doanh
+                                    <span class="badge bg-light text-info ms-2">ĐANG XEM XÉT</span>
+                                </h5>
+                                <small>Mã đơn: ZLP-20241005-002</small>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <div class="text-white">
+                                    <strong>300.000.000 VNĐ</strong><br>
+                                    <small>Ngày nộp: 04/10/2024</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="mb-2"><strong>Tên shop:</strong> Shop điện tử XYZ</p>
+                                        <p class="mb-2"><strong>Ngành nghề:</strong> Điện tử, công nghệ</p>
+                                        <p class="mb-2"><strong>Thời hạn vay:</strong> 24 tháng</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="mb-2"><strong>Lãi suất:</strong> 0.9%/tháng</p>
+                                        <p class="mb-2"><strong>Mục đích:</strong> Nhập hàng mùa lễ</p>
+                                        <p class="mb-2"><strong>Dự kiến duyệt:</strong> 07/10/2024</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="progress-section">
+                                    <h6 class="text-primary mb-3">Tiến độ xử lý</h6>
+                                    <div class="progress mb-2" style="height: 8px;">
+                                        <div class="progress-bar bg-info" style="width: 60%"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-info"><i class="fas fa-clock"></i> Đang xử lý</small>
+                                        <small class="text-muted">60%</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="viewLoanDetail('ZLP-20241005-002')">
+                                        <i class="fas fa-eye me-1"></i>Xem chi tiết
+                                    </button>
+                                    <button class="btn btn-warning btn-sm" onclick="updateDocuments('ZLP-20241005-002')">
+                                        <i class="fas fa-upload me-1"></i>Bổ sung tài liệu
+                                    </button>
+                                    <button class="btn btn-outline-secondary btn-sm" onclick="cancelApplication('ZLP-20241005-002')">
+                                        <i class="fas fa-times me-1"></i>Hủy đơn
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sample Loan Application 3 -->
+            <div class="col-12 mb-4 loan-item" data-status="pending" data-type="enterprise">
+                <div class="card border-warning">
+                    <div class="card-header bg-warning text-dark">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-building me-2"></i>Đơn vay Doanh nghiệp
+                                    <span class="badge bg-light text-warning ms-2">CHỜ XỬ LÝ</span>
+                                </h5>
+                                <small>Mã đơn: ZLP-20241005-003</small>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <div class="text-dark">
+                                    <strong>5.000.000.000 VNĐ</strong><br>
+                                    <small>Ngày nộp: 05/10/2024</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="mb-2"><strong>Tên công ty:</strong> Công ty TNHH TechCorp</p>
+                                        <p class="mb-2"><strong>Ngành nghề:</strong> Phát triển phần mềm</p>
+                                        <p class="mb-2"><strong>Thời hạn vay:</strong> 60 tháng</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="mb-2"><strong>Lãi suất:</strong> 0.7%/tháng</p>
+                                        <p class="mb-2"><strong>Mục đích:</strong> Mở rộng văn phòng</p>
+                                        <p class="mb-2"><strong>Dự kiến xử lý:</strong> 3-5 ngày</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="progress-section">
+                                    <h6 class="text-primary mb-3">Tiến độ xử lý</h6>
+                                    <div class="progress mb-2" style="height: 8px;">
+                                        <div class="progress-bar bg-warning" style="width: 20%"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-warning"><i class="fas fa-hourglass-half"></i> Chờ xử lý</small>
+                                        <small class="text-muted">20%</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="viewLoanDetail('ZLP-20241005-003')">
+                                        <i class="fas fa-eye me-1"></i>Xem chi tiết
+                                    </button>
+                                    <button class="btn btn-outline-info btn-sm" onclick="editApplication('ZLP-20241005-003')">
+                                        <i class="fas fa-edit me-1"></i>Chỉnh sửa
+                                    </button>
+                                    <button class="btn btn-outline-secondary btn-sm" onclick="cancelApplication('ZLP-20241005-003')">
+                                        <i class="fas fa-times me-1"></i>Hủy đơn
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="row" id="emptyState" style="display: none;">
+            <div class="col-12">
+                <div class="text-center py-5">
+                    <i class="fas fa-file-alt fa-5x text-muted mb-3"></i>
+                    <h4 class="text-muted">Không tìm thấy đơn vay nào</h4>
+                    <p class="text-muted">Hãy thử thay đổi bộ lọc hoặc tạo đơn vay mới</p>
+                    <a href="loan_application.html" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Đăng ký vay mới
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<style>
+.card {
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.progress-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.loan-item {
+    transition: all 0.3s ease;
+}
+
+.btn-group .btn {
+    border-radius: 4px;
+    margin-right: 5px;
+}
+
+.badge {
+    font-size: 0.75em;
+}
+</style>
+
+<script>
+function filterLoans() {
+    const statusFilter = document.getElementById('statusFilter').value;
+    const typeFilter = document.getElementById('typeFilter').value;
+    const fromDate = document.getElementById('fromDate').value;
+    const toDate = document.getElementById('toDate').value;
+    
+    const loanItems = document.querySelectorAll('.loan-item');
+    let visibleCount = 0;
+    
+    loanItems.forEach(item => {
+        let show = true;
+        
+        if (statusFilter && item.dataset.status !== statusFilter) {
+            show = false;
+        }
+        
+        if (typeFilter && item.dataset.type !== typeFilter) {
+            show = false;
+        }
+        
+        if (show) {
+            item.style.display = 'block';
+            visibleCount++;
+        } else {
+            item.style.display = 'none';
+        }
+    });
+    
+    // Show/hide empty state
+    const emptyState = document.getElementById('emptyState');
+    if (visibleCount === 0) {
+        emptyState.style.display = 'block';
+    } else {
+        emptyState.style.display = 'none';
+    }
+}
+
+function viewLoanDetail(loanId) {
+    alert('Xem chi tiết đơn vay: ' + loanId);
+    // Redirect to loan detail page
+}
+
+function downloadContract(loanId) {
+    alert('Đang tải hợp đồng cho đơn vay: ' + loanId);
+    // Download contract file
+}
+
+function schedulePayment(loanId) {
+    alert('Xem lịch trả nợ cho đơn vay: ' + loanId);
+    // Show payment schedule
+}
+
+function updateDocuments(loanId) {
+    alert('Bổ sung tài liệu cho đơn vay: ' + loanId);
+    // Open document upload modal
+}
+
+function editApplication(loanId) {
+    alert('Chỉnh sửa đơn vay: ' + loanId);
+    // Redirect to edit form
+}
+
+function cancelApplication(loanId) {
+    if (confirm('Bạn có chắc chắn muốn hủy đơn vay này không?')) {
+        alert('Đã hủy đơn vay: ' + loanId);
+        // Cancel application
+    }
+}
+
+// Set default date range (last 30 days)
+window.addEventListener('load', function() {
+    const today = new Date();
+    const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+    
+    document.getElementById('toDate').value = today.toISOString().split('T')[0];
+    document.getElementById('fromDate').value = thirtyDaysAgo.toISOString().split('T')[0];
+});
+</script>

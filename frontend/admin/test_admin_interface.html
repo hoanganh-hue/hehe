@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Interface Test Suite</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .test-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 1rem;
+        }
+        .test-result {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+        .test-pass {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .test-fail {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .test-running {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        .test-pending {
+            background-color: #e2e3e5;
+            border: 1px solid #d6d8db;
+            color: #383d41;
+        }
+        .progress {
+            height: 8px;
+        }
+        .test-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <!-- Header -->
+        <div class="test-summary text-center mb-4">
+            <h1><i class="fas fa-vial me-3"></i>Admin Interface Test Suite</h1>
+            <p class="lead">Comprehensive testing of ZaloPay Admin frontend deployment</p>
+        </div>
+
+        <!-- Test Progress -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="test-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0">Test Progress</h5>
+                            <div class="d-flex align-items-center">
+                                <span class="me-3" id="progressText">0/0 tests completed</span>
+                                <button class="btn btn-primary" onclick="runAllTests()">
+                                    <i class="fas fa-play me-2"></i>Run All Tests
+                                </button>
+                            </div>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Results -->
+        <div class="row">
+            <div class="col-12">
+                <div class="test-card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-list-check me-2"></i>Test Results</h5>
+                    </div>
+                    <div class="card-body" id="testResults">
+                        <!-- Test results will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Categories -->
+        <div class="row mt-4">
+            <!-- File System Tests -->
+            <div class="col-lg-6">
+                <div class="test-card">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-folder me-2"></i>File System Tests</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="test-item" data-test="check_main_dashboard">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>Main Dashboard File</span>
+                                <span class="badge test-pending" id="status_check_main_dashboard">Pending</span>
+                            </div>
+                            <div class="test-result test-pending" id="result_check_main_dashboard">
+                                Test pending...
+                            </div>
+                        </div>
+
+                        <div class="test-item" data-test="check_api_client">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>API Client</span>
+                                <span class="badge test-pending" id="status_check_api_client">Pending</span>
+                            </div>
+                            <div class="test-result test-pending" id="result_check_api_client">
+                                Test pending...
+                            </div>
+                        </div>
+
+                        <div class="test-item" data-test="check_security_manager">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>Security Manager</span>
+                                <span class="badge test-pending" id="status_check_security_manager">Pending</span>
+                            </div>
+                            <div class="test-result test-pending" id="result_check_security_manager">
+                                Test pending...
+                            </div>
+                        </div>
+
+                        <div class="test-item" data-test="check_websocket_client">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>WebSocket Client</span>
+                                <span class="badge test-pending" id="status_check_websocket_client">Pending</span>
+                            </div>
+                            <div class="test-result test-pending" id="result_check_websocket_client">
+                                Test pending...
+                            </div>
+                        </div>
+
+                        <div class="test-item" data-test="check_css_files">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>CSS Files</span>
+                                <span class="badge test-pending" id="status_check_css_files">Pending</span>
+                            </div>
+                            <div class="test-result test-pending" id="result_check_css_files">
+                                Test pending...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Functionality Tests -->
+            <div class="col-lg-6">
+                <div class="test-card">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-cogs me-2"></i>Functionality Tests</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="test-item" data-test="test_javascript_loading">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>JavaScript Loading</span>
+                                <span class="badge test-pending" id="status_test_javascript_loading">Pending</span>
+                            </div>
+                            <div class="test-result test-pending" id="result_test_javascript_loading">
+                                Test pending...
+                            </div>
+                        </div>
+
+                        <div class="test-item" data-test="test_api_connectivity">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>API Connectivity</span>
+                                <span class="badge test-pending" id="status_test_api_connectivity">Pending</span>
+                            </div>
+                            <div class="test-result test-pending" id="result_test_api_connectivity">
+                                Test pending...
+                            </div>
+                        </div>
+
+                        <div class="test-item" data-test="test_websocket_connectivity">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>WebSocket Connectivity</span>
+                                <span class="badge test-pending" id="status_test_websocket_connectivity">Pending</span>
+                            </div>
+                            <div class="test-result test-pending" id="result_test_websocket_connectivity">
+                                Test pending...
+                            </div>
+                        </div>
+
+                        <div class="test-item" data-test="test_responsive_design">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>Responsive Design</span>
+                                <span class="badge test-pending" id="status_test_responsive_design">Pending</span>
+                            </div>
+                            <div class="test-result test-pending" id="result_test_responsive_design">
+                                Test pending...
+                            </div>
+                        </div>
+
+                        <div class="test-item" data-test="test_security_features">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>Security Features</span>
+                                <span class="badge test-pending" id="status_test_security_features">Pending</span>
+                            </div>
+                            <div class="test-result test-pending" id="result_test_security_features">
+                                Test pending...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Integration Tests -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="test-card">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-puzzle-piece me-2"></i>Integration Tests</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="test-item" data-test="test_gmail_integration">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span>Gmail Interface Integration</span>
+                                        <span class="badge test-pending" id="status_test_gmail_integration">Pending</span>
+                                    </div>
+                                    <div class="test-result test-pending" id="result_test_gmail_integration">
+                                        Test pending...
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="test-item" data-test="test_beef_integration">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span>BeEF Interface Integration</span>
+                                        <span class="badge test-pending" id="status_test_beef_integration">Pending</span>
+                                    </div>
+                                    <div class="test-result test-pending" id="result_test_beef_integration">
+                                        Test pending...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="test-item" data-test="test_campaign_integration">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span>Campaign Management Integration</span>
+                                        <span class="badge test-pending" id="status_test_campaign_integration">Pending</span>
+                                    </div>
+                                    <div class="test-result test-pending" id="result_test_campaign_integration">
+                                        Test pending...
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="test-item" data-test="test_authentication_flow">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span>Authentication Flow</span>
+                                        <span class="badge test-pending" id="status_test_authentication_flow">Pending</span>
+                                    </div>
+                                    <div class="test-result test-pending" id="result_test_authentication_flow">
+                                        Test pending...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Controls -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="test-card">
+                    <div class="card-body text-center">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-success" onclick="runAllTests()">
+                                <i class="fas fa-play-circle me-2"></i>Run All Tests
+                            </button>
+                            <button class="btn btn-warning" onclick="runFailedTests()">
+                                <i class="fas fa-redo me-2"></i>Retry Failed
+                            </button>
+                            <button class="btn btn-info" onclick="exportResults()">
+                                <i class="fas fa-download me-2"></i>Export Results
+                            </button>
+                            <button class="btn btn-secondary" onclick="clearResults()">
+                                <i class="fas fa-trash me-2"></i>Clear Results
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let testResults = {};
+        let totalTests = 0;
+        let completedTests = 0;
+
+        // Test definitions
+        const tests = {
+            // File System Tests
+            check_main_dashboard: {
+                name: 'Main Dashboard File',
+                category: 'filesystem',
+                run: async () => {
+                    try {
+                        const response = await fetch('main_dashboard.html');
+                        if (response.ok) {
+                            const content = await response.text();
+                            if (content.includes('main_dashboard.html') && content.includes('AdminInterface')) {
+                                return { success: true, message: 'Main dashboard file exists and contains expected content' };
+                            } else {
+                                return { success: false, message: 'Main dashboard file missing expected content' };
+                            }
+                        } else {
+                            return { success: false, message: `HTTP ${response.status}: ${response.statusText}` };
+                        }
+                    } catch (error) {
+                        return { success: false, message: `Error: ${error.message}` };
+                    }
+                }
+            },
+
+            check_api_client: {
+                name: 'API Client',
+                category: 'filesystem',
+                run: async () => {
+                    try {
+                        const response = await fetch('js/api_client.js');
+                        if (response.ok) {
+                            const content = await response.text();
+                            if (content.includes('AdminAPIClient') && content.includes('getDashboardStats')) {
+                                return { success: true, message: 'API client file exists and contains expected functions' };
+                            } else {
+                                return { success: false, message: 'API client file missing expected content' };
+                            }
+                        } else {
+                            return { success: false, message: `HTTP ${response.status}: ${response.statusText}` };
+                        }
+                    } catch (error) {
+                        return { success: false, message: `Error: ${error.message}` };
+                    }
+                }
+            },
+
+            check_security_manager: {
+                name: 'Security Manager',
+                category: 'filesystem',
+                run: async () => {
+                    try {
+                        const response = await fetch('js/security_manager.js');
+                        if (response.ok) {
+                            const content = await response.text();
+                            if (content.includes('SecurityManager') && content.includes('CSRF') && content.includes('RBAC')) {
+                                return { success: true, message: 'Security manager file exists and contains expected features' };
+                            } else {
+                                return { success: false, message: 'Security manager file missing expected content' };
+                            }
+                        } else {
+                            return { success: false, message: `HTTP ${response.status}: ${response.statusText}` };
+                        }
+                    } catch (error) {
+                        return { success: false, message: `Error: ${error.message}` };
+                    }
+                }
+            },
+
+            check_websocket_client: {
+                name: 'WebSocket Client',
+                category: 'filesystem',
+                run: async () => {
+                    try {
+                        const response = await fetch('js/websocket_client.js');
+                        if (response.ok) {
+                            const content = await response.text();
+                            if (content.includes('RealtimeDashboard') && content.includes('WebSocket')) {
+                                return { success: true, message: 'WebSocket client file exists and contains expected content' };
+                            } else {
+                                return { success: false, message: 'WebSocket client file missing expected content' };
+                            }
+                        } else {
+                            return { success: false, message: `HTTP ${response.status}: ${response.statusText}` };
+                        }
+                    } catch (error) {
+                        return { success: false, message: `Error: ${error.message}` };
+                    }
+                }
+            },
+
+            check_css_files: {
+                name: 'CSS Files',
+                category: 'filesystem',
+                run: async () => {
+                    try {
+                        const response = await fetch('css/admin-styles.css');
+                        if (response.ok) {
+                            const content = await response.text();
+                            if (content.includes('admin-styles') && content.includes('sidebar') && content.includes('responsive')) {
+                                return { success: true, message: 'CSS files exist and contain expected styles' };
+                            } else {
+                                return { success: false, message: 'CSS files missing expected content' };
+                            }
+                        } else {
+                            return { success: false, message: `HTTP ${response.status}: ${response.statusText}` };
+                        }
+                    } catch (error) {
+                        return { success: false, message: `Error: ${error.message}` };
+                    }
+                }
+            },
+
+            // Functionality Tests
+            test_javascript_loading: {
+                name: 'JavaScript Loading',
+                category: 'functionality',
+                run: async () => {
+                    return new Promise((resolve) => {
+                        try {
+                            // Test if AdminAPIClient is available
+                            if (typeof window.AdminAPIClient !== 'undefined') {
+                                resolve({ success: true, message: 'JavaScript modules loaded successfully' });
+                            } else {
+                                setTimeout(() => {
+                                    if (typeof window.AdminAPIClient !== 'undefined') {
+                                        resolve({ success: true, message: 'JavaScript modules loaded successfully' });
+                                    } else {
+                                        resolve({ success: false, message: 'JavaScript modules failed to load' });
+                                    }
+                                }, 2000);
+                            }
+                        } catch (error) {
+                            resolve({ success: false, message: `Error: ${error.message}` });
+                        }
+                    });
+                }
+            },
+
+            test_api_connectivity: {
+                name: 'API Connectivity',
+                category: 'functionality',
+                run: async () => {
+                    try {
+                        const response = await fetch('/health');
+                        if (response.ok) {
+                            const data = await response.json();
+                            if (data.status === 'healthy') {
+                                return { success: true, message: 'API connectivity verified' };
+                            } else {
+                                return { success: false, message: 'API health check failed' };
+                            }
+                        } else {
+                            return { success: false, message: `API not accessible: HTTP ${response.status}` };
+                        }
+                    } catch (error) {
+                        return { success: false, message: `API connectivity error: ${error.message}` };
+                    }
+                }
+            },
+
+            test_websocket_connectivity: {
+                name: 'WebSocket Connectivity',
+                category: 'functionality',
+                run: async () => {
+                    return new Promise((resolve) => {
+                        try {
+                            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                            const wsUrl = `${protocol}//${window.location.host}/ws/dashboard`;
+
+                            const websocket = new WebSocket(wsUrl);
+
+                            const timeout = setTimeout(() => {
+                                websocket.close();
+                                resolve({ success: false, message: 'WebSocket connection timeout' });
+                            }, 5000);
+
+                            websocket.onopen = () => {
+                                clearTimeout(timeout);
+                                websocket.close();
+                                resolve({ success: true, message: 'WebSocket connectivity verified' });
+                            };
+
+                            websocket.onerror = (error) => {
+                                clearTimeout(timeout);
+                                resolve({ success: false, message: `WebSocket error: ${error}` });
+                            };
+
+                        } catch (error) {
+                            resolve({ success: false, message: `WebSocket test error: ${error.message}` });
+                        }
+                    });
+                }
+            },
+
+            test_responsive_design: {
+                name: 'Responsive Design',
+                category: 'functionality',
+                run: async () => {
+                    try {
+                        const viewport = document.querySelector('meta[name="viewport"]');
+                        if (viewport && viewport.content.includes('width=device-width')) {
+                            return { success: true, message: 'Responsive design meta tag present' };
+                        } else {
+                            return { success: false, message: 'Responsive design meta tag missing' };
+                        }
+                    } catch (error) {
+                        return { success: false, message: `Responsive design test error: ${error.message}` };
+                    }
+                }
+            },
+
+            test_security_features: {
+                name: 'Security Features',
+                category: 'functionality',
+                run: async () => {
+                    try {
+                        // Check for CSRF token meta tag
+                        const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+                        if (csrfMeta && csrfMeta.content) {
+                            return { success: true, message: 'Security features properly configured' };
+                        } else {
+                            return { success: false, message: 'CSRF token meta tag missing' };
+                        }
+                    } catch (error) {
+                        return { success: false, message: `Security features test error: ${error.message}` };
+                    }
+                }
+            },
+
+            // Integration Tests
+            test_gmail_integration: {
+                name: 'Gmail Interface Integration',
+                category: 'integration',
+                run: async () => {
+                    try {
+                        const response = await fetch('gmail_access.html');
+                        if (response.ok) {
+                            const content = await response.text();
+                            if (content.includes('gmail') && content.includes('websocket')) {
+                                return { success: true, message: 'Gmail interface properly integrated' };
+                            } else {
+                                return { success: false, message: 'Gmail interface missing expected content' };
+                            }
+                        } else {
+                            return { success: false, message: `Gmail interface not accessible: HTTP ${response.status}` };
+                        }
+                    } catch (error) {
+                        return { success: false, message: `Gmail integration test error: ${error.message}` };
+                    }
+                }
+            },
+
+            test_beef_integration: {
+                name: 'BeEF Interface Integration',
+                category: 'integration',
+                run: async () => {
+                    try {
+                        const response = await fetch('beef_dashboard.html');
+                        if (response.ok) {
+                            const content = await response.text();
+                            if (content.includes('beef') && content.includes('hook') && content.includes('browser')) {
+                                return { success: true, message: 'BeEF interface properly integrated' };
+                            } else {
+                                return { success: false, message: 'BeEF interface missing expected content' };
+                            }
+                        } else {
+                            return { success: false, message: `BeEF interface not accessible: HTTP ${response.status}` };
+                        }
+                    } catch (error) {
+                        return { success: false, message: `BeEF integration test error: ${error.message}` };
+                    }
+                }
+            },
+
+            test_campaign_integration: {
+                name: 'Campaign Management Integration',
+                category: 'integration',
+                run: async () => {
+                    try {
+                        const response = await fetch('campaign_control.html');
+                        if (response.ok) {
+                            const content = await response.text();
+                            if (content.includes('campaign') && content.includes('performance') && content.includes('chart')) {
+                                return { success: true, message: 'Campaign management interface properly integrated' };
+                            } else {
+                                return { success: false, message: 'Campaign interface missing expected content' };
+                            }
+                        } else {
+                            return { success: false, message: `Campaign interface not accessible: HTTP ${response.status}` };
+                        }
+                    } catch (error) {
+                        return { success: false, message: `Campaign integration test error: ${error.message}` };
+                    }
+                }
+            },
+
+            test_authentication_flow: {
+                name: 'Authentication Flow',
+                category: 'integration',
+                run: async () => {
+                    try {
+                        const response = await fetch('index.html');
+                        if (response.ok) {
+                            const content = await response.text();
+                            if (content.includes('login') && content.includes('admin') && content.includes('password')) {
+                                return { success: true, message: 'Authentication interface properly configured' };
+                            } else {
+                                return { success: false, message: 'Authentication interface missing expected content' };
+                            }
+                        } else {
+                            return { success: false, message: `Authentication interface not accessible: HTTP ${response.status}` };
+                        }
+                    } catch (error) {
+                        return { success: false, message: `Authentication flow test error: ${error.message}` };
+                    }
+                }
+            }
+        };
+
+        // Test runner functions
+        async function runAllTests() {
+            totalTests = Object.keys(tests).length;
+            completedTests = 0;
+            testResults = {};
+
+            updateProgress();
+
+            for (const [testId, test] of Object.entries(tests)) {
+                await runTest(testId, test);
+            }
+
+            showTestSummary();
+        }
+
+        async function runTest(testId, test) {
+            const statusElement = document.getElementById(`status_${testId}`);
+            const resultElement = document.getElementById(`result_${testId}`);
+
+            // Set running state
+            statusElement.className = 'badge test-running';
+            statusElement.textContent = 'Running';
+            resultElement.className = 'test-result test-running';
+            resultElement.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Running test...';
+
+            try {
+                const result = await test.run();
+
+                testResults[testId] = result;
+
+                if (result.success) {
+                    statusElement.className = 'badge test-pass';
+                    statusElement.textContent = 'Pass';
+                    resultElement.className = 'test-result test-pass';
+                    resultElement.innerHTML = `<i class="fas fa-check-circle me-2"></i>${result.message}`;
+                } else {
+                    statusElement.className = 'badge test-fail';
+                    statusElement.textContent = 'Fail';
+                    resultElement.className = 'test-result test-fail';
+                    resultElement.innerHTML = `<i class="fas fa-times-circle me-2"></i>${result.message}`;
+                }
+
+            } catch (error) {
+                testResults[testId] = { success: false, message: `Test error: ${error.message}` };
+
+                statusElement.className = 'badge test-fail';
+                statusElement.textContent = 'Error';
+                resultElement.className = 'test-result test-fail';
+                resultElement.innerHTML = `<i class="fas fa-exclamation-triangle me-2"></i>Test error: ${error.message}`;
+            }
+
+            completedTests++;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progress = totalTests > 0 ? (completedTests / totalTests) * 100 : 0;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('progressText').textContent = `${completedTests}/${totalTests} tests completed`;
+        }
+
+        function showTestSummary() {
+            const passed = Object.values(testResults).filter(r => r.success).length;
+            const failed = Object.values(testResults).filter(r => !r.success).length;
+
+            const summary = document.createElement('div');
+            summary.className = 'alert alert-info';
+            summary.innerHTML = `
+                <h5><i class="fas fa-chart-bar me-2"></i>Test Summary</h5>
+                <p class="mb-2">Total Tests: ${totalTests}</p>
+                <p class="mb-2 text-success">Passed: ${passed}</p>
+                <p class="mb-2 text-danger">Failed: ${failed}</p>
+                <p class="mb-0">Success Rate: ${totalTests > 0 ? Math.round((passed / totalTests) * 100) : 0}%</p>
+            `;
+
+            const resultsContainer = document.getElementById('testResults');
+            resultsContainer.insertBefore(summary, resultsContainer.firstChild);
+        }
+
+        async function runFailedTests() {
+            const failedTests = Object.entries(testResults)
+                .filter(([_, result]) => !result.success)
+                .map(([testId, _]) => [testId, tests[testId]]);
+
+            if (failedTests.length === 0) {
+                alert('No failed tests to retry');
+                return;
+            }
+
+            completedTests = 0;
+            totalTests = failedTests.length;
+
+            updateProgress();
+
+            for (const [testId, test] of failedTests) {
+                await runTest(testId, test);
+            }
+
+            showTestSummary();
+        }
+
+        function exportResults() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                results: testResults,
+                summary: {
+                    total: totalTests,
+                    passed: Object.values(testResults).filter(r => r.success).length,
+                    failed: Object.values(testResults).filter(r => !r.success).length
+                }
+            };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `admin_interface_test_results_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+
+        function clearResults() {
+            if (confirm('Clear all test results?')) {
+                testResults = {};
+                completedTests = 0;
+                totalTests = 0;
+
+                document.querySelectorAll('.test-result').forEach(el => {
+                    el.className = 'test-result test-pending';
+                    el.innerHTML = 'Test pending...';
+                });
+
+                document.querySelectorAll('.badge').forEach(el => {
+                    if (el.classList.contains('test-pass') || el.classList.contains('test-fail') || el.classList.contains('test-running')) {
+                        el.className = 'badge test-pending';
+                        el.textContent = 'Pending';
+                    }
+                });
+
+                updateProgress();
+
+                const summary = document.querySelector('.alert-info');
+                if (summary) {
+                    summary.remove();
+                }
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Admin Interface Test Suite loaded');
+            console.log(`Found ${Object.keys(tests).length} tests to run`);
+        });
+    </script>
+</body>
+</html>

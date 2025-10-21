@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="vi" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gmail Data Viewer - ZaloPay Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/gmail-responsive.css">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .main-content {
+            flex: 1;
+            background-color: #f8f9fa;
+        }
+        .data-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+        }
+        .email-item {
+            border-left: 4px solid #0068FF;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .email-item:hover {
+            background: #e3f2fd;
+            transform: translateX(4px);
+        }
+        .email-item.selected {
+            background: #e3f2fd;
+            border-left-color: #0056b3;
+        }
+        .email-subject {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+        .email-meta {
+            font-size: 0.875rem;
+            color: #666;
+        }
+        .contact-item {
+            padding: 0.75rem;
+            border-bottom: 1px solid #eee;
+        }
+        .contact-item:last-child {
+            border-bottom: none;
+        }
+        .attachment-item {
+            display: inline-block;
+            margin: 0.25rem;
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+        }
+        .attachment-item:hover {
+            background: #e9ecef;
+            text-decoration: none;
+        }
+        .search-highlight {
+            background-color: #fff3cd;
+            padding: 0.125rem 0.25rem;
+            border-radius: 2px;
+        }
+        .filter-section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .data-viewer {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .preview-pane {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <nav class="sidebar d-flex flex-column p-3">
+            <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <img src="#" alt="ZaloPay Logo" class="me-2 sidebar-logo-img">
+                <span class="fs-4">ZaloPay</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link text-white">
+                        <i class="fa-solid fa-house me-2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="gmail_access.html" class="nav-link text-white">
+                        <i class="fa-solid fa-envelope me-2"></i>
+                        <span>Gmail Access</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="gmail_data_viewer.html" class="nav-link text-white active">
+                        <i class="fa-solid fa-search me-2"></i>
+                        <span>Data Viewer</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="gmail_export_interface.html" class="nav-link text-white">
+                        <i class="fa-solid fa-file-export me-2"></i>
+                        <span>Export Interface</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content p-4">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-0">Gmail Data Viewer</h1>
+                    <p class="text-muted">Xem trước và khám phá dữ liệu đã khai thác từ Gmail</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-success" onclick="exportSelectedData()">
+                        <i class="fas fa-file-export me-2"></i>Xuất dữ liệu đã chọn
+                    </button>
+                    <button class="btn btn-primary" onclick="refreshData()">
+                        <i class="fas fa-sync-alt me-2"></i>Làm mới
+                    </button>
+                </div>
+            </div>
+
+            <!-- Data Overview Cards -->
+            <div class="row mb-4">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card stats-card shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-uppercase mb-1">
+                                        Tổng emails
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold">
+                                        <span id="totalEmails">0</span>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-envelope fa-2x text-white-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                        Liên hệ
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        <span id="totalContacts">0</span>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-users fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                        Tệp đính kèm
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        <span id="totalAttachments">0</span>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-paperclip fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        Dung lượng dữ liệu
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        <span id="dataSize">0 MB</span>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-database fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="filter-section p-3 mb-4">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Tìm kiếm trong tất cả dữ liệu...">
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select" id="dataTypeFilter">
+                            <option value="">Tất cả loại dữ liệu</option>
+                            <option value="emails">Emails</option>
+                            <option value="contacts">Liên hệ</option>
+                            <option value="attachments">Tệp đính kèm</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select" id="dateFilter">
+                            <option value="">Tất cả thời gian</option>
+                            <option value="today">Hôm nay</option>
+                            <option value="week">Tuần này</option>
+                            <option value="month">Tháng này</option>
+                            <option value="custom">Tùy chỉnh</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control" id="senderFilter" placeholder="Lọc theo người gửi">
+                    </div>
+                    <div class="col-md-2">
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-primary" onclick="applyFilters()">
+                                <i class="fas fa-search me-1"></i>Tìm
+                            </button>
+                            <button class="btn btn-outline-secondary" onclick="clearFilters()">
+                                <i class="fas fa-times me-1"></i>Xóa
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Data List -->
+                <div class="col-lg-4 mb-4">
+                    <div class="card shadow">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">
+                                <i class="fas fa-list me-2"></i>Dữ liệu đã khai thác
+                            </h6>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                    <i class="fas fa-sort me-1"></i>Sắp xếp
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#" onclick="sortBy('date')">Theo ngày</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="sortBy('sender')">Theo người gửi</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="sortBy('size')">Theo kích thước</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="data-viewer" id="dataList">
+                                <!-- Data items will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview Pane -->
+                <div class="col-lg-8 mb-4">
+                    <div class="preview-pane">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">
+                                <i class="fas fa-eye me-2"></i>Xem trước
+                            </h6>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-primary" onclick="selectAllInPreview()">
+                                    <i class="fas fa-check-square me-1"></i>Chọn tất cả
+                                </button>
+                                <button class="btn btn-sm btn-success" onclick="exportPreviewItem()">
+                                    <i class="fas fa-download me-1"></i>Xuất mục này
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="previewContent">
+                                <div class="text-center text-muted py-5">
+                                    <i class="fas fa-search fa-3x mb-3"></i>
+                                    <p>Chọn một mục từ danh sách để xem trước</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Details Modal -->
+            <div class="modal fade" id="emailDetailsModal" tabindex="-1">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Chi tiết Email</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="emailDetailContent">
+                                <!-- Email details will be shown here -->
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-primary" onclick="exportEmail()">Xuất Email</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="js/gmail-websocket.js"></script>
+    <script src="js/gmail-localization.js"></script>
+
+    <script>
+        let gmailData = {
+            emails: [],
+            contacts: [],
+            attachments: []
+        };
+        let filteredData = {
+            emails: [],
+            contacts: [],
+            attachments: []
+        };
+        let selectedItems = new Set();
+        let currentView = 'emails';
+        let currentSort = 'date';
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const accessId = urlParams.get('id');
+
+            if (accessId) {
+                loadGmailData(accessId);
+            } else {
+                loadAllGmailData();
+            }
+
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('searchInput').addEventListener('input', debounce(applyFilters, 300));
+            document.getElementById('dataTypeFilter').addEventListener('change', changeDataView);
+            document.getElementById('dateFilter').addEventListener('change', applyFilters);
+            document.getElementById('senderFilter').addEventListener('input', debounce(applyFilters, 300));
+        }
+
+        async function loadGmailData(accessId) {
+            showLoading('Đang tải dữ liệu Gmail...');
+
+            try {
+                const response = await fetch(`/api/admin/gmail/data/${accessId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    gmailData = result.data;
+                    updateStatistics();
+                    applyFilters();
+                } else {
+                    throw new Error(result.message || 'Không thể tải dữ liệu Gmail');
+                }
+            } catch (error) {
+                console.error('Error loading Gmail data:', error);
+                toastr.error('Không thể tải dữ liệu Gmail: ' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function loadAllGmailData() {
+            showLoading('Đang tải tất cả dữ liệu Gmail...');
+
+            try {
+                const response = await fetch('/api/admin/gmail/data/all', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    gmailData = result.data;
+                    updateStatistics();
+                    applyFilters();
+                } else {
+                    throw new Error(result.message || 'Không thể tải dữ liệu Gmail');
+                }
+            } catch (error) {
+                console.error('Error loading all Gmail data:', error);
+                toastr.error('Không thể tải dữ liệu Gmail: ' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function updateStatistics() {
+            document.getElementById('totalEmails').textContent = gmailData.emails.length;
+            document.getElementById('totalContacts').textContent = gmailData.contacts.length;
+            document.getElementById('totalAttachments').textContent = gmailData.attachments.length;
+
+            const totalSize = calculateTotalSize();
+            document.getElementById('dataSize').textContent = formatFileSize(totalSize);
+        }
+
+        function calculateTotalSize() {
+            let totalSize = 0;
+
+            gmailData.emails.forEach(email => {
+                totalSize += email.size || 0;
+            });
+
+            gmailData.attachments.forEach(attachment => {
+                totalSize += attachment.size || 0;
+            });
+
+            return totalSize;
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const dateFilter = document.getElementById('dateFilter').value;
+            const senderFilter = document.getElementById('senderFilter').value.toLowerCase();
+
+            // Filter emails
+            filteredData.emails = gmailData.emails.filter(email => {
+                if (searchTerm && !matchesSearch(email, searchTerm)) {
+                    return false;
+                }
+
+                if (dateFilter && !matchesDateFilter(email.date, dateFilter)) {
+                    return false;
+                }
+
+                if (senderFilter && email.from && !email.from.toLowerCase().includes(senderFilter)) {
+                    return false;
+                }
+
+                return true;
+            });
+
+            // Filter contacts
+            filteredData.contacts = gmailData.contacts.filter(contact => {
+                if (searchTerm && !matchesSearch(contact, searchTerm)) {
+                    return false;
+                }
+                return true;
+            });
+
+            // Filter attachments
+            filteredData.attachments = gmailData.attachments.filter(attachment => {
+                if (searchTerm && !matchesSearch(attachment, searchTerm)) {
+                    return false;
+                }
+                return true;
+            });
+
+            renderDataList();
+        }
+
+        function matchesSearch(item, searchTerm) {
+            const searchFields = {
+                emails: ['subject', 'from', 'to', 'content'],
+                contacts: ['name', 'email', 'phone'],
+                attachments: ['filename', 'type']
+            };
+
+            return searchFields[currentView].some(field => {
+                const value = item[field];
+                if (typeof value === 'string') {
+                    return value.toLowerCase().includes(searchTerm);
+                }
+                return false;
+            });
+        }
+
+        function matchesDateFilter(dateString, filter) {
+            if (!dateString) return false;
+
+            const date = new Date(dateString);
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+            const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+            switch(filter) {
+                case 'today':
+                    return date >= today;
+                case 'week':
+                    return date >= weekAgo;
+                case 'month':
+                    return date >= monthAgo;
+                default:
+                    return true;
+            }
+        }
+
+        function changeDataView() {
+            const dataType = document.getElementById('dataTypeFilter').value || 'emails';
+            currentView = dataType;
+            renderDataList();
+        }
+
+        function renderDataList() {
+            const container = document.getElementById('dataList');
+            const currentData = filteredData[currentView];
+
+            if (currentData.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-4 text-muted">
+                        <i class="fas fa-inbox fa-3x mb-3"></i>
+                        <p>Không có dữ liệu nào phù hợp</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+
+            currentData.forEach((item, index) => {
+                const dataItem = createDataListItem(item, index);
+                container.appendChild(dataItem);
+            });
+        }
+
+        function createDataListItem(item, index) {
+            const div = document.createElement('div');
+
+            if (currentView === 'emails') {
+                div.className = 'email-item';
+                div.onclick = () => showEmailPreview(item, index);
+
+                const hasAttachments = item.attachments && item.attachments.length > 0;
+                const isRead = item.is_read;
+
+                div.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <div class="email-subject">${highlightSearch(item.subject || 'No Subject')}</div>
+                            <div class="email-meta">
+                                <span class="fw-bold">Từ:</span> ${item.from || 'Unknown'} •
+                                <span class="fw-bold">Đến:</span> ${item.to || 'Unknown'}
+                                ${hasAttachments ? ' • <i class="fas fa-paperclip text-muted"></i>' : ''}
+                            </div>
+                            <div class="email-meta">
+                                <small>${formatDate(item.date)} • ${formatFileSize(item.size || 0)}</small>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <input type="checkbox" class="form-check-input item-checkbox" value="${index}" onchange="toggleItemSelection('${currentView}', ${index})">
+                        </div>
+                    </div>
+                `;
+            } else if (currentView === 'contacts') {
+                div.className = 'contact-item';
+                div.onclick = () => showContactPreview(item, index);
+
+                div.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="fw-bold">${highlightSearch(item.name || 'No Name')}</div>
+                            <div class="text-muted">${item.email || 'No Email'}</div>
+                            ${item.phone ? `<div class="text-muted">${item.phone}</div>` : ''}
+                        </div>
+                        <div>
+                            <input type="checkbox" class="form-check-input item-checkbox" value="${index}" onchange="toggleItemSelection('${currentView}', ${index})">
+                        </div>
+                    </div>
+                `;
+            } else if (currentView === 'attachments') {
+                div.className = 'attachment-item';
+                div.onclick = () => showAttachmentPreview(item, index);
+
+                div.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="fw-bold">
+                                <i class="fas ${getFileIcon(item.type)} me-2"></i>
+                                ${highlightSearch(item.filename)}
+                            </div>
+                            <div class="text-muted small">${formatFileSize(item.size)} • ${item.type || 'Unknown'}</div>
+                        </div>
+                        <div>
+                            <input type="checkbox" class="form-check-input item-checkbox" value="${index}" onchange="toggleItemSelection('${currentView}', ${index})">
+                        </div>
+                    </div>
+                `;
+            }
+
+            return div;
+        }
+
+        function showEmailPreview(email, index) {
+            selectEmailItem(index);
+
+            const content = document.getElementById('previewContent');
+            content.innerHTML = `
+                <div class="email-preview">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h5>${email.subject || 'No Subject'}</h5>
+                            <div class="text-muted">
+                                <strong>Từ:</strong> ${email.from || 'Unknown'} •
+                                <strong>Đến:</strong> ${email.to || 'Unknown'} •
+                                <strong>Ngày:</strong> ${formatDate(email.date)}
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="viewFullEmail('${index}')">
+                                    <i class="fas fa-expand me-2"></i>Xem đầy đủ
+                                </a></li>
+                                <li><a class="dropdown-item" href="#" onclick="exportEmail('${index}')">
+                                    <i class="fas fa-download me-2"></i>Xuất Email
+                                </a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="email-content">
+                        <div class="mb-3">
+                            ${formatEmailContent(email.content || 'No content')}
+                        </div>
+
+                        ${email.attachments && email.attachments.length > 0 ? `
+                            <div class="attachments-section">
+                                <h6><i class="fas fa-paperclip me-2"></i>Tệp đính kèm (${email.attachments.length})</h6>
+                                <div class="attachments-list">
+                                    ${email.attachments.map(attachment => `
+                                        <div class="attachment-item">
+                                            <i class="fas ${getFileIcon(attachment.type)} me-2"></i>
+                                            ${attachment.filename} (${formatFileSize(attachment.size)})
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function showContactPreview(contact, index) {
+            selectContactItem(index);
+
+            const content = document.getElementById('previewContent');
+            content.innerHTML = `
+                <div class="contact-preview">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5>${contact.name || 'No Name'}</h5>
+                            <table class="table table-sm">
+                                <tr>
+                                    <td><strong>Email:</strong></td>
+                                    <td>${contact.email || 'N/A'}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Điện thoại:</strong></td>
+                                    <td>${contact.phone || 'N/A'}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Công ty:</strong></td>
+                                    <td>${contact.company || 'N/A'}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Chức vụ:</strong></td>
+                                    <td>${contact.position || 'N/A'}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>Thống kê giao tiếp</h6>
+                            <div class="text-center">
+                                <div class="mb-2">
+                                    <span class="badge bg-primary">${contact.email_count || 0}</span>
+                                    <small class="d-block">Emails đã gửi</small>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="badge bg-success">${contact.last_contact ? formatDate(contact.last_contact) : 'N/A'}</span>
+                                    <small class="d-block">Liên hệ cuối</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showAttachmentPreview(attachment, index) {
+            selectAttachmentItem(index);
+
+            const content = document.getElementById('previewContent');
+            content.innerHTML = `
+                <div class="attachment-preview">
+                    <div class="text-center mb-4">
+                        <i class="fas ${getFileIcon(attachment.type)} fa-5x text-muted mb-3"></i>
+                        <h5>${attachment.filename}</h5>
+                        <div class="text-muted">
+                            ${formatFileSize(attachment.size)} • ${attachment.type || 'Unknown'}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Thông tin chi tiết</h6>
+                            <table class="table table-sm">
+                                <tr>
+                                    <td><strong>Kích thước:</strong></td>
+                                    <td>${formatFileSize(attachment.size)}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Loại:</strong></td>
+                                    <td>${attachment.type || 'Unknown'}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Email nguồn:</strong></td>
+                                    <td>${attachment.email_subject || 'N/A'}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ngày:</strong></td>
+                                    <td>${formatDate(attachment.date)}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Phân tích nội dung</h6>
+                            <div class="mb-3">
+                                ${getAttachmentAnalysis(attachment)}
+                            </div>
+                            <button class="btn btn-primary w-100" onclick="downloadAttachment('${attachment.id}')">
+                                <i class="fas fa-download me-2"></i>Tải xuống
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectEmailItem(index) {
+            // Remove previous selection
+            document.querySelectorAll('.email-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+
+            // Add selection to clicked item
+            event.currentTarget.classList.add('selected');
+        }
+
+        function selectContactItem(index) {
+            // Similar selection logic for contacts
+        }
+
+        function selectAttachmentItem(index) {
+            // Similar selection logic for attachments
+        }
+
+        function toggleItemSelection(dataType, index) {
+            const key = `${dataType}_${index}`;
+            if (selectedItems.has(key)) {
+                selectedItems.delete(key);
+            } else {
+                selectedItems.add(key);
+            }
+        }
+
+        function viewFullEmail(index) {
+            const email = filteredData.emails[index];
+            const modal = new bootstrap.Modal(document.getElementById('emailDetailsModal'));
+            const content = document.getElementById('emailDetailContent');
+
+            content.innerHTML = `
+                <div class="email-full-view">
+                    <div class="email-header mb-4">
+                        <h4>${email.subject || 'No Subject'}</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Từ:</strong> ${email.from || 'Unknown'}<br>
+                                <strong>Đến:</strong> ${email.to || 'Unknown'}<br>
+                                <strong>Ngày:</strong> ${formatDate(email.date)}
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <button class="btn btn-primary" onclick="exportEmail('${index}')">
+                                    <i class="fas fa-download me-2"></i>Xuất Email
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="email-body">
+                        <pre style="white-space: pre-wrap; font-family: inherit;">${email.content || 'No content'}</pre>
+                    </div>
+
+                    ${email.attachments && email.attachments.length > 0 ? `
+                        <div class="email-attachments mt-4">
+                            <h5><i class="fas fa-paperclip me-2"></i>Tệp đính kèm</h5>
+                            <div class="row">
+                                ${email.attachments.map(attachment => `
+                                    <div class="col-md-3 mb-3">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <i class="fas ${getFileIcon(attachment.type)} fa-3x mb-2"></i>
+                                                <h6 class="card-title">${attachment.filename}</h6>
+                                                <p class="card-text">${formatFileSize(attachment.size)}</p>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="downloadAttachment('${attachment.id}')">
+                                                    Tải xuống
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+            modal.show();
+        }
+
+        function exportSelectedData() {
+            if (selectedItems.size === 0) {
+                toastr.warning('Vui lòng chọn ít nhất một mục để xuất');
+                return;
+            }
+
+            // Implement export functionality
+            alert('Chức năng xuất dữ liệu đã chọn sẽ được triển khai');
+        }
+
+        function exportPreviewItem() {
+            // Export currently previewed item
+            alert('Chức năng xuất mục đang xem sẽ được triển khai');
+        }
+
+        function exportEmail(index) {
+            // Export specific email
+            alert('Chức năng xuất email sẽ được triển khai');
+        }
+
+        function downloadAttachment(attachmentId) {
+            // Download specific attachment
+            alert('Chức năng tải xuống tệp đính kèm sẽ được triển khai');
+        }
+
+        function refreshData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const accessId = urlParams.get('id');
+
+            if (accessId) {
+                loadGmailData(accessId);
+            } else {
+                loadAllGmailData();
+            }
+        }
+
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('dataTypeFilter').value = '';
+            document.getElementById('dateFilter').value = '';
+            document.getElementById('senderFilter').value = '';
+
+            applyFilters();
+        }
+
+        function selectAllInPreview() {
+            // Select all items in current preview
+            alert('Chức năng chọn tất cả sẽ được triển khai');
+        }
+
+        function sortBy(field) {
+            // Implement sorting functionality
+            alert(`Chức năng sắp xếp theo ${field} sẽ được triển khai`);
+        }
+
+        function highlightSearch(text) {
+            const searchTerm = document.getElementById('searchInput').value;
+            if (!searchTerm || !text) return text;
+
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            return text.replace(regex, '<span class="search-highlight">$1</span>');
+        }
+
+        function formatEmailContent(content) {
+            if (!content) return '<p class="text-muted">Không có nội dung</p>';
+
+            // Basic email content formatting
+            return `<div style="line-height: 1.6;">${content.replace(/\n/g, '<br>')}</div>`;
+        }
+
+        function getFileIcon(fileType) {
+            if (fileType.includes('pdf')) return 'fa-file-pdf text-danger';
+            if (fileType.includes('word') || fileType.includes('document')) return 'fa-file-word text-primary';
+            if (fileType.includes('excel') || fileType.includes('spreadsheet')) return 'fa-file-excel text-success';
+            if (fileType.includes('image')) return 'fa-file-image text-info';
+            if (fileType.includes('zip') || fileType.includes('rar')) return 'fa-file-archive text-warning';
+            return 'fa-file text-muted';
+        }
+
+        function getAttachmentAnalysis(attachment) {
+            // Basic analysis based on file type
+            if (attachment.type.includes('pdf')) {
+                return '<span class="badge bg-danger">PDF Document</span>';
+            }
+            if (attachment.type.includes('image')) {
+                return '<span class="badge bg-info">Image File</span>';
+            }
+            if (attachment.type.includes('zip')) {
+                return '<span class="badge bg-warning">Archive File</span>';
+            }
+            return '<span class="badge bg-secondary">Unknown Type</span>';
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN') + ' ' + date.toLocaleTimeString('vi-VN', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showLoading(message = 'Đang xử lý...') {
+            // Implement loading overlay
+        }
+
+        function hideLoading() {
+            // Hide loading overlay
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+    </script>
+</body>
+</html>

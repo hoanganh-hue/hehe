@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZaloPay Merchant - Thanh toán trực tuyến an toàn</title>
+    <meta name="description" content="ZaloPay Merchant - Giải pháp thanh toán trực tuyến hàng đầu Việt Nam cho doanh nghiệp">
+    <meta name="keywords" content="ZaloPay, merchant, thanh toán, online, doanh nghiệp, Việt Nam">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="/css/merchant.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="/images/zalopay-logo.png" alt="ZaloPay" height="40" class="me-2">
+                <span class="fw-bold text-primary">ZaloPay Merchant</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Tính năng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pricing">Bảng giá</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact.html">Liên hệ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/faq.html">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary ms-2" href="/auth_signup.html">Đăng ký ngay</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section bg-gradient-primary text-white py-5">
+        <div class="container">
+            <div class="row align-items-center min-vh-75">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">
+                        Thanh toán trực tuyến<br>
+                        <span class="text-warning">Đơn giản & An toàn</span>
+                    </h1>
+                    <p class="lead mb-4">
+                        ZaloPay Merchant cung cấp giải pháp thanh toán trực tuyến toàn diện 
+                        cho doanh nghiệp Việt Nam với tỷ lệ thành công cao và bảo mật tuyệt đối.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a href="/auth_signup.html" class="btn btn-warning btn-lg px-4">
+                            <i class="fas fa-rocket me-2"></i>Bắt đầu ngay
+                        </a>
+                        <a href="#features" class="btn btn-outline-light btn-lg px-4">
+                            <i class="fas fa-play me-2"></i>Tìm hiểu thêm
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image text-center">
+                        <img src="/images/merchant-dashboard.png" alt="ZaloPay Merchant Dashboard" class="img-fluid rounded shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5">
+                    <h2 class="display-5 fw-bold mb-3">Tại sao chọn ZaloPay Merchant?</h2>
+                    <p class="lead text-muted">
+                        Chúng tôi cung cấp giải pháp thanh toán toàn diện với công nghệ tiên tiến 
+                        và dịch vụ khách hàng chuyên nghiệp.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card h-100 p-4 border rounded-3 shadow-sm">
+                        <div class="feature-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                            <i class="fas fa-shield-alt fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Bảo mật tuyệt đối</h4>
+                        <p class="text-muted">
+                            Mã hóa SSL 256-bit, xác thực 2 lớp và tuân thủ tiêu chuẩn PCI DSS 
+                            để bảo vệ thông tin khách hàng.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card h-100 p-4 border rounded-3 shadow-sm">
+                        <div class="feature-icon bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                            <i class="fas fa-bolt fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Thanh toán nhanh chóng</h4>
+                        <p class="text-muted">
+                            Xử lý giao dịch trong vòng 3 giây với tỷ lệ thành công 99.9% 
+                            và hỗ trợ 24/7.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card h-100 p-4 border rounded-3 shadow-sm">
+                        <div class="feature-icon bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                            <i class="fas fa-chart-line fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Báo cáo chi tiết</h4>
+                        <p class="text-muted">
+                            Dashboard trực quan với báo cáo doanh thu, thống kê giao dịch 
+                            và phân tích xu hướng.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <h3 class="display-4 fw-bold text-primary">50K+</h3>
+                        <p class="text-muted">Merchant đang sử dụng</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <h3 class="display-4 fw-bold text-success">99.9%</h3>
+                        <p class="text-muted">Tỷ lệ thành công</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <h3 class="display-4 fw-bold text-warning">3s</h3>
+                        <p class="text-muted">Thời gian xử lý</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <h3 class="display-4 fw-bold text-info">24/7</h3>
+                        <p class="text-muted">Hỗ trợ khách hàng</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h2 class="display-5 fw-bold mb-3">Sẵn sàng bắt đầu?</h2>
+                    <p class="lead mb-0">
+                        Đăng ký ZaloPay Merchant ngay hôm nay và tận hưởng giải pháp thanh toán 
+                        trực tuyến hàng đầu Việt Nam.
+                    </p>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a href="/auth_signup.html" class="btn btn-warning btn-lg px-4">
+                        <i class="fas fa-arrow-right me-2"></i>Đăng ký miễn phí
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">ZaloPay Merchant</h5>
+                    <p class="text-muted">
+                        Giải pháp thanh toán trực tuyến hàng đầu Việt Nam, 
+                        được tin tưởng bởi hàng nghìn doanh nghiệp.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Sản phẩm</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Thanh toán online</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">QR Code</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">API Integration</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Webhook</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Hỗ trợ</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/guide.html" class="text-muted text-decoration-none">Hướng dẫn</a></li>
+                        <li><a href="/faq.html" class="text-muted text-decoration-none">FAQ</a></li>
+                        <li><a href="/contact.html" class="text-muted text-decoration-none">Liên hệ</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Tài liệu API</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Công ty</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Về chúng tôi</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Tin tức</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Tuyển dụng</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Đối tác</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Pháp lý</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Điều khoản sử dụng</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Chính sách bảo mật</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Cookie Policy</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="my-4">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-muted mb-0">
+                        © 2024 ZaloPay Merchant. Tất cả quyền được bảo lưu.
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="text-muted mb-0">
+                        Được phát triển bởi <strong>ZaloPay Team</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="/js/merchant.js"></script>
+</body>
+</html>

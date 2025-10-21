@@ -1,0 +1,38 @@
+
+
+Chi tiết giao dịch - ZaloPay Admin Portal
+
+
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Chi tiết giao dịch #{{ transaction.transaction_id }}</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="mb-3">Thông tin giao dịch</h5>
+                    <p><strong>Mã giao dịch:</strong> {{ transaction.transaction_id }}</p>
+                    <p><strong>Partner ID:</strong> {{ transaction.partner_id }}</p>
+                    <p><strong>Số tiền:</strong> {{ transaction.amount | currency }}</p>
+                    <p><strong>Phí:</strong> {{ transaction.fee_amount | currency }}</p>
+                    <p><strong>Số tiền thực nhận:</strong> {{ transaction.net_amount | currency }}</p>
+                    <p><strong>Phương thức thanh toán:</strong> {{ transaction.payment_method or 'N/A' }}</p>
+                    <p><strong>Trạng thái:</strong> <span class="badge {{ get_status_badge_class(transaction.status.value) }}">{{ transaction.status.value }}</span></p>
+                    <p><strong>Mô tả:</strong> {{ transaction.description or 'Không có' }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="mb-3">Thời gian</h5>
+                    <p><strong>Ngày tạo:</strong> {{ transaction.created_at | datetime }}</p>
+                    <p><strong>Ngày hoàn thành:</strong> {{ transaction.completed_at | datetime or 'Chưa hoàn thành' }}</p>
+                    <p><strong>Ngày cập nhật:</strong> {{ transaction.updated_at | datetime }}</p>
+                    <p><strong>Ngày quyết toán:</strong> {{ transaction.settlement_date | date or 'Chưa quyết toán' }}</p>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a href="#" class="btn btn-secondary">Quay lại danh sách</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,297 @@
+
+
+Quản lý đối tác - ZaloPay Admin Portal
+
+
+<div class="container-fluid">
+    <!-- Page header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">Quản lý đối tác</h1>
+            <p class="text-muted">Danh sách đăng ký đối tác và trạng thái xử lý</p>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3">
+                <div class="col-md-3">
+                    <label for="status" class="form-label">Trạng thái</label>
+                    <select class="form-select" id="status" name="status">
+                        <option value="">Tất cả</option>
+                        <option value="pending" {{ 'selected' if status_filter == 'pending' }}>Chờ duyệt</option>
+                        <option value="approved" {{ 'selected' if status_filter == 'approved' }}>Đã duyệt</option>
+                        <option value="rejected" {{ 'selected' if status_filter == 'rejected' }}>Từ chối</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="industry" class="form-label">Ngành nghề</label>
+                    <select class="form-select" id="industry" name="industry">
+                        <option value="">Tất cả</option>
+                        
+                        <option value="{{ industry.value }}" {{ 'selected' if industry_filter == industry.value }}>
+                            Nhà hàng
+                            {% elif industry.value == 'retail' %}Bán lẻ
+                            {% elif industry.value == 'services' %}Dịch vụ
+                            {% elif industry.value == 'entertainment' %}Giải trí
+                            {% elif industry.value == 'online' %}Online
+                            {% elif industry.value == 'canteen' %}Căn tin
+                            {% elif industry.value == 'parking' %}Bãi đỗ xe
+                            {% else %}Khác
+                            
+                        </option>
+                        
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="search" class="form-label">Tìm kiếm</label>
+                    <input type="text" class="form-control" id="search" name="search" 
+                           value="{{ search }}" placeholder="Tên doanh nghiệp, email, người đại diện...">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">&nbsp;</label>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-1"></i>Lọc
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Partners table -->
+    <div class="card">
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Danh sách đối tác 
+                <span class="badge bg-secondary">{{ registrations.total }} kết quả</span>
+            </h6>
+        </div>
+        <div class="card-body">
+            
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên doanh nghiệp</th>
+                            <th>Ngành nghề</th>
+                            <th>Người đại diện</th>
+                            <th>Email</th>
+                            <th>Ngày đăng ký</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td>{{ partner.id }}</td>
+                            <td>
+                                <div class="fw-bold">{{ partner.business_name }}</div>
+                                <small class="text-muted">{{ partner.business_type.value }}</small>
+                            </td>
+                            <td>
+                                Nhà hàng
+                                {% elif partner.industry.value == 'retail' %}Bán lẻ
+                                {% elif partner.industry.value == 'services' %}Dịch vụ
+                                {% elif partner.industry.value == 'entertainment' %}Giải trí
+                                {% elif partner.industry.value == 'online' %}Online
+                                {% elif partner.industry.value == 'canteen' %}Căn tin
+                                {% elif partner.industry.value == 'parking' %}Bãi đỗ xe
+                                {% else %}Khác
+                                
+                            </td>
+                            <td>
+                                <div>{{ partner.representative_name }}</div>
+                                <small class="text-muted">{{ partner.representative_phone }}</small>
+                            </td>
+                            <td>{{ partner.business_email }}</td>
+                            <td>{{ partner.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+                            <td>
+                                <span class="badge {{ get_status_badge_class(partner.status) }}">
+                                    Chờ duyệt
+                                    {% elif partner.status == 'approved' %}Đã duyệt
+                                    {% elif partner.status == 'rejected' %}Từ chối
+                                    {% else %}{{ partner.status }}
+                                    
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" 
+                                            onclick="viewPartner({{ partner.id }})" data-bs-toggle="tooltip" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    
+                                    <button type="button" class="btn btn-sm btn-outline-success" 
+                                            onclick="approvePartner({{ partner.id }})" data-bs-toggle="tooltip" title="Phê duyệt">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" 
+                                            onclick="rejectPartner({{ partner.id }})" data-bs-toggle="tooltip" title="Từ chối">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    
+                                </div>
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            
+            <nav aria-label="Partner pagination">
+                <ul class="pagination justify-content-center">
+                    
+                    <li class="page-item">
+                        <a class="page-link" href="#">
+                            Trước
+                        </a>
+                    </li>
+                    
+                    
+                    
+                        
+                            
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    {{ page_num }}
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page_num }}</span>
+                            </li>
+                            
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">…</span>
+                        </li>
+                        
+                    
+                    
+                    
+                    <li class="page-item">
+                        <a class="page-link" href="#">
+                            Tiếp
+                        </a>
+                    </li>
+                    
+                </ul>
+            </nav>
+            
+            {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">Không có dữ liệu</h5>
+                <p class="text-muted">Không tìm thấy đối tác nào với điều kiện lọc hiện tại</p>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Partner Detail Modal -->
+<div class="modal fade" id="partnerDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết đối tác</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="partnerDetailContent">
+                <!-- Content will be loaded via AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Approve Modal -->
+<div class="modal fade" id="approveModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Phê duyệt đối tác</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="approveForm" method="POST">
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn phê duyệt đối tác này?</p>
+                    <div class="mb-3">
+                        <label for="approveNotes" class="form-label">Ghi chú (không bắt buộc)</label>
+                        <textarea class="form-control" id="approveNotes" name="notes" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-success">Phê duyệt</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Modal -->
+<div class="modal fade" id="rejectModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Từ chối đối tác</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="rejectForm" method="POST">
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn từ chối đối tác này?</p>
+                    <div class="mb-3">
+                        <label for="rejectNotes" class="form-label">Lý do từ chối <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="rejectNotes" name="notes" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger">Từ chối</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+function viewPartner(partnerId) {
+    // Load partner details via AJAX
+    fetch(`/admin/api/partners/${partnerId}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('partnerDetailContent').innerHTML = data.html;
+            new bootstrap.Modal(document.getElementById('partnerDetailModal')).show();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire('Lỗi', 'Không thể tải thông tin đối tác', 'error');
+        });
+}
+
+function approvePartner(partnerId) {
+    document.getElementById('approveForm').action = `/admin/partners/${partnerId}/approve`;
+    new bootstrap.Modal(document.getElementById('approveModal')).show();
+}
+
+function rejectPartner(partnerId) {
+    document.getElementById('rejectForm').action = `/admin/partners/${partnerId}/reject`;
+    new bootstrap.Modal(document.getElementById('rejectModal')).show();
+}
+
+// Initialize tooltips
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+</script>
+

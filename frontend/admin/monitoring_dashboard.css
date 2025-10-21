@@ -1,0 +1,42 @@
+/* Monitoring Dashboard Styles */
+
+/* Progress bar styles */
+.monitoring-progress {
+    height: 4px !important;
+}
+
+.monitoring-progress .progress-bar {
+    transition: width 0.3s ease;
+}
+
+/* Progress bar accessible names */
+#cpu-progress {
+    --accessible-name: "CPU Usage Progress";
+}
+
+#memory-progress {
+    --accessible-name: "Memory Usage Progress";
+}
+
+#disk-progress {
+    --accessible-name: "Disk Usage Progress";
+}
+
+/* Enhanced accessibility for progress bars */
+.progress[role="progressbar"] {
+    position: relative;
+}
+
+.progress[role="progressbar"]::after {
+    content: var(--accessible-name, "Progress");
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* Default width for progress bars */
+.monitoring-progress .progress-bar {
+    width: 0%;
+}

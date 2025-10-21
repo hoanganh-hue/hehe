@@ -1,0 +1,675 @@
+
+
+ZaloPay Merchant Dashboard
+
+
+<div class="container-fluid">
+    <!-- Welcome Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="welcome-header bg-gradient-primary text-white p-4 rounded">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="mb-1">Chào mừng trở lại, Nguyễn Văn Nam!</h2>
+                        <p class="mb-0">CEO tại TechCorp Vietnam | Tài khoản xác thực: Doanh nghiệp</p>
+                        <div class="mt-2">
+                            <span class="badge bg-success me-2">
+                                <i class="fas fa-check-circle me-1"></i>Đã xác thực
+                            </span>
+                            <span class="badge bg-info me-2">
+                                <i class="fas fa-building me-1"></i>Doanh nghiệp
+                            </span>
+                            <span class="badge bg-warning">
+                                <i class="fas fa-star me-1"></i>Premium
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <div class="profile-avatar">
+                            <img src="https://via.placeholder.com/80/007bff/ffffff?text=N" 
+                                 class="rounded-circle" width="80" height="80" alt="Profile">
+                        </div>
+                        <div class="mt-2">
+                            <small class="text-white-50">Đăng nhập lần cuối: 10:30 AM hôm nay</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Metrics Overview -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Doanh thu tháng này
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">2.847.500.000₫</div>
+                            <div class="small text-success">
+                                <i class="fas fa-arrow-up me-1"></i>+15.3% so với tháng trước
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Giao dịch thành công
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">1,247</div>
+                            <div class="small text-success">
+                                <i class="fas fa-arrow-up me-1"></i>+8.7% tuần này
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Tỷ lệ thành công
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">97.8%</div>
+                            <div class="small text-warning">
+                                <i class="fas fa-minus me-1"></i>Ổn định
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-percentage fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Khách hàng mới
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">189</div>
+                            <div class="small text-info">
+                                <i class="fas fa-arrow-up me-1"></i>+23 trong tuần
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts and Analytics -->
+    <div class="row mb-4">
+        <!-- Revenue Chart -->
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Biểu đồ Doanh thu</h6>
+                    <div class="dropdown no-arrow">
+                        <select class="form-select form-select-sm" id="revenueTimeframe" onchange="updateRevenueChart()">
+                            <option value="7d">7 ngày qua</option>
+                            <option value="30d" selected>30 ngày qua</option>
+                            <option value="90d">90 ngày qua</option>
+                            <option value="1y">1 năm qua</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="revenueChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transaction Status -->
+        <div class="col-lg-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Trạng thái Giao dịch</h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="transactionStatusChart" height="200"></canvas>
+                    <div class="mt-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-success">
+                                <i class="fas fa-circle me-1"></i>Thành công
+                            </span>
+                            <span class="font-weight-bold">97.8%</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-warning">
+                                <i class="fas fa-circle me-1"></i>Đang xử lý
+                            </span>
+                            <span class="font-weight-bold">1.5%</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-danger">
+                                <i class="fas fa-circle me-1"></i>Thất bại
+                            </span>
+                            <span class="font-weight-bold">0.7%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions và Recent Transactions -->
+    <div class="row mb-4">
+        <!-- Quick Actions -->
+        <div class="col-lg-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thao tác nhanh</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" onclick="createPaymentLink()">
+                            <i class="fas fa-link me-2"></i>Tạo link thanh toán
+                        </button>
+                        <button class="btn btn-success" onclick="viewTransactions()">
+                            <i class="fas fa-list me-2"></i>Xem giao dịch
+                        </button>
+                        <button class="btn btn-info" onclick="downloadReport()">
+                            <i class="fas fa-download me-2"></i>Tải báo cáo
+                        </button>
+                        <button class="btn btn-warning" onclick="contactSupport()">
+                            <i class="fas fa-headset me-2"></i>Liên hệ hỗ trợ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Giao dịch gần đây</h6>
+                    <a href="#" class="btn btn-sm btn-primary" onclick="viewAllTransactions()">Xem tất cả</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Mã GD</th>
+                                    <th>Khách hàng</th>
+                                    <th>Số tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thời gian</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>#TXN001247</strong></td>
+                                    <td>
+                                        <div>Trần Văn Minh</div>
+                                        <small class="text-muted">0987654321</small>
+                                    </td>
+                                    <td>
+                                        <span class="text-success font-weight-bold">+2.500.000₫</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success">Thành công</span>
+                                    </td>
+                                    <td>
+                                        <div>10:45 AM</div>
+                                        <small class="text-muted">Hôm nay</small>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="viewTransactionDetail('TXN001247')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>#TXN001246</strong></td>
+                                    <td>
+                                        <div>Nguyễn Thị Lan</div>
+                                        <small class="text-muted">0912345678</small>
+                                    </td>
+                                    <td>
+                                        <span class="text-success font-weight-bold">+1.200.000₫</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-warning">Đang xử lý</span>
+                                    </td>
+                                    <td>
+                                        <div>10:32 AM</div>
+                                        <small class="text-muted">Hôm nay</small>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="viewTransactionDetail('TXN001246')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>#TXN001245</strong></td>
+                                    <td>
+                                        <div>Phạm Văn Đức</div>
+                                        <small class="text-muted">0923456789</small>
+                                    </td>
+                                    <td>
+                                        <span class="text-success font-weight-bold">+850.000₫</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success">Thành công</span>
+                                    </td>
+                                    <td>
+                                        <div>09:58 AM</div>
+                                        <small class="text-muted">Hôm nay</small>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="viewTransactionDetail('TXN001245')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Status và Notifications -->
+    <div class="row">
+        <!-- Account Information -->
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thông tin tài khoản</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label text-muted">Tên doanh nghiệp</label>
+                                <div class="font-weight-bold">TechCorp Vietnam</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-muted">Mã số thuế</label>
+                                <div class="font-weight-bold">0123456789</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-muted">Loại tài khoản</label>
+                                <div>
+                                    <span class="badge bg-info">Doanh nghiệp Premium</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label text-muted">Số dư khả dụng</label>
+                                <div class="font-weight-bold text-success h5">125.750.000₫</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-muted">Hạn mức</label>
+                                <div class="font-weight-bold">500.000.000₫/ngày</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-muted">Phí giao dịch</label>
+                                <div class="font-weight-bold text-success">0.5% (Ưu đãi)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button class="btn btn-outline-primary btn-sm me-2" onclick="editAccountInfo()">
+                                <i class="fas fa-edit me-1"></i>Chỉnh sửa
+                            </button>
+                            <button class="btn btn-outline-success btn-sm" onclick="upgradeAccount()">
+                                <i class="fas fa-star me-1"></i>Nâng cấp
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Thông báo</h6>
+                    <span class="badge bg-danger">3 mới</span>
+                </div>
+                <div class="card-body">
+                    <div class="notification-item d-flex align-items-start mb-3">
+                        <div class="me-3">
+                            <div class="bg-success rounded-circle d-flex align-items-center justify-content-center" style="width: 35px; height: 35px;">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="font-weight-bold">Giao dịch thành công</div>
+                            <div class="small text-muted">Giao dịch #TXN001247 đã được xử lý thành công</div>
+                            <div class="small text-muted">5 phút trước</div>
+                        </div>
+                    </div>
+
+                    <div class="notification-item d-flex align-items-start mb-3">
+                        <div class="me-3">
+                            <div class="bg-info rounded-circle d-flex align-items-center justify-content-center" style="width: 35px; height: 35px;">
+                                <i class="fas fa-info text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="font-weight-bold">Cập nhật hệ thống</div>
+                            <div class="small text-muted">ZaloPay sẽ bảo trì hệ thống từ 23:00-01:00 đêm nay</div>
+                            <div class="small text-muted">2 giờ trước</div>
+                        </div>
+                    </div>
+
+                    <div class="notification-item d-flex align-items-start mb-3">
+                        <div class="me-3">
+                            <div class="bg-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 35px; height: 35px;">
+                                <i class="fas fa-star text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="font-weight-bold">Ưu đãi đặc biệt</div>
+                            <div class="small text-muted">Giảm 50% phí giao dịch cho khách hàng Premium</div>
+                            <div class="small text-muted">1 ngày trước</div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <a href="#" class="btn btn-sm btn-outline-primary" onclick="viewAllNotifications()">
+                            Xem tất cả thông báo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Link Modal -->
+<div class="modal fade" id="paymentLinkModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tạo link thanh toán</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="paymentLinkForm">
+                    <div class="mb-3">
+                        <label class="form-label">Tên sản phẩm/dịch vụ</label>
+                        <input type="text" class="form-control" id="productName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Số tiền (VNĐ)</label>
+                        <input type="number" class="form-control" id="amount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mô tả</label>
+                        <textarea class="form-control" id="description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Thời gian hết hạn</label>
+                        <select class="form-select" id="expiry">
+                            <option value="1h">1 giờ</option>
+                            <option value="1d">1 ngày</option>
+                            <option value="7d" selected>7 ngày</option>
+                            <option value="30d">30 ngày</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="generatePaymentLink()">Tạo link</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.welcome-header {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+}
+
+.notification-item {
+    border-bottom: 1px solid #e3e6f0;
+    padding-bottom: 15px;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.card {
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    initializeCharts();
+    updateMetrics();
+});
+
+function initializeCharts() {
+    // Revenue Chart
+    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+    new Chart(revenueCtx, {
+        type: 'line',
+        data: {
+            labels: ['1/10', '2/10', '3/10', '4/10', '5/10', '6/10', '7/10', '8/10', '9/10', '10/10'],
+            datasets: [{
+                label: 'Doanh thu (triệu VNĐ)',
+                data: [85, 92, 78, 105, 98, 87, 115, 108, 94, 125],
+                borderColor: '#007bff',
+                backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return value + ' triệu';
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.parsed.y + ' triệu VNĐ';
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Transaction Status Chart
+    const statusCtx = document.getElementById('transactionStatusChart').getContext('2d');
+    new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Thành công', 'Đang xử lý', 'Thất bại'],
+            datasets: [{
+                data: [97.8, 1.5, 0.7],
+                backgroundColor: ['#28a745', '#ffc107', '#dc3545'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.parsed + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function updateMetrics() {
+    // Simulate real-time updates
+    setInterval(() => {
+        // Update transaction count
+        const currentTransactions = parseInt(document.querySelector('.h5').textContent.replace(/[^\d]/g, ''));
+        document.querySelector('.h5').textContent = (currentTransactions + Math.floor(Math.random() * 3)).toLocaleString();
+    }, 30000);
+}
+
+// Action functions
+function createPaymentLink() {
+    new bootstrap.Modal(document.getElementById('paymentLinkModal')).show();
+}
+
+function generatePaymentLink() {
+    const form = document.getElementById('paymentLinkForm');
+    if (form.checkValidity()) {
+        const productName = document.getElementById('productName').value;
+        const amount = document.getElementById('amount').value;
+        
+        showToast('Link thanh toán đã được tạo thành công!', 'success');
+        bootstrap.Modal.getInstance(document.getElementById('paymentLinkModal')).hide();
+        form.reset();
+        
+        // Simulate showing the generated link
+        setTimeout(() => {
+            alert(`Link thanh toán cho "${productName}": https://zalopay.vn/pay/abc123xyz\nSố tiền: ${parseInt(amount).toLocaleString()}₫`);
+        }, 500);
+    } else {
+        showToast('Vui lòng điền đầy đủ thông tin!', 'warning');
+    }
+}
+
+function viewTransactions() {
+    showToast('Đang chuyển đến trang giao dịch...', 'info');
+    setTimeout(() => {
+        window.location.href = 'transactions.html';
+    }, 1000);
+}
+
+function downloadReport() {
+    showToast('Đang tạo báo cáo...', 'info');
+    setTimeout(() => {
+        showToast('Báo cáo đã được tải xuống!', 'success');
+    }, 2000);
+}
+
+function contactSupport() {
+    showToast('Đang kết nối với bộ phận hỗ trợ...', 'info');
+    setTimeout(() => {
+        window.open('support.html', '_blank');
+    }, 1000);
+}
+
+function viewAllTransactions() {
+    window.location.href = 'transactions.html';
+}
+
+function viewTransactionDetail(txnId) {
+    showToast(`Đang xem chi tiết giao dịch ${txnId}...`, 'info');
+    setTimeout(() => {
+        window.open(`transaction_detail.html?id=${txnId}`, '_blank');
+    }, 1000);
+}
+
+function editAccountInfo() {
+    showToast('Đang mở trang chỉnh sửa thông tin...', 'info');
+    setTimeout(() => {
+        window.location.href = 'account_settings.html';
+    }, 1000);
+}
+
+function upgradeAccount() {
+    if (confirm('Bạn có muốn nâng cấp lên tài khoản Enterprise với nhiều ưu đãi hơn?')) {
+        showToast('Đang xử lý yêu cầu nâng cấp...', 'info');
+        setTimeout(() => {
+            showToast('Yêu cầu nâng cấp đã được gửi! Chúng tôi sẽ liên hệ trong 24h.', 'success');
+        }, 2000);
+    }
+}
+
+function viewAllNotifications() {
+    window.location.href = 'notifications.html';
+}
+
+function updateRevenueChart() {
+    const timeframe = document.getElementById('revenueTimeframe').value;
+    showToast(`Đang cập nhật biểu đồ cho ${timeframe}...`, 'info');
+}
+
+function showToast(message, type = 'info') {
+    const toastHtml = `
+        <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'warning' ? 'warning' : type === 'danger' ? 'danger' : 'info'} border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    `;
+    
+    let toastContainer = document.getElementById('toastContainer');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toastContainer';
+        toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+        document.body.appendChild(toastContainer);
+    }
+    
+    toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+    const toast = new bootstrap.Toast(toastContainer.lastElementChild);
+    toast.show();
+}
+</script>

@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="vi" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gmail Export Interface - ZaloPay Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/gmail-responsive.css">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .main-content {
+            flex: 1;
+            background-color: #f8f9fa;
+        }
+        .export-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+        }
+        .format-card {
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .format-card:hover {
+            border-color: #0068FF;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .format-card.selected {
+            border-color: #0068FF;
+            background-color: #f8f9ff;
+        }
+        .template-item {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .template-item:hover {
+            border-color: #0068FF;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .template-item.selected {
+            border-color: #0068FF;
+            background-color: #f8f9ff;
+        }
+        .schedule-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .export-history-item {
+            border-left: 4px solid #0068FF;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #f8f9fa;
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .progress {
+            height: 8px;
+        }
+        .form-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <nav class="sidebar d-flex flex-column p-3">
+            <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <img src="#" alt="ZaloPay Logo" class="me-2 sidebar-logo-img">
+                <span class="fs-4">ZaloPay</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link text-white">
+                        <i class="fa-solid fa-house me-2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="gmail_access.html" class="nav-link text-white">
+                        <i class="fa-solid fa-envelope me-2"></i>
+                        <span>Gmail Access</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="gmail_data_viewer.html" class="nav-link text-white">
+                        <i class="fa-solid fa-search me-2"></i>
+                        <span>Data Viewer</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="gmail_export_interface.html" class="nav-link text-white active">
+                        <i class="fa-solid fa-file-export me-2"></i>
+                        <span>Export Interface</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content p-4">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-0">Gmail Export Interface</h1>
+                    <p class="text-muted">Cấu hình và xuất dữ liệu Gmail với nhiều định dạng và tùy chọn nâng cao</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-success" onclick="startQuickExport()">
+                        <i class="fas fa-rocket me-2"></i>Xuất nhanh
+                    </button>
+                    <button class="btn btn-primary" onclick="saveTemplate()">
+                        <i class="fas fa-save me-2"></i>Lưu mẫu
+                    </button>
+                </div>
+            </div>
+
+            <!-- Export Overview Cards -->
+            <div class="row mb-4">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card stats-card shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-uppercase mb-1">
+                                        Tổng lượt xuất
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold">
+                                        <span id="totalExports">0</span>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-file-export fa-2x text-white-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                        Hoàn thành
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        <span id="completedExports">0</span>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        Đang xử lý
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        <span id="processingExports">0</span>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-clock fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                        Dung lượng xuất
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        <span id="totalExportSize">0 MB</span>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-database fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Export Configuration -->
+                <div class="col-lg-8 mb-4">
+                    <!-- Data Source Selection -->
+                    <div class="form-section">
+                        <h5 class="mb-3">
+                            <i class="fas fa-database me-2"></i>Nguồn dữ liệu
+                        </h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Chọn tài khoản Gmail:</label>
+                                <select class="form-select" id="gmailAccountSelect">
+                                    <option value="">Tất cả tài khoản</option>
+                                    <!-- Gmail accounts will be loaded here -->
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Loại dữ liệu:</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="exportEmails" checked>
+                                    <label class="form-check-label" for="exportEmails">Emails</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="exportContacts" checked>
+                                    <label class="form-check-label" for="exportContacts">Liên hệ</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="exportAttachments">
+                                    <label class="form-check-label" for="exportAttachments">Tệp đính kèm</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Export Format Selection -->
+                    <div class="form-section">
+                        <h5 class="mb-3">
+                            <i class="fas fa-file-alt me-2"></i>Định dạng xuất
+                        </h5>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="format-card text-center p-3" onclick="selectFormat('json')">
+                                    <i class="fas fa-file-code fa-3x text-primary mb-2"></i>
+                                    <h6>JSON</h6>
+                                    <small class="text-muted">Dữ liệu có cấu trúc</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="format-card text-center p-3" onclick="selectFormat('csv')">
+                                    <i class="fas fa-file-csv fa-3x text-success mb-2"></i>
+                                    <h6>CSV</h6>
+                                    <small class="text-muted">Bảng tính Excel</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="format-card text-center p-3" onclick="selectFormat('pdf')">
+                                    <i class="fas fa-file-pdf fa-3x text-danger mb-2"></i>
+                                    <h6>PDF</h6>
+                                    <small class="text-muted">Báo cáo chuyên nghiệp</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="format-card text-center p-3" onclick="selectFormat('xml')">
+                                    <i class="fas fa-file-code fa-3x text-info mb-2"></i>
+                                    <h6>XML</h6>
+                                    <small class="text-muted">Định dạng trao đổi</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="form-label">Định dạng đã chọn:</label>
+                            <div id="selectedFormat" class="alert alert-info">
+                                Chọn định dạng xuất từ các tùy chọn bên trên
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Template Selection -->
+                    <div class="form-section">
+                        <h5 class="mb-3">
+                            <i class="fas fa-palette me-2"></i>Mẫu xuất (Template)
+                        </h5>
+                        <div class="row" id="templateList">
+                            <!-- Templates will be loaded here -->
+                        </div>
+                        <button class="btn btn-outline-primary" onclick="createNewTemplate()">
+                            <i class="fas fa-plus me-2"></i>Tạo mẫu mới
+                        </button>
+                    </div>
+
+                    <!-- Advanced Options -->
+                    <div class="form-section">
+                        <h5 class="mb-3">
+                            <i class="fas fa-cogs me-2"></i>Tùy chọn nâng cao
+                        </h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Lọc theo ngày:</label>
+                                <div class="input-group">
+                                    <input type="date" class="form-control" id="dateFrom">
+                                    <span class="input-group-text">đến</span>
+                                    <input type="date" class="form-control" id="dateTo">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Lọc theo người gửi:</label>
+                                <input type="text" class="form-control" id="senderFilter" placeholder="Nhập email người gửi">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Từ khóa tìm kiếm:</label>
+                                <input type="text" class="form-control" id="keywordFilter" placeholder="Tìm kiếm trong nội dung">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Giới hạn số lượng:</label>
+                                <input type="number" class="form-control" id="limitRecords" placeholder="Không giới hạn" min="1">
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="includeAttachments">
+                                <label class="form-check-label" for="includeAttachments">
+                                    Bao gồm tệp đính kèm trong xuất
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="compressOutput">
+                                <label class="form-check-label" for="compressOutput">
+                                    Nén tệp xuất (ZIP)
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="encryptOutput">
+                                <label class="form-check-label" for="encryptOutput">
+                                    Mã hóa tệp xuất
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Export Actions -->
+                    <div class="form-section">
+                        <h5 class="mb-3">
+                            <i class="fas fa-play me-2"></i>Thực hiện xuất
+                        </h5>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-success" onclick="startExport()">
+                                <i class="fas fa-download me-2"></i>Bắt đầu xuất
+                            </button>
+                            <button class="btn btn-info" onclick="previewExport()">
+                                <i class="fas fa-eye me-2"></i>Xem trước
+                            </button>
+                            <button class="btn btn-warning" onclick="scheduleExport()">
+                                <i class="fas fa-calendar me-2"></i>Lên lịch
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export History & Status -->
+                <div class="col-lg-4 mb-4">
+                    <!-- Current Export Status -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">
+                                <i class="fas fa-spinner me-2"></i>Trạng thái xuất hiện tại
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div id="currentExportStatus">
+                                <div class="text-center text-muted py-4">
+                                    <i class="fas fa-inbox fa-3x mb-3"></i>
+                                    <p>Không có tiến trình xuất nào</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Export History -->
+                    <div class="card shadow">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">
+                                <i class="fas fa-history me-2"></i>Lịch sử xuất
+                            </h6>
+                            <button class="btn btn-sm btn-outline-primary" onclick="refreshHistory()">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="export-history-container" id="exportHistory">
+                                <!-- Export history will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scheduled Exports -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">
+                                <i class="fas fa-calendar-alt me-2"></i>Xuất theo lịch trình
+                            </h6>
+                            <button class="btn btn-sm btn-success" onclick="addSchedule()">
+                                <i class="fas fa-plus me-1"></i>Thêm lịch
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="scheduledExports">
+                                <!-- Scheduled exports will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Template Modal -->
+    <div class="modal fade" id="templateModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tạo/Lưu mẫu xuất</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Tên mẫu:</label>
+                        <input type="text" class="form-control" id="templateName" placeholder="Nhập tên mẫu xuất">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mô tả:</label>
+                        <textarea class="form-control" id="templateDescription" rows="3" placeholder="Mô tả về mẫu xuất này"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Cấu hình mẫu:</label>
+                        <div id="templateConfig">
+                            <!-- Template configuration will be shown here -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" onclick="saveTemplateConfig()">Lưu mẫu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schedule Modal -->
+    <div class="modal fade" id="scheduleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Lên lịch xuất dữ liệu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Tên lịch xuất:</label>
+                        <input type="text" class="form-control" id="scheduleName" placeholder="Nhập tên lịch xuất">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tần suất:</label>
+                        <select class="form-select" id="scheduleFrequency">
+                            <option value="daily">Hàng ngày</option>
+                            <option value="weekly">Hàng tuần</option>
+                            <option value="monthly">Hàng tháng</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Thời gian xuất:</label>
+                        <input type="time" class="form-control" id="scheduleTime">
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="scheduleEnabled">
+                            <label class="form-check-label" for="scheduleEnabled">
+                                Kích hoạt lịch xuất này
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" onclick="saveSchedule()">Lưu lịch</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="js/gmail-websocket.js"></script>
+    <script src="js/gmail-localization.js"></script>
+
+    <script>
+        let selectedFormat = '';
+        let exportHistory = [];
+        let scheduledExports = [];
+        let currentExport = null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGmailAccounts();
+            loadTemplates();
+            loadExportHistory();
+            loadScheduledExports();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Add any necessary event listeners
+        }
+
+        async function loadGmailAccounts() {
+            try {
+                const response = await fetch('/api/admin/gmail/accounts', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    const select = document.getElementById('gmailAccountSelect');
+                    select.innerHTML = '<option value="">Tất cả tài khoản</option>';
+
+                    result.data.forEach(account => {
+                        const option = document.createElement('option');
+                        option.value = account.id;
+                        option.textContent = `${account.email} (${account.status})`;
+                        select.appendChild(option);
+                    });
+                } else {
+                    throw new Error(result.message || 'Không thể tải danh sách tài khoản Gmail');
+                }
+            } catch (error) {
+                console.error('Error loading Gmail accounts:', error);
+                toastr.error('Không thể tải danh sách tài khoản Gmail: ' + error.message);
+            }
+        }
+
+        async function loadTemplates() {
+            try {
+                const response = await fetch('/api/admin/export/templates', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    renderTemplates(result.data);
+                } else {
+                    throw new Error(result.message || 'Không thể tải mẫu xuất');
+                }
+            } catch (error) {
+                console.error('Error loading templates:', error);
+                toastr.error('Không thể tải mẫu xuất: ' + error.message);
+            }
+        }
+
+        function renderTemplates(templates) {
+            const container = document.getElementById('templateList');
+
+            if (templates.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12">
+                        <div class="text-center text-muted py-4">
+                            <i class="fas fa-palette fa-3x mb-3"></i>
+                            <p>Chưa có mẫu xuất nào</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+
+            templates.forEach(template => {
+                const templateItem = createTemplateItem(template);
+                container.appendChild(templateItem);
+            });
+        }
+
+        function createTemplateItem(template) {
+            const div = document.createElement('div');
+            div.className = 'col-md-6';
+
+            div.innerHTML = `
+                <div class="template-item" onclick="selectTemplate('${template.id}')">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">${template.name}</h6>
+                            <p class="text-muted small mb-2">${template.description}</p>
+                            <div class="d-flex gap-2">
+                                <span class="badge bg-primary">${template.format.toUpperCase()}</span>
+                                <span class="badge bg-secondary">${template.data_types.join(', ')}</span>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="editTemplate('${template.id}')">
+                                    <i class="fas fa-edit me-2"></i>Chỉnh sửa
+                                </a></li>
+                                <li><a class="dropdown-item" href="#" onclick="duplicateTemplate('${template.id}')">
+                                    <i class="fas fa-copy me-2"></i>Sao chép
+                                </a></li>
+                                <li><a class="dropdown-item" href="#" onclick="deleteTemplate('${template.id}')">
+                                    <i class="fas fa-trash me-2"></i>Xóa
+                                </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            return div;
+        }
+
+        function selectFormat(format) {
+            selectedFormat = format;
+
+            // Remove previous selection
+            document.querySelectorAll('.format-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Add selection to clicked format
+            event.currentTarget.classList.add('selected');
+
+            // Update selected format display
+            const formatDisplay = document.getElementById('selectedFormat');
+            formatDisplay.innerHTML = `
+                <strong>${format.toUpperCase()}</strong> - ${getFormatDescription(format)}
+            `;
+        }
+
+        function selectTemplate(templateId) {
+            // Remove previous selection
+            document.querySelectorAll('.template-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+
+            // Add selection to clicked template
+            event.currentTarget.classList.add('selected');
+
+            // Load template configuration
+            loadTemplateConfig(templateId);
+        }
+
+        async function loadTemplateConfig(templateId) {
+            try {
+                const response = await fetch(`/api/admin/export/templates/${templateId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    applyTemplateConfig(result.data);
+                } else {
+                    throw new Error(result.message || 'Không thể tải cấu hình mẫu');
+                }
+            } catch (error) {
+                console.error('Error loading template config:', error);
+                toastr.error('Không thể tải cấu hình mẫu: ' + error.message);
+            }
+        }
+
+        function applyTemplateConfig(config) {
+            // Apply template configuration to form
+            document.getElementById('gmailAccountSelect').value = config.account_id || '';
+            document.getElementById('exportEmails').checked = config.data_types.includes('emails');
+            document.getElementById('exportContacts').checked = config.data_types.includes('contacts');
+            document.getElementById('exportAttachments').checked = config.data_types.includes('attachments');
+
+            selectFormat(config.format);
+
+            if (config.filters) {
+                if (config.filters.date_from) {
+                    document.getElementById('dateFrom').value = config.filters.date_from;
+                }
+                if (config.filters.date_to) {
+                    document.getElementById('dateTo').value = config.filters.date_to;
+                }
+                if (config.filters.sender) {
+                    document.getElementById('senderFilter').value = config.filters.sender;
+                }
+                if (config.filters.keyword) {
+                    document.getElementById('keywordFilter').value = config.filters.keyword;
+                }
+                if (config.filters.limit) {
+                    document.getElementById('limitRecords').value = config.filters.limit;
+                }
+            }
+
+            if (config.options) {
+                document.getElementById('includeAttachments').checked = config.options.include_attachments;
+                document.getElementById('compressOutput').checked = config.options.compress_output;
+                document.getElementById('encryptOutput').checked = config.options.encrypt_output;
+            }
+        }
+
+        async function loadExportHistory() {
+            try {
+                const response = await fetch('/api/admin/export/history', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    exportHistory = result.data;
+                    renderExportHistory();
+                    updateExportStatistics();
+                } else {
+                    throw new Error(result.message || 'Không thể tải lịch sử xuất');
+                }
+            } catch (error) {
+                console.error('Error loading export history:', error);
+                toastr.error('Không thể tải lịch sử xuất: ' + error.message);
+            }
+        }
+
+        function renderExportHistory() {
+            const container = document.getElementById('exportHistory');
+
+            if (exportHistory.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-history fa-3x mb-3"></i>
+                        <p>Chưa có lịch sử xuất nào</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+
+            exportHistory.slice(0, 10).forEach(exportItem => {
+                const historyItem = createExportHistoryItem(exportItem);
+                container.appendChild(historyItem);
+            });
+        }
+
+        function createExportHistoryItem(exportItem) {
+            const div = document.createElement('div');
+            div.className = 'export-history-item';
+
+            const statusClass = getStatusClass(exportItem.status);
+            const formatIcon = getFormatIcon(exportItem.format);
+
+            div.innerHTML = `
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <div class="d-flex align-items-center mb-1">
+                            <i class="fas ${formatIcon} me-2"></i>
+                            <span class="fw-bold">${exportItem.name}</span>
+                            <span class="badge ${statusClass} ms-2">${getStatusText(exportItem.status)}</span>
+                        </div>
+                        <div class="text-muted small">
+                            ${formatDate(exportItem.created_at)} •
+                            ${exportItem.record_count} bản ghi •
+                            ${formatFileSize(exportItem.file_size)}
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="downloadExportFile('${exportItem.id}')">
+                                <i class="fas fa-download me-2"></i>Tải xuống
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="viewExportDetails('${exportItem.id}')">
+                                <i class="fas fa-info-circle me-2"></i>Chi tiết
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="deleteExportFile('${exportItem.id}')">
+                                <i class="fas fa-trash me-2"></i>Xóa
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+
+            return div;
+        }
+
+        async function loadScheduledExports() {
+            try {
+                const response = await fetch('/api/admin/export/schedules', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    scheduledExports = result.data;
+                    renderScheduledExports();
+                } else {
+                    throw new Error(result.message || 'Không thể tải lịch xuất');
+                }
+            } catch (error) {
+                console.error('Error loading scheduled exports:', error);
+                toastr.error('Không thể tải lịch xuất: ' + error.message);
+            }
+        }
+
+        function renderScheduledExports() {
+            const container = document.getElementById('scheduledExports');
+
+            if (scheduledExports.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-calendar-times fa-3x mb-3"></i>
+                        <p>Chưa có lịch xuất nào</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+
+            scheduledExports.forEach(schedule => {
+                const scheduleItem = createScheduledExportItem(schedule);
+                container.appendChild(scheduleItem);
+            });
+        }
+
+        function createScheduledExportItem(schedule) {
+            const div = document.createElement('div');
+            div.className = 'schedule-item';
+
+            div.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="flex-grow-1">
+                        <div class="d-flex align-items-center mb-1">
+                            <span class="fw-bold">${schedule.name}</span>
+                            <span class="badge ${schedule.enabled ? 'bg-success' : 'bg-secondary'} ms-2">
+                                ${schedule.enabled ? 'Đang hoạt động' : 'Tạm dừng'}
+                            </span>
+                        </div>
+                        <div class="text-muted small">
+                            ${getFrequencyText(schedule.frequency)} lúc ${schedule.time} •
+                            Lần cuối: ${formatDate(schedule.last_run)}
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="editSchedule('${schedule.id}')">
+                                <i class="fas fa-edit me-2"></i>Chỉnh sửa
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="toggleSchedule('${schedule.id}')">
+                                <i class="fas ${schedule.enabled ? 'fa-pause' : 'fa-play'} me-2"></i>
+                                ${schedule.enabled ? 'Tạm dừng' : 'Kích hoạt'}
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="deleteSchedule('${schedule.id}')">
+                                <i class="fas fa-trash me-2"></i>Xóa
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+
+            return div;
+        }
+
+        function startExport() {
+            if (!selectedFormat) {
+                toastr.warning('Vui lòng chọn định dạng xuất');
+                return;
+            }
+
+            const exportConfig = getExportConfiguration();
+
+            // Start export process
+            toastr.info('Đang bắt đầu xuất dữ liệu...');
+            // Implementation will be added
+        }
+
+        function previewExport() {
+            if (!selectedFormat) {
+                toastr.warning('Vui lòng chọn định dạng xuất');
+                return;
+            }
+
+            // Show preview modal
+            alert('Chức năng xem trước sẽ được triển khai');
+        }
+
+        function scheduleExport() {
+            if (!selectedFormat) {
+                toastr.warning('Vui lòng chọn định dạng xuất');
+                return;
+            }
+
+            const modal = new bootstrap.Modal(document.getElementById('scheduleModal'));
+            modal.show();
+        }
+
+        function startQuickExport() {
+            // Quick export with default settings
+            selectedFormat = 'json';
+            document.getElementById('exportEmails').checked = true;
+            document.getElementById('exportContacts').checked = true;
+
+            startExport();
+        }
+
+        function saveTemplate() {
+            const modal = new bootstrap.Modal(document.getElementById('templateModal'));
+            modal.show();
+        }
+
+        function createNewTemplate() {
+            // Reset form and show template modal
+            document.getElementById('templateName').value = '';
+            document.getElementById('templateDescription').value = '';
+
+            const modal = new bootstrap.Modal(document.getElementById('templateModal'));
+            modal.show();
+        }
+
+        function addSchedule() {
+            // Reset schedule form
+            document.getElementById('scheduleName').value = '';
+            document.getElementById('scheduleFrequency').value = 'daily';
+            document.getElementById('scheduleTime').value = '00:00';
+            document.getElementById('scheduleEnabled').checked = true;
+
+            const modal = new bootstrap.Modal(document.getElementById('scheduleModal'));
+            modal.show();
+        }
+
+        function getExportConfiguration() {
+            return {
+                account_id: document.getElementById('gmailAccountSelect').value,
+                data_types: [
+                    document.getElementById('exportEmails').checked ? 'emails' : null,
+                    document.getElementById('exportContacts').checked ? 'contacts' : null,
+                    document.getElementById('exportAttachments').checked ? 'attachments' : null,
+                ].filter(Boolean),
+                format: selectedFormat,
+                filters: {
+                    date_from: document.getElementById('dateFrom').value,
+                    date_to: document.getElementById('dateTo').value,
+                    sender: document.getElementById('senderFilter').value,
+                    keyword: document.getElementById('keywordFilter').value,
+                    limit: document.getElementById('limitRecords').value,
+                },
+                options: {
+                    include_attachments: document.getElementById('includeAttachments').checked,
+                    compress_output: document.getElementById('compressOutput').checked,
+                    encrypt_output: document.getElementById('encryptOutput').checked,
+                }
+            };
+        }
+
+        function refreshHistory() {
+            loadExportHistory();
+        }
+
+        // Utility functions
+        function getFormatDescription(format) {
+            switch(format) {
+                case 'json': return 'Dữ liệu có cấu trúc, dễ dàng xử lý bằng code';
+                case 'csv': return 'Định dạng bảng tính, tương thích với Excel';
+                case 'pdf': return 'Báo cáo chuyên nghiệp với định dạng đẹp';
+                case 'xml': return 'Định dạng trao đổi dữ liệu chuẩn';
+                default: return 'Chọn định dạng xuất';
+            }
+        }
+
+        function getFormatIcon(format) {
+            switch(format) {
+                case 'json': return 'fa-file-code';
+                case 'csv': return 'fa-file-csv';
+                case 'pdf': return 'fa-file-pdf';
+                case 'xml': return 'fa-file-code';
+                default: return 'fa-file';
+            }
+        }
+
+        function getStatusClass(status) {
+            switch(status) {
+                case 'completed': return 'bg-success';
+                case 'processing': return 'bg-info';
+                case 'failed': return 'bg-danger';
+                case 'scheduled': return 'bg-warning';
+                default: return 'bg-secondary';
+            }
+        }
+
+        function getStatusText(status) {
+            switch(status) {
+                case 'completed': return 'Hoàn thành';
+                case 'processing': return 'Đang xử lý';
+                case 'failed': return 'Thất bại';
+                case 'scheduled': return 'Đã lên lịch';
+                default: return 'Không xác định';
+            }
+        }
+
+        function getFrequencyText(frequency) {
+            switch(frequency) {
+                case 'daily': return 'Hàng ngày';
+                case 'weekly': return 'Hàng tuần';
+                case 'monthly': return 'Hàng tháng';
+                default: return 'Không xác định';
+            }
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN') + ' ' + date.toLocaleTimeString('vi-VN', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function updateExportStatistics() {
+            const total = exportHistory.length;
+            const completed = exportHistory.filter(item => item.status === 'completed').length;
+            const processing = exportHistory.filter(item => item.status === 'processing').length;
+            const totalSize = exportHistory.reduce((sum, item) => sum + (item.file_size || 0), 0);
+
+            document.getElementById('totalExports').textContent = total;
+            document.getElementById('completedExports').textContent = completed;
+            document.getElementById('processingExports').textContent = processing;
+            document.getElementById('totalExportSize').textContent = formatFileSize(totalSize);
+        }
+    </script>
+</body>
+</html>

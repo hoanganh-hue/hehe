@@ -1,0 +1,384 @@
+
+
+Quản lý Vay Hộ Kinh Doanh - ZaloPay Admin Portal
+
+
+<div class="container-fluid">
+    <!-- Page header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">Quản lý Vay Hộ Kinh Doanh</h1>
+            <p class="text-muted">Danh sách tất cả đơn vay của các hộ kinh doanh</p>
+        </div>
+        <div>
+            <button class="btn btn-success me-2">
+                <i class="fas fa-download me-1"></i>Xuất Excel
+            </button>
+            <div class="btn-group" role="group">
+                <button class="btn btn-outline-primary active">Tất cả</button>
+                <button class="btn btn-outline-warning">Chờ duyệt</button>
+                <button class="btn btn-outline-success">Đã duyệt</button>
+                <button class="btn btn-outline-danger">Từ chối</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter and Search -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Tìm kiếm</label>
+                    <input type="text" class="form-control" placeholder="Tên hộ kinh doanh, chủ hộ...">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Trạng thái</label>
+                    <select class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="pending">Chờ duyệt</option>
+                        <option value="approved">Đã duyệt</option>
+                        <option value="rejected">Từ chối</option>
+                        <option value="reviewing">Đang xem xét</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Ngành nghề</label>
+                    <select class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="retail">Bán lẻ</option>
+                        <option value="food">Thực phẩm</option>
+                        <option value="services">Dịch vụ</option>
+                        <option value="agriculture">Nông nghiệp</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Số tiền vay</label>
+                    <select class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="0-100000000">Dưới 100 triệu</option>
+                        <option value="100000000-500000000">100-500 triệu</option>
+                        <option value="500000000-1000000000">500 triệu - 1 tỷ</option>
+                        <option value="1000000000-0">Trên 1 tỷ</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Ngày nộp</label>
+                    <input type="date" class="form-control">
+                </div>
+                <div class="col-md-1 d-flex align-items-end">
+                    <button class="btn btn-primary w-100">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-left-primary">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Tổng đơn</div>
+                    <div class="h5 mb-0 font-weight-bold">523</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-warning">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Chờ duyệt</div>
+                    <div class="h5 mb-0 font-weight-bold">78</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-success">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Đã duyệt</div>
+                    <div class="h5 mb-0 font-weight-bold">389</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-danger">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Từ chối</div>
+                    <div class="h5 mb-0 font-weight-bold">56</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loan Applications Table -->
+    <div class="card">
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold">Danh sách đơn vay hộ kinh doanh</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn</th>
+                            <th>Tên hộ kinh doanh</th>
+                            <th>Chủ hộ</th>
+                            <th>Ngành nghề</th>
+                            <th>Số tiền vay</th>
+                            <th>Ngày nộp</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>BUS-001</strong></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <div class="bg-success rounded-circle text-white text-center" style="width: 35px; height: 35px; line-height: 35px; font-size: 12px;">
+                                            <i class="fas fa-store"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-bold">Hộ KD Bán Lẻ Minh Anh</div>
+                                        <div class="text-muted small">MST: 0012345678</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div class="font-weight-bold">Nguyễn Minh Anh</div>
+                                    <div class="text-muted small">CCCD: 079123456789</div>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-warning">Bán lẻ</span></td>
+                            <td><strong>800,000,000 ₫</strong></td>
+                            <td>20/09/2025</td>
+                            <td><span class="badge badge-status-pending">Chờ duyệt</span></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewLoanDetail('BUS-001')" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-success" onclick="approveLoan('BUS-001')" title="Duyệt">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="rejectLoan('BUS-001')" title="Từ chối">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>BUS-002</strong></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <div class="bg-info rounded-circle text-white text-center" style="width: 35px; height: 35px; line-height: 35px; font-size: 12px;">
+                                            <i class="fas fa-utensils"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-bold">Hộ KD Nhà Hàng Quê Hương</div>
+                                        <div class="text-muted small">MST: 0098765432</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div class="font-weight-bold">Trần Văn Bình</div>
+                                    <div class="text-muted small">CCCD: 079987654321</div>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-primary">Thực phẩm</span></td>
+                            <td><strong>600,000,000 ₫</strong></td>
+                            <td>19/09/2025</td>
+                            <td><span class="badge badge-status-approved">Đã duyệt</span></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewLoanDetail('BUS-002')" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-info" onclick="downloadContract('BUS-002')" title="Tải hợp đồng">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>BUS-003</strong></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <div class="bg-warning rounded-circle text-white text-center" style="width: 35px; height: 35px; line-height: 35px; font-size: 12px;">
+                                            <i class="fas fa-tools"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-bold">Hộ KD Sửa Chữa Điện Tử</div>
+                                        <div class="text-muted small">MST: 0045612378</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div class="font-weight-bold">Lê Thị Lan</div>
+                                    <div class="text-muted small">CCCD: 079456123789</div>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-secondary">Dịch vụ</span></td>
+                            <td><strong>350,000,000 ₫</strong></td>
+                            <td>18/09/2025</td>
+                            <td><span class="badge badge-status-reviewing">Đang xem xét</span></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewLoanDetail('BUS-003')" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-success" onclick="approveLoan('BUS-003')" title="Duyệt">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="rejectLoan('BUS-003')" title="Từ chối">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>BUS-004</strong></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <div class="bg-success rounded-circle text-white text-center" style="width: 35px; height: 35px; line-height: 35px; font-size: 12px;">
+                                            <i class="fas fa-seedling"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-bold">Hộ KD Nông Sản Sạch</div>
+                                        <div class="text-muted small">MST: 0078945612</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div class="font-weight-bold">Phạm Văn Cường</div>
+                                    <div class="text-muted small">CCCD: 079789456123</div>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-success">Nông nghiệp</span></td>
+                            <td><strong>1,200,000,000 ₫</strong></td>
+                            <td>17/09/2025</td>
+                            <td><span class="badge badge-status-rejected">Từ chối</span></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewLoanDetail('BUS-004')" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-warning" onclick="reviewLoan('BUS-004')" title="Xem xét lại">
+                                        <i class="fas fa-redo"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>BUS-005</strong></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <div class="bg-info rounded-circle text-white text-center" style="width: 35px; height: 35px; line-height: 35px; font-size: 12px;">
+                                            <i class="fas fa-car"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-bold">Hộ KD Garage Oto</div>
+                                        <div class="text-muted small">MST: 0032165487</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div class="font-weight-bold">Hoàng Minh Thành</div>
+                                    <div class="text-muted small">CCCD: 079321654987</div>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-secondary">Dịch vụ</span></td>
+                            <td><strong>900,000,000 ₫</strong></td>
+                            <td>16/09/2025</td>
+                            <td><span class="badge badge-status-pending">Chờ duyệt</span></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewLoanDetail('BUS-005')" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-success" onclick="approveLoan('BUS-005')" title="Duyệt">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="rejectLoan('BUS-005')" title="Từ chối">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Loan pagination" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <span class="page-link">Trước</span>
+                    </li>
+                    <li class="page-item active">
+                        <span class="page-link">1</span>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Tiếp</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+function viewLoanDetail(loanId) {
+    alert('Xem chi tiết đơn vay: ' + loanId);
+    // Implementation similar to enterprise loan detail
+}
+
+function approveLoan(loanId) {
+    if (confirm('Bạn có chắc chắn muốn duyệt đơn vay này?')) {
+        toastr.success('Đã duyệt đơn vay ' + loanId + ' thành công!');
+        location.reload();
+    }
+}
+
+function rejectLoan(loanId) {
+    const reason = prompt('Nhập lý do từ chối:');
+    if (reason) {
+        toastr.error('Đã từ chối đơn vay ' + loanId);
+        location.reload();
+    }
+}
+
+function reviewLoan(loanId) {
+    if (confirm('Bạn muốn xem xét lại đơn vay này?')) {
+        toastr.info('Đơn vay ' + loanId + ' đã được chuyển sang trạng thái xem xét lại');
+        location.reload();
+    }
+}
+
+function downloadContract(loanId) {
+    toastr.info('Đang tải hợp đồng cho đơn vay ' + loanId + '...');
+}
+</script>

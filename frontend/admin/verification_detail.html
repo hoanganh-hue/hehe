@@ -1,0 +1,60 @@
+
+
+Chi tiết xác minh - ZaloPay Admin Portal
+
+
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Chi tiết yêu cầu xác minh #{{ verification.id }}</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="mb-3">Thông tin xác minh</h5>
+                    <p><strong>Loại xác minh:</strong> {{ verification.verification_type.value }}</p>
+                    <p><strong>Trạng thái:</strong> <span class="badge {{ get_status_badge_class(verification.status) }}">{{ verification.status }}</span></p>
+                    <p><strong>Mô tả:</strong> {{ verification.description or 'Không có' }}</p>
+                    <p><strong>Ngày gửi:</strong> {{ verification.submitted_at | datetime }}</p>
+                    <p><strong>Ngày xử lý:</strong> {{ verification.processed_at | datetime or 'Chưa xử lý' }}</p>
+                    <p><strong>Người xử lý:</strong> {{ verification.processor.full_name or verification.processor.username }}{% else %}Chưa xử lý</p>
+                    <p><strong>Ghi chú Admin:</strong> {{ verification.admin_notes or 'Không có' }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="mb-3">Thông tin đối tác</h5>
+                    
+                    <p><strong>Tên doanh nghiệp:</strong> {{ partner.business_name }}</p>
+                    <p><strong>Email doanh nghiệp:</strong> {{ partner.business_email }}</p>
+                    <p><strong>Người đại diện:</strong> {{ partner.representative_name }}</p>
+                    <p><strong>Điện thoại:</strong> {{ partner.representative_phone }}</p>
+                    <p><strong>Ngành nghề:</strong> {{ partner.industry.value }}</p>
+                    <p><strong>Trạng thái đối tác:</strong> <span class="badge {{ get_status_badge_class(partner.status) }}">{{ partner.status }}</span></p>
+                    {% else %}
+                    <p class="text-muted">Không tìm thấy thông tin đối tác.</p>
+                    
+                </div>
+            </div>
+            
+            
+            <h5 class="mt-4 mb-3">Tài liệu đính kèm</h5>
+            <div class="row">
+                
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ doc.document_type.value }}</h6>
+                            <p class="card-text small text-muted">{{ doc.file_name }}</p>
+                            <a href="#" class="btn btn-sm btn-primary" target="_blank">Xem tài liệu</a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+
+            <div class="mt-4">
+                <a href="#" class="btn btn-secondary">Quay lại danh sách</a>
+            </div>
+        </div>
+    </div>
+</div>

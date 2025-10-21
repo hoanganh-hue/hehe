@@ -1,0 +1,496 @@
+
+
+Tính toán vay - ZaloPay Merchant
+
+
+<main class="main-content">
+    <div class="container mt-5 pt-5">
+        <!-- Page Header -->
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h1 class="text-primary mb-3">Công cụ tính toán vay</h1>
+                <p class="text-muted fs-5">Tính toán chi phí và lập kế hoạch trả nợ cho khoản vay của bạn</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Calculator Form -->
+            <div class="col-lg-5 mb-4">
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="fas fa-calculator me-2"></i>Thông tin vay</h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="loanCalculatorForm">
+                            <!-- Loan Type -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Loại hình vay</label>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <input type="radio" class="btn-check" name="loanType" id="individual" value="individual" checked>
+                                        <label class="btn btn-outline-primary w-100" for="individual">
+                                            <i class="fas fa-user d-block mb-1"></i>
+                                            <small>Cá nhân KD</small>
+                                        </label>
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="radio" class="btn-check" name="loanType" id="business" value="business">
+                                        <label class="btn btn-outline-primary w-100" for="business">
+                                            <i class="fas fa-store d-block mb-1"></i>
+                                            <small>Hộ KD</small>
+                                        </label>
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="radio" class="btn-check" name="loanType" id="enterprise" value="enterprise">
+                                        <label class="btn btn-outline-primary w-100" for="enterprise">
+                                            <i class="fas fa-building d-block mb-1"></i>
+                                            <small>Doanh nghiệp</small>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Loan Amount -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Số tiền vay</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control form-control-lg" id="loanAmount" 
+                                           value="500000000" min="10000000" max="50000000000" step="1000000">
+                                    <span class="input-group-text">VNĐ</span>
+                                </div>
+                                <div class="form-text">
+                                    <span id="loanAmountText">500 triệu VNĐ</span>
+                                    <span class="float-end text-primary" id="loanLimits">10 triệu - 500 triệu</span>
+                                </div>
+                                <input type="range" class="form-range mt-2" id="loanAmountRange" 
+                                       min="10000000" max="500000000" step="1000000" value="500000000">
+                            </div>
+
+                            <!-- Loan Term -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Thời hạn vay</label>
+                                <select class="form-select form-select-lg" id="loanTerm">
+                                    <option value="6">6 tháng</option>
+                                    <option value="12">12 tháng</option>
+                                    <option value="18">18 tháng</option>
+                                    <option value="24" selected>24 tháng</option>
+                                    <option value="36">36 tháng</option>
+                                    <option value="48">48 tháng</option>
+                                    <option value="60">60 tháng</option>
+                                </select>
+                            </div>
+
+                            <!-- Interest Rate -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Lãi suất</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control form-control-lg" id="interestRate" 
+                                           value="0.9" min="0.1" max="3.0" step="0.1" readonly>
+                                    <span class="input-group-text">%/tháng</span>
+                                </div>
+                                <div class="form-text text-info">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Lãi suất tự động tính theo loại hình vay
+                                </div>
+                            </div>
+
+                            <!-- Calculate Button -->
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-calculator me-2"></i>Tính toán
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="col-lg-7">
+                <!-- Summary Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 border-primary">
+                            <div class="card-body text-center">
+                                <i class="fas fa-calendar-alt fa-2x text-primary mb-2"></i>
+                                <h6 class="card-title text-primary">Trả hàng tháng</h6>
+                                <h3 class="text-primary mb-0" id="monthlyPayment">0 VNĐ</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 border-success">
+                            <div class="card-body text-center">
+                                <i class="fas fa-money-bill-wave fa-2x text-success mb-2"></i>
+                                <h6 class="card-title text-success">Tổng lãi phải trả</h6>
+                                <h3 class="text-success mb-0" id="totalInterest">0 VNĐ</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 border-warning">
+                            <div class="card-body text-center">
+                                <i class="fas fa-chart-line fa-2x text-warning mb-2"></i>
+                                <h6 class="card-title text-warning">Tổng tiền phải trả</h6>
+                                <h3 class="text-warning mb-0" id="totalPayment">0 VNĐ</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 border-info">
+                            <div class="card-body text-center">
+                                <i class="fas fa-percent fa-2x text-info mb-2"></i>
+                                <h6 class="card-title text-info">Lãi suất năm</h6>
+                                <h3 class="text-info mb-0" id="yearlyRate">0%</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Schedule -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-table me-2"></i>Lịch trả nợ
+                            <button class="btn btn-sm btn-outline-success float-end" onclick="downloadSchedule()">
+                                <i class="fas fa-download me-1"></i>Tải xuống
+                            </button>
+                        </h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive" style="max-height: 400px;">
+                            <table class="table table-striped table-hover mb-0">
+                                <thead class="table-primary sticky-top">
+                                    <tr>
+                                        <th>Kỳ</th>
+                                        <th>Ngày đến hạn</th>
+                                        <th class="text-end">Tiền gốc</th>
+                                        <th class="text-end">Tiền lãi</th>
+                                        <th class="text-end">Tổng trả</th>
+                                        <th class="text-end">Dư nợ</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="paymentScheduleBody">
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted py-4">
+                                            <i class="fas fa-calculator fa-2x mb-2"></i><br>
+                                            Nhập thông tin và nhấn "Tính toán" để xem lịch trả nợ
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart -->
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Biểu đồ cơ cấu thanh toán</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <canvas id="paymentChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <div class="btn-group" role="group">
+                    <a href="loan_application.html" class="btn btn-success btn-lg">
+                        <i class="fas fa-file-plus me-2"></i>Đăng ký vay ngay
+                    </a>
+                    <button class="btn btn-info btn-lg" onclick="saveCalculation()">
+                        <i class="fas fa-save me-2"></i>Lưu kết quả
+                    </button>
+                    <button class="btn btn-secondary btn-lg" onclick="resetCalculator()">
+                        <i class="fas fa-redo me-2"></i>Tính lại
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<style>
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.card-header {
+    border-radius: 15px 15px 0 0 !important;
+    border: none;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+.btn-check:checked + .btn {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+}
+
+.sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+#paymentChart {
+    max-width: 400px;
+    margin: 0 auto;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+let paymentChart;
+
+// Interest rates by loan type
+const interestRates = {
+    individual: 0.9,
+    business: 0.8,
+    enterprise: 0.7
+};
+
+// Loan limits by type
+const loanLimits = {
+    individual: { min: 10000000, max: 500000000 },
+    business: { min: 100000000, max: 2000000000 },
+    enterprise: { min: 2000000000, max: 50000000000 }
+};
+
+// Update interest rate and limits when loan type changes
+document.querySelectorAll('input[name="loanType"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const loanType = this.value;
+        const rate = interestRates[loanType];
+        const limits = loanLimits[loanType];
+        
+        document.getElementById('interestRate').value = rate;
+        
+        const loanAmountInput = document.getElementById('loanAmount');
+        const loanAmountRange = document.getElementById('loanAmountRange');
+        
+        loanAmountInput.min = limits.min;
+        loanAmountInput.max = limits.max;
+        loanAmountRange.min = limits.min;
+        loanAmountRange.max = limits.max;
+        
+        if (loanAmountInput.value < limits.min) {
+            loanAmountInput.value = limits.min;
+            loanAmountRange.value = limits.min;
+        }
+        if (loanAmountInput.value > limits.max) {
+            loanAmountInput.value = limits.max;
+            loanAmountRange.value = limits.max;
+        }
+        
+        updateLoanAmountText();
+        updateLoanLimits();
+    });
+});
+
+// Sync loan amount input and range
+document.getElementById('loanAmount').addEventListener('input', function() {
+    document.getElementById('loanAmountRange').value = this.value;
+    updateLoanAmountText();
+});
+
+document.getElementById('loanAmountRange').addEventListener('input', function() {
+    document.getElementById('loanAmount').value = this.value;
+    updateLoanAmountText();
+});
+
+function updateLoanAmountText() {
+    const amount = parseFloat(document.getElementById('loanAmount').value);
+    const text = formatCurrency(amount, true);
+    document.getElementById('loanAmountText').textContent = text;
+}
+
+function updateLoanLimits() {
+    const loanType = document.querySelector('input[name="loanType"]:checked').value;
+    const limits = loanLimits[loanType];
+    const minText = formatCurrency(limits.min, true);
+    const maxText = formatCurrency(limits.max, true);
+    document.getElementById('loanLimits').textContent = `${minText} - ${maxText}`;
+}
+
+// Format currency
+function formatCurrency(amount, short = false) {
+    if (short) {
+        if (amount >= 1000000000) {
+            return (amount / 1000000000).toFixed(1) + ' tỷ VNĐ';
+        } else if (amount >= 1000000) {
+            return (amount / 1000000).toFixed(0) + ' triệu VNĐ';
+        } else {
+            return (amount / 1000).toFixed(0) + ' nghìn VNĐ';
+        }
+    }
+    return new Intl.NumberFormat('vi-VN').format(amount) + ' VNĐ';
+}
+
+// Calculate loan
+function calculateLoan() {
+    const principal = parseFloat(document.getElementById('loanAmount').value);
+    const termMonths = parseInt(document.getElementById('loanTerm').value);
+    const monthlyRate = parseFloat(document.getElementById('interestRate').value) / 100;
+    
+    // Calculate monthly payment using PMT formula
+    const monthlyPayment = principal * (monthlyRate * Math.pow(1 + monthlyRate, termMonths)) / 
+                          (Math.pow(1 + monthlyRate, termMonths) - 1);
+    
+    const totalPayment = monthlyPayment * termMonths;
+    const totalInterest = totalPayment - principal;
+    const yearlyRate = monthlyRate * 12 * 100;
+    
+    // Update summary cards
+    document.getElementById('monthlyPayment').textContent = formatCurrency(monthlyPayment);
+    document.getElementById('totalInterest').textContent = formatCurrency(totalInterest);
+    document.getElementById('totalPayment').textContent = formatCurrency(totalPayment);
+    document.getElementById('yearlyRate').textContent = yearlyRate.toFixed(1) + '%';
+    
+    // Generate payment schedule
+    generatePaymentSchedule(principal, monthlyPayment, monthlyRate, termMonths);
+    
+    // Update chart
+    updateChart(principal, totalInterest);
+}
+
+function generatePaymentSchedule(principal, monthlyPayment, monthlyRate, termMonths) {
+    const tbody = document.getElementById('paymentScheduleBody');
+    tbody.innerHTML = '';
+    
+    let remainingBalance = principal;
+    const startDate = new Date();
+    
+    for (let month = 1; month <= termMonths; month++) {
+        const interestPayment = remainingBalance * monthlyRate;
+        const principalPayment = monthlyPayment - interestPayment;
+        remainingBalance -= principalPayment;
+        
+        const dueDate = new Date(startDate);
+        dueDate.setMonth(startDate.getMonth() + month);
+        
+        const row = tbody.insertRow();
+        row.innerHTML = `
+            <td>${month}</td>
+            <td>${dueDate.toLocaleDateString('vi-VN')}</td>
+            <td class="text-end">${formatCurrency(principalPayment)}</td>
+            <td class="text-end">${formatCurrency(interestPayment)}</td>
+            <td class="text-end fw-bold">${formatCurrency(monthlyPayment)}</td>
+            <td class="text-end text-muted">${formatCurrency(Math.max(0, remainingBalance))}</td>
+        `;
+        
+        if (month % 2 === 0) {
+            row.classList.add('table-light');
+        }
+    }
+}
+
+function updateChart(principal, totalInterest) {
+    const ctx = document.getElementById('paymentChart').getContext('2d');
+    
+    if (paymentChart) {
+        paymentChart.destroy();
+    }
+    
+    paymentChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Tiền gốc', 'Tiền lãi'],
+            datasets: [{
+                data: [principal, totalInterest],
+                backgroundColor: ['#007bff', '#28a745'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Form submission
+document.getElementById('loanCalculatorForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    calculateLoan();
+});
+
+// Utility functions
+function downloadSchedule() {
+    alert('Đang tải lịch trả nợ...');
+    // Implementation for downloading schedule
+}
+
+function saveCalculation() {
+    alert('Đã lưu kết quả tính toán!');
+    // Implementation for saving calculation
+}
+
+function resetCalculator() {
+    document.getElementById('loanCalculatorForm').reset();
+    document.getElementById('loanAmount').value = 500000000;
+    document.getElementById('loanAmountRange').value = 500000000;
+    document.getElementById('interestRate').value = 0.9;
+    
+    // Reset displays
+    document.getElementById('monthlyPayment').textContent = '0 VNĐ';
+    document.getElementById('totalInterest').textContent = '0 VNĐ';
+    document.getElementById('totalPayment').textContent = '0 VNĐ';
+    document.getElementById('yearlyRate').textContent = '0%';
+    
+    // Reset schedule
+    const tbody = document.getElementById('paymentScheduleBody');
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="6" class="text-center text-muted py-4">
+                <i class="fas fa-calculator fa-2x mb-2"></i><br>
+                Nhập thông tin và nhấn "Tính toán" để xem lịch trả nợ
+            </td>
+        </tr>
+    `;
+    
+    // Reset chart
+    if (paymentChart) {
+        paymentChart.destroy();
+    }
+    
+    updateLoanAmountText();
+    updateLoanLimits();
+}
+
+// Initialize
+window.addEventListener('load', function() {
+    updateLoanAmountText();
+    updateLoanLimits();
+});
+</script>

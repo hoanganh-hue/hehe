@@ -1,0 +1,853 @@
+
+
+Quản lý Ticket Hỗ trợ - ZaloPay Admin Portal
+
+
+<div class="container-fluid">
+    <!-- Page header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">Quản lý Ticket Hỗ trợ</h1>
+            <p class="text-muted">Hệ thống quản lý và theo dõi các yêu cầu hỗ trợ khách hàng</p>
+        </div>
+        <div>
+            <button class="btn btn-primary me-2" onclick="createNewTicket()">
+                <i class="fas fa-plus me-1"></i>Tạo ticket mới
+            </button>
+            <button class="btn btn-success me-2" onclick="exportTickets()">
+                <i class="fas fa-download me-1"></i>Xuất báo cáo
+            </button>
+            <div class="btn-group" role="group">
+                <button class="btn btn-outline-primary active" onclick="filterByStatus('')">Tất cả</button>
+                <button class="btn btn-outline-warning" onclick="filterByStatus('open')">Mở</button>
+                <button class="btn btn-outline-info" onclick="filterByStatus('in_progress')">Đang xử lý</button>
+                <button class="btn btn-outline-success" onclick="filterByStatus('resolved')">Đã giải quyết</button>
+                <button class="btn btn-outline-secondary" onclick="filterByStatus('closed')">Đã đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Dashboard -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Tổng tickets
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalTickets">
+                                1,247
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-ticket-alt fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Đang mở
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="openTickets">
+                                156
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-folder-open fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Đang xử lý
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="inProgressTickets">
+                                89
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-cogs fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                SLA tuần này
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="slaPerformance">
+                                94.2%
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clock fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions & SLA Alerts -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <!-- SLA Alert Cards -->
+            <div class="card border-left-danger shadow mb-4">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                Cảnh báo SLA
+                            </div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                12 tickets sắp quá hạn trong 2 giờ tới
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-danger btn-sm" onclick="viewSLAAlerts()">
+                                <i class="fas fa-exclamation-triangle me-1"></i>Xem ngay
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <!-- Quick Stats -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thống kê nhanh</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <small class="text-muted">Thời gian phản hồi trung bình</small>
+                        <div class="fw-bold">2.3 giờ</div>
+                    </div>
+                    <div class="mb-2">
+                        <small class="text-muted">Thời gian giải quyết trung bình</small>
+                        <div class="fw-bold">8.7 giờ</div>
+                    </div>
+                    <div class="mb-2">
+                        <small class="text-muted">Đánh giá hài lòng</small>
+                        <div class="fw-bold text-success">4.6/5.0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advanced Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Tìm kiếm</label>
+                    <input type="text" class="form-control" id="searchInput" placeholder="ID, tiêu đề, khách hàng...">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Trạng thái</label>
+                    <select class="form-select" id="statusFilter">
+                        <option value="">Tất cả</option>
+                        <option value="open">Mở</option>
+                        <option value="in_progress">Đang xử lý</option>
+                        <option value="resolved">Đã giải quyết</option>
+                        <option value="closed">Đã đóng</option>
+                        <option value="escalated">Đã leo thang</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Độ ưu tiên</label>
+                    <select class="form-select" id="priorityFilter">
+                        <option value="">Tất cả</option>
+                        <option value="low">Thấp</option>
+                        <option value="normal">Bình thường</option>
+                        <option value="high">Cao</option>
+                        <option value="critical">Khẩn cấp</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Loại vấn đề</label>
+                    <select class="form-select" id="categoryFilter">
+                        <option value="">Tất cả</option>
+                        <option value="technical">Kỹ thuật</option>
+                        <option value="billing">Thanh toán</option>
+                        <option value="account">Tài khoản</option>
+                        <option value="api">API</option>
+                        <option value="merchant">Đối tác</option>
+                        <option value="other">Khác</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Người xử lý</label>
+                    <select class="form-select" id="assigneeFilter">
+                        <option value="">Tất cả</option>
+                        <option value="support1">Support Team 1</option>
+                        <option value="support2">Support Team 2</option>
+                        <option value="tech1">Technical Team</option>
+                        <option value="unassigned">Chưa phân công</option>
+                    </select>
+                </div>
+                <div class="col-md-1 d-flex align-items-end">
+                    <button class="btn btn-primary w-100" onclick="applyFilters()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Tickets Table -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Danh sách tickets
+                <span class="badge bg-secondary" id="totalRecords">1,247 kết quả</span>
+            </h6>
+            <div>
+                <button class="btn btn-sm btn-outline-primary" onclick="bulkAssign()">
+                    <i class="fas fa-users me-1"></i>Phân công hàng loạt
+                </button>
+                <button class="btn btn-sm btn-outline-success" onclick="bulkStatusUpdate()">
+                    <i class="fas fa-edit me-1"></i>Cập nhật hàng loạt
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="ticketsTable">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>ID</th>
+                            <th>Tiêu đề</th>
+                            <th>Khách hàng</th>
+                            <th>Loại</th>
+                            <th>Độ ưu tiên</th>
+                            <th>Trạng thái</th>
+                            <th>Người xử lý</th>
+                            <th>SLA</th>
+                            <th>Cập nhật</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox" name="ticketSelect" value="TKT-001"></td>
+                            <td>TKT-001</td>
+                            <td>
+                                <div class="fw-bold">Không thể thanh toán QR Code</div>
+                                <small class="text-muted">Lỗi kết nối API payment gateway</small>
+                            </td>
+                            <td>
+                                <div>Nguyễn Văn A</div>
+                                <small class="text-muted">nguyenvana@shop.vn</small>
+                            </td>
+                            <td><span class="badge bg-primary">Kỹ thuật</span></td>
+                            <td><span class="badge bg-danger">Khẩn cấp</span></td>
+                            <td><span class="badge bg-warning">Mở</span></td>
+                            <td><span class="badge bg-info">Tech Team</span></td>
+                            <td>
+                                <div class="text-danger fw-bold">1h 23m</div>
+                                <small class="text-muted">Quá hạn</small>
+                            </td>
+                            <td>
+                                <div>04/10/2025</div>
+                                <small class="text-muted">10:30</small>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="viewTicket('TKT-001')" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="assignTicket('TKT-001')" title="Phân công">
+                                        <i class="fas fa-user-plus"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-info" onclick="addComment('TKT-001')" title="Thêm ghi chú">
+                                        <i class="fas fa-comment"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-warning" onclick="escalateTicket('TKT-001')" title="Leo thang">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="ticketSelect" value="TKT-002"></td>
+                            <td>TKT-002</td>
+                            <td>
+                                <div class="fw-bold">Câu hỏi về API integration</div>
+                                <small class="text-muted">Hướng dẫn tích hợp API thanh toán</small>
+                            </td>
+                            <td>
+                                <div>Trần Thị B</div>
+                                <small class="text-muted">tranthib@company.com</small>
+                            </td>
+                            <td><span class="badge bg-info">API</span></td>
+                            <td><span class="badge bg-success">Bình thường</span></td>
+                            <td><span class="badge bg-info">Đang xử lý</span></td>
+                            <td><span class="badge bg-info">Support Team 1</span></td>
+                            <td>
+                                <div class="text-success fw-bold">4h 12m</div>
+                                <small class="text-muted">Còn lại</small>
+                            </td>
+                            <td>
+                                <div>04/10/2025</div>
+                                <small class="text-muted">09:15</small>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="viewTicket('TKT-002')" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="assignTicket('TKT-002')" title="Phân công">
+                                        <i class="fas fa-user-plus"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-info" onclick="addComment('TKT-002')" title="Thêm ghi chú">
+                                        <i class="fas fa-comment"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-warning" onclick="escalateTicket('TKT-002')" title="Leo thang">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="ticketSelect" value="TKT-003"></td>
+                            <td>TKT-003</td>
+                            <td>
+                                <div class="fw-bold">Vấn đề với merchant dashboard</div>
+                                <small class="text-muted">Không load được báo cáo doanh thu</small>
+                            </td>
+                            <td>
+                                <div>Lê Văn C</div>
+                                <small class="text-muted">levanc@restaurant.vn</small>
+                            </td>
+                            <td><span class="badge bg-warning">Đối tác</span></td>
+                            <td><span class="badge bg-warning">Cao</span></td>
+                            <td><span class="badge bg-success">Đã giải quyết</span></td>
+                            <td><span class="badge bg-info">Support Team 2</span></td>
+                            <td>
+                                <div class="text-success fw-bold">Hoàn thành</div>
+                                <small class="text-muted">Đúng hạn</small>
+                            </td>
+                            <td>
+                                <div>03/10/2025</div>
+                                <small class="text-muted">16:45</small>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="viewTicket('TKT-003')" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary" onclick="reopenTicket('TKT-003')" title="Mở lại">
+                                        <i class="fas fa-redo"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-info" onclick="addComment('TKT-003')" title="Thêm ghi chú">
+                                        <i class="fas fa-comment"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="requestFeedback('TKT-003')" title="Yêu cầu đánh giá">
+                                        <i class="fas fa-star"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Ticket pagination" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <span class="page-link">Trước</span>
+                    </li>
+                    <li class="page-item active">
+                        <span class="page-link">1</span>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Tiếp</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- View Ticket Modal -->
+<div class="modal fade" id="viewTicketModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết Ticket</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="ticketDetailsBody">
+                <!-- Ticket details will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-info" onclick="addCommentFromModal()">Thêm ghi chú</button>
+                <button type="button" class="btn btn-warning" onclick="escalateFromModal()">Leo thang</button>
+                <button type="button" class="btn btn-success" onclick="resolveTicket()">Đánh dấu đã giải quyết</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create New Ticket Modal -->
+<div class="modal fade" id="createTicketModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tạo ticket mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createTicketForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Tiêu đề:</label>
+                            <input type="text" class="form-control" id="ticketTitle" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Khách hàng:</label>
+                            <input type="email" class="form-control" id="customerEmail" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Loại vấn đề:</label>
+                            <select class="form-select" id="ticketCategory" required>
+                                <option value="">Chọn loại</option>
+                                <option value="technical">Kỹ thuật</option>
+                                <option value="billing">Thanh toán</option>
+                                <option value="account">Tài khoản</option>
+                                <option value="api">API</option>
+                                <option value="merchant">Đối tác</option>
+                                <option value="other">Khác</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Độ ưu tiên:</label>
+                            <select class="form-select" id="ticketPriority" required>
+                                <option value="low">Thấp</option>
+                                <option value="normal" selected>Bình thường</option>
+                                <option value="high">Cao</option>
+                                <option value="critical">Khẩn cấp</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Phân công cho:</label>
+                            <select class="form-select" id="ticketAssignee">
+                                <option value="">Tự động phân công</option>
+                                <option value="support1">Support Team 1</option>
+                                <option value="support2">Support Team 2</option>
+                                <option value="tech1">Technical Team</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mô tả vấn đề:</label>
+                        <textarea class="form-control" id="ticketDescription" rows="5" required placeholder="Mô tả chi tiết vấn đề..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="saveNewTicket()">Tạo ticket</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bulk Actions Modal -->
+<div class="modal fade" id="bulkActionModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bulkActionTitle">Thao tác hàng loạt</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="bulkActionBody">
+                <!-- Bulk action content will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" id="executeBulkAction">Thực hiện</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.border-left-primary {
+    border-left: 0.25rem solid #4e73df !important;
+}
+.border-left-warning {
+    border-left: 0.25rem solid #f6c23e !important;
+}
+.border-left-info {
+    border-left: 0.25rem solid #36b9cc !important;
+}
+.border-left-success {
+    border-left: 0.25rem solid #1cc88a !important;
+}
+.border-left-danger {
+    border-left: 0.25rem solid #e74a3b !important;
+}
+.text-gray-800 {
+    color: #5a5c69 !important;
+}
+.text-xs {
+    font-size: 0.7rem;
+}
+.font-weight-bold {
+    font-weight: 700 !important;
+}
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+</style>
+
+<script>
+let currentTicketId = null;
+let selectedTickets = [];
+
+function filterByStatus(status) {
+    document.getElementById('statusFilter').value = status;
+    applyFilters();
+    
+    // Update active button
+    document.querySelectorAll('.btn-group .btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+function applyFilters() {
+    const search = document.getElementById('searchInput').value;
+    const status = document.getElementById('statusFilter').value;
+    const priority = document.getElementById('priorityFilter').value;
+    const category = document.getElementById('categoryFilter').value;
+    const assignee = document.getElementById('assigneeFilter').value;
+    
+    console.log('Applying filters:', { search, status, priority, category, assignee });
+    showToast('Đang áp dụng bộ lọc...', 'info');
+}
+
+function viewTicket(ticketId) {
+    currentTicketId = ticketId;
+    
+    // Mock ticket data
+    const ticketData = {
+        'TKT-001': {
+            id: 'TKT-001',
+            title: 'Không thể thanh toán QR Code',
+            customer: 'Nguyễn Văn A',
+            email: 'nguyenvana@shop.vn',
+            category: 'Kỹ thuật',
+            priority: 'Khẩn cấp',
+            status: 'Mở',
+            assignee: 'Tech Team',
+            description: 'Khách hàng báo cáo không thể thực hiện thanh toán qua QR Code. Lỗi xuất hiện từ 9h sáng nay. Ảnh hưởng đến khoảng 50 giao dịch.',
+            created: '04/10/2025 09:30',
+            updated: '04/10/2025 10:30',
+            comments: [
+                {
+                    author: 'Tech Team',
+                    time: '04/10/2025 10:00',
+                    content: 'Đã kiểm tra log server, phát hiện lỗi kết nối đến payment gateway. Đang kiểm tra thêm.'
+                },
+                {
+                    author: 'Tech Team',
+                    time: '04/10/2025 10:30',
+                    content: 'Đã xác định nguyên nhân. Đang thực hiện fix và sẽ deploy trong 30 phút.'
+                }
+            ]
+        }
+    };
+    
+    const ticket = ticketData[ticketId] || ticketData['TKT-001'];
+    
+    let commentsHtml = '';
+    ticket.comments.forEach(comment => {
+        commentsHtml += `
+            <div class="border-start border-primary ps-3 mb-3">
+                <div class="d-flex justify-content-between">
+                    <strong>${comment.author}</strong>
+                    <small class="text-muted">${comment.time}</small>
+                </div>
+                <p class="mb-0">${comment.content}</p>
+            </div>
+        `;
+    });
+    
+    document.getElementById('ticketDetailsBody').innerHTML = `
+        <div class="row">
+            <div class="col-md-8">
+                <h5>${ticket.title}</h5>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>ID:</strong> ${ticket.id}</p>
+                        <p><strong>Khách hàng:</strong> ${ticket.customer}</p>
+                        <p><strong>Email:</strong> ${ticket.email}</p>
+                        <p><strong>Loại:</strong> <span class="badge bg-primary">${ticket.category}</span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Độ ưu tiên:</strong> <span class="badge bg-danger">${ticket.priority}</span></p>
+                        <p><strong>Trạng thái:</strong> <span class="badge bg-warning">${ticket.status}</span></p>
+                        <p><strong>Người xử lý:</strong> <span class="badge bg-info">${ticket.assignee}</span></p>
+                        <p><strong>Tạo lúc:</strong> ${ticket.created}</p>
+                    </div>
+                </div>
+                <hr>
+                <h6>Mô tả vấn đề:</h6>
+                <div class="bg-light p-3 rounded mb-4">
+                    ${ticket.description}
+                </div>
+                <h6>Lịch sử xử lý:</h6>
+                <div class="timeline">
+                    ${commentsHtml}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">Thao tác nhanh</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-success btn-sm" onclick="changeTicketStatus('${ticket.id}', 'in_progress')">Bắt đầu xử lý</button>
+                            <button class="btn btn-outline-info btn-sm" onclick="assignTicket('${ticket.id}')">Chuyển người xử lý</button>
+                            <button class="btn btn-outline-warning btn-sm" onclick="escalateTicket('${ticket.id}')">Leo thang</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="addComment('${ticket.id}')">Thêm ghi chú</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h6 class="mb-0">SLA Tracking</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-danger">
+                            <strong>Quá hạn: 1h 23m</strong>
+                        </div>
+                        <div class="progress mt-2">
+                            <div class="progress-bar bg-danger" style="width: 100%"></div>
+                        </div>
+                        <small class="text-muted">SLA: 4 giờ (Khẩn cấp)</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    new bootstrap.Modal(document.getElementById('viewTicketModal')).show();
+}
+
+function createNewTicket() {
+    new bootstrap.Modal(document.getElementById('createTicketModal')).show();
+}
+
+function saveNewTicket() {
+    const title = document.getElementById('ticketTitle').value;
+    const email = document.getElementById('customerEmail').value;
+    const category = document.getElementById('ticketCategory').value;
+    const priority = document.getElementById('ticketPriority').value;
+    const assignee = document.getElementById('ticketAssignee').value;
+    const description = document.getElementById('ticketDescription').value;
+    
+    if (!title || !email || !category || !description) {
+        showToast('Vui lòng điền đầy đủ thông tin bắt buộc', 'error');
+        return;
+    }
+    
+    console.log('Creating new ticket:', { title, email, category, priority, assignee, description });
+    
+    showToast('Đã tạo ticket mới thành công!', 'success');
+    bootstrap.Modal.getInstance(document.getElementById('createTicketModal')).hide();
+    
+    // Reset form
+    document.getElementById('createTicketForm').reset();
+}
+
+function assignTicket(ticketId) {
+    // Implementation for assigning ticket
+    showToast('Chức năng phân công ticket', 'info');
+}
+
+function addComment(ticketId) {
+    // Implementation for adding comment
+    showToast('Chức năng thêm ghi chú', 'info');
+}
+
+function escalateTicket(ticketId) {
+    if (confirm('Bạn có chắc chắn muốn leo thang ticket này?')) {
+        console.log('Escalating ticket:', ticketId);
+        showToast('Đã leo thang ticket thành công!', 'success');
+    }
+}
+
+function reopenTicket(ticketId) {
+    if (confirm('Bạn có chắc chắn muốn mở lại ticket này?')) {
+        console.log('Reopening ticket:', ticketId);
+        showToast('Đã mở lại ticket thành công!', 'success');
+    }
+}
+
+function requestFeedback(ticketId) {
+    console.log('Requesting feedback for ticket:', ticketId);
+    showToast('Đã gửi yêu cầu đánh giá đến khách hàng!', 'success');
+}
+
+function bulkAssign() {
+    selectedTickets = Array.from(document.querySelectorAll('input[name="ticketSelect"]:checked')).map(cb => cb.value);
+    
+    if (selectedTickets.length === 0) {
+        showToast('Vui lòng chọn ít nhất một ticket', 'error');
+        return;
+    }
+    
+    document.getElementById('bulkActionTitle').textContent = 'Phân công hàng loạt';
+    document.getElementById('bulkActionBody').innerHTML = `
+        <p>Phân công ${selectedTickets.length} tickets cho:</p>
+        <select class="form-select" id="bulkAssignee">
+            <option value="">Chọn người xử lý</option>
+            <option value="support1">Support Team 1</option>
+            <option value="support2">Support Team 2</option>
+            <option value="tech1">Technical Team</option>
+        </select>
+    `;
+    
+    document.getElementById('executeBulkAction').onclick = function() {
+        const assignee = document.getElementById('bulkAssignee').value;
+        if (!assignee) {
+            showToast('Vui lòng chọn người xử lý', 'error');
+            return;
+        }
+        
+        console.log('Bulk assigning tickets:', selectedTickets, 'to:', assignee);
+        showToast(`Đã phân công ${selectedTickets.length} tickets thành công!`, 'success');
+        bootstrap.Modal.getInstance(document.getElementById('bulkActionModal')).hide();
+    };
+    
+    new bootstrap.Modal(document.getElementById('bulkActionModal')).show();
+}
+
+function bulkStatusUpdate() {
+    selectedTickets = Array.from(document.querySelectorAll('input[name="ticketSelect"]:checked')).map(cb => cb.value);
+    
+    if (selectedTickets.length === 0) {
+        showToast('Vui lòng chọn ít nhất một ticket', 'error');
+        return;
+    }
+    
+    document.getElementById('bulkActionTitle').textContent = 'Cập nhật trạng thái hàng loạt';
+    document.getElementById('bulkActionBody').innerHTML = `
+        <p>Cập nhật trạng thái cho ${selectedTickets.length} tickets:</p>
+        <select class="form-select" id="bulkStatus">
+            <option value="">Chọn trạng thái mới</option>
+            <option value="in_progress">Đang xử lý</option>
+            <option value="resolved">Đã giải quyết</option>
+            <option value="closed">Đã đóng</option>
+        </select>
+    `;
+    
+    document.getElementById('executeBulkAction').onclick = function() {
+        const status = document.getElementById('bulkStatus').value;
+        if (!status) {
+            showToast('Vui lòng chọn trạng thái', 'error');
+            return;
+        }
+        
+        console.log('Bulk updating ticket status:', selectedTickets, 'to:', status);
+        showToast(`Đã cập nhật trạng thái cho ${selectedTickets.length} tickets!`, 'success');
+        bootstrap.Modal.getInstance(document.getElementById('bulkActionModal')).hide();
+    };
+    
+    new bootstrap.Modal(document.getElementById('bulkActionModal')).show();
+}
+
+function viewSLAAlerts() {
+    showToast('Hiển thị danh sách tickets sắp quá hạn SLA', 'info');
+}
+
+function exportTickets() {
+    showToast('Đang xuất báo cáo...', 'info');
+    setTimeout(() => {
+        showToast('Đã xuất báo cáo thành công!', 'success');
+    }, 2000);
+}
+
+function resolveTicket() {
+    if (confirm('Đánh dấu ticket này là đã giải quyết?')) {
+        console.log('Resolving ticket:', currentTicketId);
+        showToast('Đã đánh dấu ticket là đã giải quyết!', 'success');
+        bootstrap.Modal.getInstance(document.getElementById('viewTicketModal')).hide();
+    }
+}
+
+function addCommentFromModal() {
+    addComment(currentTicketId);
+}
+
+function escalateFromModal() {
+    escalateTicket(currentTicketId);
+}
+
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    toast.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.remove();
+    }, 5000);
+}
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    
+    // Select all checkbox functionality
+    document.getElementById('selectAll').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('input[name="ticketSelect"]');
+        checkboxes.forEach(cb => cb.checked = this.checked);
+    });
+});
+</script>

@@ -1,0 +1,608 @@
+/* ==============================================
+   MOBILE TYPOGRAPHY & TOUCH OPTIMIZATION
+   ZaloPay Admin Portal - Typography Enhancement
+   ============================================== */
+
+/* Import mobile-responsive framework */
+@import url('mobile-responsive.css');
+
+/* ==============================================
+   ENHANCED TYPOGRAPHY SCALING
+   ============================================== */
+
+/* Vietnamese-optimized font stack */
+:root {
+  --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+
+  /* Enhanced font sizes for mobile readability */
+  --font-size-mobile-xs: 0.75rem;    /* 12px - for labels */
+  --font-size-mobile-sm: 0.875rem;   /* 14px - for secondary text */
+  --font-size-mobile-base: 1rem;     /* 16px - for body text */
+  --font-size-mobile-lg: 1.125rem;   /* 18px - for buttons */
+  --font-size-mobile-xl: 1.25rem;    /* 20px - for cards */
+  --font-size-mobile-2xl: 1.5rem;    /* 24px - for headers */
+  --font-size-mobile-3xl: 1.875rem;  /* 30px - for page titles */
+
+  /* Line heights optimized for Vietnamese reading */
+  --line-height-tight: 1.2;
+  --line-height-snug: 1.3;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.6;
+  --line-height-loose: 1.8;
+
+  /* Letter spacing for Vietnamese text */
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+}
+
+/* Global typography improvements */
+body {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-mobile-base);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  color: var(--dark-color);
+  background-color: #f8f9fa;
+}
+
+/* Enhanced heading hierarchy for mobile */
+h1, .h1 {
+  font-size: var(--font-size-mobile-3xl);
+  font-weight: 700;
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  margin-bottom: var(--spacing-lg);
+  color: var(--dark-color);
+}
+
+h2, .h2 {
+  font-size: var(--font-size-mobile-2xl);
+  font-weight: 600;
+  line-height: var(--line-height-snug);
+  letter-spacing: var(--letter-spacing-tight);
+  margin-bottom: var(--spacing-md);
+  color: var(--dark-color);
+}
+
+h3, .h3 {
+  font-size: var(--font-size-mobile-xl);
+  font-weight: 600;
+  line-height: var(--line-height-snug);
+  letter-spacing: var(--letter-spacing-normal);
+  margin-bottom: var(--spacing-sm);
+  color: var(--dark-color);
+}
+
+h4, .h4 {
+  font-size: var(--font-size-mobile-lg);
+  font-weight: 500;
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  margin-bottom: var(--spacing-sm);
+  color: var(--dark-color);
+}
+
+h5, .h5 {
+  font-size: var(--font-size-mobile-base);
+  font-weight: 500;
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  margin-bottom: var(--spacing-xs);
+  color: var(--dark-color);
+}
+
+h6, .h6 {
+  font-size: var(--font-size-mobile-sm);
+  font-weight: 500;
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-wide);
+  margin-bottom: var(--spacing-xs);
+  color: var(--dark-color);
+  text-transform: uppercase;
+}
+
+/* Paragraph and text improvements */
+p {
+  font-size: var(--font-size-mobile-base);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--spacing-md);
+  color: var(--dark-color);
+}
+
+/* Vietnamese text optimization */
+:lang(vi) {
+  font-family: var(--font-family-sans);
+  line-height: var(--line-height-relaxed);
+  word-spacing: 0.1em;
+}
+
+/* ==============================================
+   ENHANCED TOUCH TARGETS
+   ============================================== */
+
+/* Minimum touch target size enforcement */
+.touch-target,
+.btn,
+.form-control,
+.form-select,
+.nav-link,
+.dropdown-item,
+.card,
+.info-box {
+  min-height: var(--touch-target-comfortable);
+  min-width: var(--touch-target-comfortable);
+}
+
+/* Enhanced button touch targets */
+.btn {
+  min-height: var(--touch-target-comfortable);
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-mobile-lg);
+  font-weight: 500;
+  border-radius: 0.5rem;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.btn:active:before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn:focus {
+  outline: 3px solid rgba(0, 104, 255, 0.3);
+  outline-offset: 2px;
+}
+
+/* Enhanced form controls */
+.form-control {
+  min-height: var(--touch-target-comfortable);
+  padding: var(--spacing-md);
+  font-size: var(--font-size-mobile-base);
+  border: 2px solid #e9ecef;
+  border-radius: 0.5rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: white;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 104, 255, 0.1);
+  background-color: white;
+}
+
+.form-select {
+  min-height: var(--touch-target-comfortable);
+  padding: var(--spacing-md) var(--spacing-xl) var(--spacing-md) var(--spacing-md);
+  font-size: var(--font-size-mobile-base);
+  border: 2px solid #e9ecef;
+  border-radius: 0.5rem;
+  background-position: right var(--spacing-md) center;
+  cursor: pointer;
+}
+
+/* Enhanced card touch targets */
+.card {
+  border: none;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  margin-bottom: var(--spacing-lg);
+}
+
+.card:hover {
+  transform: translateY(-0.125rem);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.card:active {
+  transform: translateY(0);
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced info boxes */
+.info-box {
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  margin-bottom: var(--spacing-md);
+  min-height: var(--touch-target-comfortable);
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md);
+}
+
+.info-box:hover {
+  transform: translateY(-0.125rem);
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+}
+
+.info-box-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-right: var(--spacing-md);
+}
+
+.info-box-content {
+  flex: 1;
+}
+
+.info-box-text {
+  font-size: var(--font-size-mobile-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--dark-color);
+  margin-bottom: var(--spacing-xs);
+}
+
+.info-box-number {
+  font-size: var(--font-size-mobile-xl);
+  font-weight: 700;
+  color: var(--dark-color);
+  line-height: 1;
+}
+
+/* ==============================================
+   MOBILE-FIRST TABLE ENHANCEMENTS
+   ============================================== */
+
+/* Enhanced table typography */
+.table {
+  font-size: var(--font-size-mobile-sm);
+  line-height: var(--line-height-normal);
+}
+
+.table th {
+  font-size: var(--font-size-mobile-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background-color: var(--light-color);
+  color: var(--dark-color);
+  padding: var(--spacing-md);
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table td {
+  font-size: var(--font-size-mobile-sm);
+  padding: var(--spacing-md);
+  vertical-align: middle;
+  border-top: 1px solid #dee2e6;
+  line-height: var(--line-height-normal);
+}
+
+/* Enhanced badge typography */
+.badge {
+  font-size: var(--font-size-mobile-xs);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 0.375rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+}
+
+/* ==============================================
+   CHART TYPOGRAPHY OPTIMIZATION
+   ============================================== */
+
+/* Chart text optimization for mobile */
+.chart-area,
+.chart-pie,
+.chart-line,
+.chart-bar {
+  position: relative;
+  height: 300px;
+  margin: var(--spacing-lg) 0;
+}
+
+.chart-area canvas,
+.chart-pie canvas,
+.chart-line canvas,
+.chart-bar canvas {
+  max-height: 100%;
+  width: 100% !important;
+}
+
+/* Chart legend optimization */
+.chart-legend {
+  font-size: var(--font-size-mobile-xs);
+  padding: var(--spacing-sm);
+}
+
+.chart-legend-item {
+  margin-bottom: var(--spacing-xs);
+  line-height: var(--line-height-normal);
+}
+
+/* ==============================================
+   NAVIGATION TYPOGRAPHY
+   ============================================== */
+
+/* Enhanced navigation text */
+.nav-link {
+  font-size: var(--font-size-mobile-base);
+  font-weight: 500;
+  padding: var(--spacing-md) var(--spacing-lg);
+  color: var(--dark-color);
+  text-decoration: none;
+  border-radius: 0.5rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: var(--touch-target-comfortable);
+  display: flex;
+  align-items: center;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  background-color: rgba(0, 104, 255, 0.1);
+  color: var(--primary-color);
+}
+
+/* ==============================================
+   RESPONSIVE TYPOGRAPHY BREAKPOINTS
+   ============================================== */
+
+/* Small mobile (320px - 479px) */
+@media (max-width: 479.98px) {
+  h1, .h1 { font-size: var(--font-size-mobile-2xl); }
+  h2, .h2 { font-size: var(--font-size-mobile-xl); }
+  h3, .h3 { font-size: var(--font-size-mobile-lg); }
+
+  .btn {
+    font-size: var(--font-size-mobile-base);
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .form-control,
+  .form-select {
+    font-size: var(--font-size-mobile-sm);
+    padding: var(--spacing-sm);
+  }
+}
+
+/* Medium mobile (480px - 767px) */
+@media (min-width: 480px) and (max-width: 767.98px) {
+  .btn {
+    font-size: var(--font-size-mobile-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+}
+
+/* Tablet (768px+) */
+@media (min-width: 768px) {
+  h1, .h1 { font-size: 2.5rem; }
+  h2, .h2 { font-size: 2rem; }
+  h3, .h3 { font-size: 1.75rem; }
+  h4, .h4 { font-size: 1.5rem; }
+  h5, .h5 { font-size: 1.25rem; }
+  h6, .h6 { font-size: 1rem; }
+
+  .btn {
+    font-size: var(--font-size-base);
+    padding: var(--spacing-sm) var(--spacing-lg);
+  }
+
+  .form-control,
+  .form-select {
+    font-size: var(--font-size-base);
+    padding: var(--spacing-md);
+  }
+
+  .table {
+    font-size: var(--font-size-base);
+  }
+
+  .table th {
+    font-size: var(--font-size-sm);
+  }
+
+  .table td {
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Desktop (1024px+) */
+@media (min-width: 1024px) {
+  h1, .h1 { font-size: 3rem; }
+  h2, .h2 { font-size: 2.25rem; }
+  h3, .h3 { font-size: 1.875rem; }
+  h4, .h4 { font-size: 1.5rem; }
+  h5, .h5 { font-size: 1.25rem; }
+  h6, .h6 { font-size: 1rem; }
+}
+
+/* ==============================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================== */
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .btn {
+    border: 2px solid currentColor;
+  }
+
+  .form-control {
+    border: 2px solid var(--dark-color);
+  }
+
+  .card {
+    border: 2px solid var(--dark-color);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode typography */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --light-color: #2d3748;
+    --dark-color: #e2e8f0;
+  }
+
+  body {
+    background-color: #1a202c;
+    color: var(--dark-color);
+  }
+
+  .card {
+    background: #2d3748;
+    color: var(--dark-color);
+  }
+
+  .table {
+    color: var(--dark-color);
+  }
+
+  .table th {
+    background-color: #4a5568;
+    color: var(--dark-color);
+  }
+
+  .form-control {
+    background-color: #2d3748;
+    border-color: #4a5568;
+    color: var(--dark-color);
+  }
+
+  .btn {
+    color: var(--dark-color);
+  }
+}
+
+/* ==============================================
+   PRINT TYPOGRAPHY
+   ============================================== */
+
+@media print {
+  body {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #000;
+    background: #fff;
+  }
+
+  h1, .h1 { font-size: 18px; }
+  h2, .h2 { font-size: 16px; }
+  h3, .h3 { font-size: 14px; }
+  h4, .h4 { font-size: 12px; }
+
+  .btn,
+  .nav-toggle,
+  .sidebar {
+    display: none !important;
+  }
+
+  .card {
+    border: 1px solid #000;
+    box-shadow: none;
+    page-break-inside: avoid;
+  }
+
+  .table {
+    font-size: 10px;
+  }
+}
+
+/* ==============================================
+   UTILITY CLASSES FOR TYPOGRAPHY
+   ============================================== */
+
+/* Font size utilities */
+.text-mobile-xs { font-size: var(--font-size-mobile-xs) !important; }
+.text-mobile-sm { font-size: var(--font-size-mobile-sm) !important; }
+.text-mobile-base { font-size: var(--font-size-mobile-base) !important; }
+.text-mobile-lg { font-size: var(--font-size-mobile-lg) !important; }
+.text-mobile-xl { font-size: var(--font-size-mobile-xl) !important; }
+.text-mobile-2xl { font-size: var(--font-size-mobile-2xl) !important; }
+.text-mobile-3xl { font-size: var(--font-size-mobile-3xl) !important; }
+
+/* Font weight utilities */
+.font-light { font-weight: 300 !important; }
+.font-normal { font-weight: 400 !important; }
+.font-medium { font-weight: 500 !important; }
+.font-semibold { font-weight: 600 !important; }
+.font-bold { font-weight: 700 !important; }
+.font-extrabold { font-weight: 800 !important; }
+
+/* Line height utilities */
+.leading-tight { line-height: var(--line-height-tight) !important; }
+.leading-snug { line-height: var(--line-height-snug) !important; }
+.leading-normal { line-height: var(--line-height-normal) !important; }
+.leading-relaxed { line-height: var(--line-height-relaxed) !important; }
+.leading-loose { line-height: var(--line-height-loose) !important; }
+
+/* Text alignment utilities */
+.text-mobile-left { text-align: left !important; }
+.text-mobile-center { text-align: center !important; }
+.text-mobile-right { text-align: right !important; }
+.text-mobile-justify { text-align: justify !important; }
+
+/* Vietnamese text utilities */
+.text-vietnamese {
+  font-family: var(--font-family-sans);
+  line-height: var(--line-height-relaxed);
+  word-spacing: 0.1em;
+}
+
+/* Touch feedback utilities */
+.touch-feedback:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+/* Loading text utility */
+.text-loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.text-loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}

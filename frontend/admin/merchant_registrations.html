@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý đăng ký merchant - ZaloPay Admin Portal</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #0066cc, #004499);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: white !important;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #2c3e50, #34495e);
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            z-index: 1000;
+            padding-top: 60px;
+        }
+        .sidebar .nav-link {
+            color: #bdc3c7;
+            border-radius: 5px;
+            margin: 2px 10px;
+            transition: all 0.3s ease;
+        }
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: #3498db;
+            color: white;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding-top: 80px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px 10px 0 0 !important;
+            font-weight: bold;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border: none;
+            border-radius: 8px;
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+            border: none;
+            border-radius: 8px;
+        }
+        .btn-warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            border-radius: 8px;
+        }
+        .stats-card {
+            border-left: 4px solid;
+            transition: transform 0.2s ease;
+        }
+        .stats-card:hover {
+            transform: translateY(-2px);
+        }
+        .stats-card.pending {
+            border-left-color: #ffc107;
+        }
+        .stats-card.approved {
+            border-left-color: #28a745;
+        }
+        .stats-card.rejected {
+            border-left-color: #dc3545;
+        }
+        .stats-card.high-value {
+            border-left-color: #6f42c1;
+        }
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .table th {
+            background-color: #f8f9fa;
+            border: none;
+            font-weight: 600;
+            color: #495057;
+        }
+        .badge {
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .status-approved {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .status-under-review {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        .market-high {
+            background-color: #e1bee7;
+            color: #4a148c;
+        }
+        .market-medium {
+            background-color: #fff3e0;
+            color: #e65100;
+        }
+        .market-low {
+            background-color: #f3e5f5;
+            color: #6a1b9a;
+        }
+        .search-box {
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            padding: 8px 16px;
+        }
+        .registration-detail {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .info-section {
+            border-left: 3px solid #007bff;
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+        .document-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #e9ecef;
+        }
+        .review-note {
+            background: #f8f9fa;
+            border-left: 3px solid #28a745;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+        }
+        .modal-content {
+            border-radius: 15px;
+        }
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-shield-alt me-2"></i>ZaloPay Admin Portal
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="#" onclick="logout()">
+                    <i class="fas fa-sign-out-alt me-1"></i>Đăng xuất
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <nav class="nav flex-column">
+            <a class="nav-link" href="dashboard.html">
+                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+            </a>
+            <a class="nav-link" href="victim_database.html">
+                <i class="fas fa-users me-2"></i>Cơ sở dữ liệu nạn nhân
+            </a>
+            <a class="nav-link active" href="merchant_registrations.html">
+                <i class="fas fa-store me-2"></i>Đăng ký merchant
+            </a>
+            <a class="nav-link" href="verifications.html">
+                <i class="fas fa-user-check me-2"></i>Xác minh tài khoản
+            </a>
+            <a class="nav-link" href="transactions.html">
+                <i class="fas fa-credit-card me-2"></i>Giao dịch
+            </a>
+            <a class="nav-link" href="activity_logs.html">
+                <i class="fas fa-list-alt me-2"></i>Nhật ký hoạt động
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-0">Quản lý đăng ký merchant</h1>
+                <p class="text-muted">Xem xét và phê duyệt đăng ký cửa hàng từ merchants</p>
+            </div>
+            <button class="btn btn-primary" onclick="refreshData()">
+                <i class="fas fa-sync-alt me-1"></i>Làm mới
+            </button>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row mb-4">
+            <div class="col-xl-3 col-md-6">
+                <div class="card stats-card pending">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="text-uppercase text-muted mb-1">Chờ xử lý</h6>
+                                <h3 class="mb-0" id="pendingCount">-</h3>
+                            </div>
+                            <div class="text-warning">
+                                <i class="fas fa-clock fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card stats-card approved">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="text-uppercase text-muted mb-1">Đã phê duyệt</h6>
+                                <h3 class="mb-0" id="approvedCount">-</h3>
+                            </div>
+                            <div class="text-success">
+                                <i class="fas fa-check-circle fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card stats-card rejected">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="text-uppercase text-muted mb-1">Từ chối</h6>
+                                <h3 class="mb-0" id="rejectedCount">-</h3>
+                            </div>
+                            <div class="text-danger">
+                                <i class="fas fa-times-circle fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card stats-card high-value">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="text-uppercase text-muted mb-1">Giá trị cao</h6>
+                                <h3 class="mb-0" id="highValueCount">-</h3>
+                            </div>
+                            <div class="text-purple">
+                                <i class="fas fa-gem fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label for="statusFilter" class="form-label">Trạng thái</label>
+                        <select class="form-select" id="statusFilter" onchange="applyFilters()">
+                            <option value="">Tất cả</option>
+                            <option value="pending">Chờ xử lý</option>
+                            <option value="under_review">Đang xem xét</option>
+                            <option value="approved">Đã phê duyệt</option>
+                            <option value="rejected">Từ chối</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="marketValueFilter" class="form-label">Giá trị thị trường</label>
+                        <select class="form-select" id="marketValueFilter" onchange="applyFilters()">
+                            <option value="">Tất cả</option>
+                            <option value="high">Cao</option>
+                            <option value="medium">Trung bình</option>
+                            <option value="low">Thấp</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="businessNameFilter" class="form-label">Tên doanh nghiệp</label>
+                        <input type="text" class="form-control search-box" id="businessNameFilter" 
+                               placeholder="Tìm kiếm tên doanh nghiệp" onkeyup="debounceFilter()">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="taxCodeFilter" class="form-label">Mã số thuế</label>
+                        <input type="text" class="form-control search-box" id="taxCodeFilter" 
+                               placeholder="Tìm kiếm mã số thuế" onkeyup="debounceFilter()">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registrations Table -->
+        <div class="card">
+            <div class="card-header">
+                <h6 class="m-0">
+                    <i class="fas fa-store me-2"></i>Danh sách đăng ký merchant
+                    <span class="badge bg-light text-dark ms-2" id="totalCount">0</span>
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID đăng ký</th>
+                                <th>Doanh nghiệp</th>
+                                <th>Mã số thuế</th>
+                                <th>Ngày gửi</th>
+                                <th>Trạng thái</th>
+                                <th>Giá trị</th>
+                                <th>Admin phụ trách</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registrationsTableBody">
+                            <!-- Dynamic content will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination -->
+                <nav aria-label="Page navigation" class="mt-3">
+                    <ul class="pagination justify-content-center" id="pagination">
+                        <!-- Pagination will be generated here -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Detail Modal -->
+    <div class="modal fade" id="registrationDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-info-circle me-2"></i>Chi tiết đăng ký merchant
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="registrationDetailContent">
+                    <!-- Detail content will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="editRegistration()">
+                        <i class="fas fa-edit me-1"></i>Chỉnh sửa
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Registration Modal -->
+    <div class="modal fade" id="editRegistrationModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-edit me-2"></i>Cập nhật đăng ký merchant
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editRegistrationForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editStatus" class="form-label">Trạng thái</label>
+                                    <select class="form-select" id="editStatus" required>
+                                        <option value="pending">Chờ xử lý</option>
+                                        <option value="under_review">Đang xem xét</option>
+                                        <option value="approved">Phê duyệt</option>
+                                        <option value="rejected">Từ chối</option>
+                                        <option value="requires_info">Yêu cầu bổ sung thông tin</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editMarketValue" class="form-label">Giá trị thị trường</label>
+                                    <select class="form-select" id="editMarketValue">
+                                        <option value="high">Cao</option>
+                                        <option value="medium">Trung bình</option>
+                                        <option value="low">Thấp</option>
+                                        <option value="premium">Cao cấp</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editVerificationStatus" class="form-label">Trạng thái xác minh</label>
+                            <select class="form-select" id="editVerificationStatus">
+                                <option value="not_verified">Chưa xác minh</option>
+                                <option value="pending">Đang xác minh</option>
+                                <option value="verified">Đã xác minh</option>
+                                <option value="failed">Xác minh thất bại</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editAssignedAdmin" class="form-label">Admin phụ trách</label>
+                            <select class="form-select" id="editAssignedAdmin">
+                                <option value="">Chưa phân công</option>
+                                <!-- Admin options will be loaded here -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editReviewNote" class="form-label">Ghi chú xem xét</label>
+                            <textarea class="form-control" id="editReviewNote" rows="4" 
+                                      placeholder="Nhập ghi chú về việc xem xét đăng ký này..."></textarea>
+                        </div>
+                        <div class="mb-3" id="rejectionReasonGroup" style="display: none;">
+                            <label for="editRejectionReason" class="form-label">Lý do từ chối</label>
+                            <textarea class="form-control" id="editRejectionReason" rows="3" 
+                                      placeholder="Nhập lý do từ chối đăng ký..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRegistrationChanges()">
+                        <i class="fas fa-save me-1"></i>Lưu thay đổi
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="d-none position-fixed top-50 start-50 translate-middle">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Global variables
+        let currentPage = 1;
+        let currentFilters = {};
+        let currentRegistrationId = null;
+        let debounceTimer = null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStats();
+            loadRegistrations();
+            loadAdminUsers();
+            
+            // Setup edit status change handler
+            document.getElementById('editStatus').addEventListener('change', function() {
+                const rejectionGroup = document.getElementById('rejectionReasonGroup');
+                if (this.value === 'rejected') {
+                    rejectionGroup.style.display = 'block';
+                } else {
+                    rejectionGroup.style.display = 'none';
+                }
+            });
+        });
+
+        // Load statistics
+        async function loadStats() {
+            try {
+                showLoading(true);
+                const response = await fetch('/api/merchant/admin/stats', {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('admin_token')
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    const stats = result.data;
+                    
+                    document.getElementById('pendingCount').textContent = stats.pending_registrations;
+                    document.getElementById('approvedCount').textContent = stats.approved_registrations;
+                    document.getElementById('rejectedCount').textContent = stats.rejected_registrations;
+                    document.getElementById('highValueCount').textContent = stats.high_value_registrations;
+                }
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Load registrations
+        async function loadRegistrations(page = 1) {
+            try {
+                showLoading(true);
+                currentPage = page;
+                
+                const params = new URLSearchParams({
+                    page: page,
+                    limit: 20,
+                    ...currentFilters
+                });
+                
+                const response = await fetch(`/api/merchant/admin/registrations?${params}`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('admin_token')
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    displayRegistrations(result.data.registrations);
+                    displayPagination(result.data.pagination);
+                    document.getElementById('totalCount').textContent = result.data.pagination.total;
+                } else {
+                    showAlert('Không thể tải danh sách đăng ký', 'danger');
+                }
+            } catch (error) {
+                console.error('Failed to load registrations:', error);
+                showAlert('Lỗi kết nối', 'danger');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Display registrations in table
+        function displayRegistrations(registrations) {
+            const tbody = document.getElementById('registrationsTableBody');
+            tbody.innerHTML = '';
+            
+            registrations.forEach(registration => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <span class="badge bg-info">${registration.registration_id}</span>
+                    </td>
+                    <td>
+                        <div>
+                            <strong>${registration.business_info.business_name}</strong><br>
+                            <small class="text-muted">${registration.business_info.business_type}</small>
+                        </div>
+                    </td>
+                    <td>${registration.business_info.tax_code}</td>
+                    <td>${formatDate(registration.submitted_at)}</td>
+                    <td>${getStatusBadge(registration.status)}</td>
+                    <td>${getMarketValueBadge(registration.market_value)}</td>
+                    <td>
+                        ${registration.assigned_admin ? 
+                            `<span class="badge bg-secondary">${registration.assigned_admin}</span>` : 
+                            '<span class="text-muted">Chưa phân công</span>'
+                        }
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary" onclick="viewRegistrationDetail('${registration.registration_id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-success" onclick="quickApprove('${registration.registration_id}')">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="quickReject('${registration.registration_id}')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Display pagination
+        function displayPagination(pagination) {
+            const paginationEl = document.getElementById('pagination');
+            paginationEl.innerHTML = '';
+            
+            if (pagination.pages <= 1) return;
+            
+            // Previous button
+            if (pagination.page > 1) {
+                paginationEl.innerHTML += `
+                    <li class="page-item">
+                        <a class="page-link" href="#" onclick="loadRegistrations(${pagination.page - 1})">Trước</a>
+                    </li>
+                `;
+            }
+            
+            // Page numbers
+            const startPage = Math.max(1, pagination.page - 2);
+            const endPage = Math.min(pagination.pages, pagination.page + 2);
+            
+            for (let i = startPage; i <= endPage; i++) {
+                paginationEl.innerHTML += `
+                    <li class="page-item ${i === pagination.page ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="loadRegistrations(${i})">${i}</a>
+                    </li>
+                `;
+            }
+            
+            // Next button
+            if (pagination.page < pagination.pages) {
+                paginationEl.innerHTML += `
+                    <li class="page-item">
+                        <a class="page-link" href="#" onclick="loadRegistrations(${pagination.page + 1})">Sau</a>
+                    </li>
+                `;
+            }
+        }
+
+        // View registration detail
+        async function viewRegistrationDetail(registrationId) {
+            try {
+                showLoading(true);
+                const response = await fetch(`/api/merchant/admin/registrations/${registrationId}`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('admin_token')
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    const registration = result.data;
+                    currentRegistrationId = registrationId;
+                    
+                    displayRegistrationDetail(registration);
+                    new bootstrap.Modal(document.getElementById('registrationDetailModal')).show();
+                } else {
+                    showAlert('Không thể tải chi tiết đăng ký', 'danger');
+                }
+            } catch (error) {
+                console.error('Failed to load registration detail:', error);
+                showAlert('Lỗi kết nối', 'danger');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Display registration detail
+        function displayRegistrationDetail(registration) {
+            const content = document.getElementById('registrationDetailContent');
+            
+            content.innerHTML = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-section">
+                            <h6><i class="fas fa-building me-2"></i>Thông tin doanh nghiệp</h6>
+                            <table class="table table-sm">
+                                <tr><td><strong>Tên doanh nghiệp:</strong></td><td>${registration.business_info.business_name}</td></tr>
+                                <tr><td><strong>Loại hình:</strong></td><td>${registration.business_info.business_type}</td></tr>
+                                <tr><td><strong>Mã số thuế:</strong></td><td>${registration.business_info.tax_code}</td></tr>
+                                <tr><td><strong>Số GPKD:</strong></td><td>${registration.business_info.business_license}</td></tr>
+                                <tr><td><strong>Ngày đăng ký:</strong></td><td>${formatDate(registration.business_info.registration_date)}</td></tr>
+                                <tr><td><strong>Địa chỉ:</strong></td><td>${registration.business_info.business_address}</td></tr>
+                                <tr><td><strong>Điện thoại:</strong></td><td>${registration.business_info.business_phone}</td></tr>
+                                <tr><td><strong>Email:</strong></td><td>${registration.business_info.business_email}</td></tr>
+                                ${registration.business_info.website_url ? `<tr><td><strong>Website:</strong></td><td><a href="${registration.business_info.website_url}" target="_blank">${registration.business_info.website_url}</a></td></tr>` : ''}
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-section">
+                            <h6><i class="fas fa-user me-2"></i>Thông tin người đại diện</h6>
+                            <table class="table table-sm">
+                                <tr><td><strong>Họ tên:</strong></td><td>${registration.representative_info.full_name}</td></tr>
+                                <tr><td><strong>Chức vụ:</strong></td><td>${registration.representative_info.position}</td></tr>
+                                <tr><td><strong>CMND/CCCD:</strong></td><td>${registration.representative_info.id_number}</td></tr>
+                                <tr><td><strong>Ngày cấp:</strong></td><td>${formatDate(registration.representative_info.id_issue_date)}</td></tr>
+                                <tr><td><strong>Nơi cấp:</strong></td><td>${registration.representative_info.id_issue_place}</td></tr>
+                                <tr><td><strong>Điện thoại:</strong></td><td>${registration.representative_info.phone}</td></tr>
+                                <tr><td><strong>Email:</strong></td><td>${registration.representative_info.email}</td></tr>
+                                <tr><td><strong>Địa chỉ:</strong></td><td>${registration.representative_info.address}</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-section">
+                            <h6><i class="fas fa-university me-2"></i>Thông tin tài khoản ngân hàng</h6>
+                            <table class="table table-sm">
+                                <tr><td><strong>Ngân hàng:</strong></td><td>${registration.bank_account.bank_name}</td></tr>
+                                <tr><td><strong>Số tài khoản:</strong></td><td>${registration.bank_account.account_number}</td></tr>
+                                <tr><td><strong>Chủ tài khoản:</strong></td><td>${registration.bank_account.account_holder_name}</td></tr>
+                                <tr><td><strong>Xác nhận đăng ký thuế:</strong></td><td>${registration.bank_account.tax_registered_confirmed ? '<span class="badge bg-success">Có</span>' : '<span class="badge bg-warning">Không</span>'}</td></tr>
+                                ${registration.bank_account.bank_statement_url ? `<tr><td><strong>Sao kê ngân hàng:</strong></td><td><a href="${registration.bank_account.bank_statement_url}" target="_blank" class="btn btn-sm btn-outline-primary">Xem file</a></td></tr>` : ''}
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        ${registration.backup_card && registration.backup_card.enabled ? `
+                        <div class="info-section">
+                            <h6><i class="fas fa-credit-card me-2"></i>Thông tin thẻ dự phòng</h6>
+                            <table class="table table-sm">
+                                <tr><td><strong>Loại thẻ:</strong></td><td>${registration.backup_card.card_type}</td></tr>
+                                <tr><td><strong>Số thẻ:</strong></td><td>${registration.backup_card.card_number ? registration.backup_card.card_number.replace(/(\d{4})/g, '$1 ').trim() : 'N/A'}</td></tr>
+                                <tr><td><strong>Tên chủ thẻ:</strong></td><td>${registration.backup_card.cardholder_name}</td></tr>
+                                <tr><td><strong>Ngày hết hạn:</strong></td><td>${registration.backup_card.expiry_date}</td></tr>
+                                <tr><td><strong>Ngân hàng phát hành:</strong></td><td>${registration.backup_card.issuing_bank}</td></tr>
+                            </table>
+                        </div>
+                        ` : `
+                        <div class="info-section">
+                            <h6><i class="fas fa-credit-card me-2"></i>Thông tin thẻ dự phòng</h6>
+                            <p class="text-muted">Không có thông tin thẻ dự phòng</p>
+                        </div>
+                        `}
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <h6><i class="fas fa-chart-line me-2"></i>Đánh giá hệ thống</h6>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Trạng thái:</strong><br>
+                            ${getStatusBadge(registration.status)}
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Giá trị thị trường:</strong><br>
+                            ${getMarketValueBadge(registration.market_value)}
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Trạng thái xác minh:</strong><br>
+                            ${getVerificationBadge(registration.verification_status)}
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Admin phụ trách:</strong><br>
+                            ${registration.assigned_admin ? registration.assigned_admin : '<span class="text-muted">Chưa phân công</span>'}
+                        </div>
+                    </div>
+                    ${registration.risk_assessment ? `
+                    <div class="mt-3">
+                        <strong>Đánh giá rủi ro:</strong>
+                        <div class="progress mt-1">
+                            <div class="progress-bar ${registration.risk_assessment.score <= 20 ? 'bg-success' : registration.risk_assessment.score <= 40 ? 'bg-warning' : 'bg-danger'}" 
+                                 style="width: ${registration.risk_assessment.score}%">
+                                ${registration.risk_assessment.score}%
+                            </div>
+                        </div>
+                        <small class="text-muted">Các yếu tố rủi ro: ${registration.risk_assessment.factors.join(', ')}</small>
+                    </div>
+                    ` : ''}
+                </div>
+                
+                ${registration.review_notes && registration.review_notes.length > 0 ? `
+                <div class="info-section">
+                    <h6><i class="fas fa-comments me-2"></i>Ghi chú xem xét</h6>
+                    ${registration.review_notes.map(note => `
+                        <div class="review-note">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <strong>${note.admin_username}</strong>
+                                    <span class="badge bg-primary ms-2">${note.action}</span>
+                                </div>
+                                <small class="text-muted">${formatDate(note.timestamp)}</small>
+                            </div>
+                            <p class="mt-2 mb-0">${note.note}</p>
+                        </div>
+                    `).join('')}
+                </div>
+                ` : ''}
+            `;
+        }
+
+        // Edit registration
+        function editRegistration() {
+            if (!currentRegistrationId) return;
+            
+            // Load current registration data into edit form
+            viewRegistrationDetail(currentRegistrationId).then(() => {
+                // Hide detail modal and show edit modal
+                bootstrap.Modal.getInstance(document.getElementById('registrationDetailModal')).hide();
+                
+                setTimeout(() => {
+                    new bootstrap.Modal(document.getElementById('editRegistrationModal')).show();
+                }, 300);
+            });
+        }
+
+        // Save registration changes
+        async function saveRegistrationChanges() {
+            if (!currentRegistrationId) return;
+            
+            try {
+                showLoading(true);
+                
+                const updateData = {
+                    status: document.getElementById('editStatus').value,
+                    market_value: document.getElementById('editMarketValue').value,
+                    verification_status: document.getElementById('editVerificationStatus').value,
+                    assigned_admin: document.getElementById('editAssignedAdmin').value || null,
+                    review_note: document.getElementById('editReviewNote').value || null,
+                    rejection_reason: document.getElementById('editRejectionReason').value || null
+                };
+                
+                const response = await fetch(`/api/merchant/admin/registrations/${currentRegistrationId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('admin_token')
+                    },
+                    body: JSON.stringify(updateData)
+                });
+                
+                if (response.ok) {
+                    showAlert('Cập nhật thành công', 'success');
+                    bootstrap.Modal.getInstance(document.getElementById('editRegistrationModal')).hide();
+                    loadRegistrations(currentPage);
+                    loadStats();
+                } else {
+                    showAlert('Không thể cập nhật đăng ký', 'danger');
+                }
+            } catch (error) {
+                console.error('Failed to update registration:', error);
+                showAlert('Lỗi kết nối', 'danger');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Quick approve
+        async function quickApprove(registrationId) {
+            if (!confirm('Bạn có chắc chắn muốn phê duyệt đăng ký này?')) return;
+            
+            try {
+                showLoading(true);
+                
+                const response = await fetch(`/api/merchant/admin/registrations/${registrationId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('admin_token')
+                    },
+                    body: JSON.stringify({
+                        status: 'approved',
+                        review_note: 'Phê duyệt nhanh từ danh sách'
+                    })
+                });
+                
+                if (response.ok) {
+                    showAlert('Đã phê duyệt thành công', 'success');
+                    loadRegistrations(currentPage);
+                    loadStats();
+                } else {
+                    showAlert('Không thể phê duyệt đăng ký', 'danger');
+                }
+            } catch (error) {
+                console.error('Failed to approve registration:', error);
+                showAlert('Lỗi kết nối', 'danger');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Quick reject
+        async function quickReject(registrationId) {
+            const reason = prompt('Nhập lý do từ chối:');
+            if (!reason) return;
+            
+            try {
+                showLoading(true);
+                
+                const response = await fetch(`/api/merchant/admin/registrations/${registrationId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('admin_token')
+                    },
+                    body: JSON.stringify({
+                        status: 'rejected',
+                        rejection_reason: reason,
+                        review_note: 'Từ chối nhanh từ danh sách'
+                    })
+                });
+                
+                if (response.ok) {
+                    showAlert('Đã từ chối đăng ký', 'warning');
+                    loadRegistrations(currentPage);
+                    loadStats();
+                } else {
+                    showAlert('Không thể từ chối đăng ký', 'danger');
+                }
+            } catch (error) {
+                console.error('Failed to reject registration:', error);
+                showAlert('Lỗi kết nối', 'danger');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Load admin users for assignment
+        async function loadAdminUsers() {
+            try {
+                // Mock admin users - replace with actual API call
+                const admins = [
+                    { id: 'admin1', username: 'admin_user_1' },
+                    { id: 'admin2', username: 'admin_user_2' },
+                    { id: 'admin3', username: 'admin_user_3' }
+                ];
+                
+                const select = document.getElementById('editAssignedAdmin');
+                admins.forEach(admin => {
+                    const option = document.createElement('option');
+                    option.value = admin.username;
+                    option.textContent = admin.username;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Failed to load admin users:', error);
+            }
+        }
+
+        // Apply filters
+        function applyFilters() {
+            currentFilters = {};
+            
+            const status = document.getElementById('statusFilter').value;
+            const marketValue = document.getElementById('marketValueFilter').value;
+            const businessName = document.getElementById('businessNameFilter').value;
+            const taxCode = document.getElementById('taxCodeFilter').value;
+            
+            if (status) currentFilters.status = status;
+            if (marketValue) currentFilters.market_value = marketValue;
+            if (businessName) currentFilters.business_name = businessName;
+            if (taxCode) currentFilters.tax_code = taxCode;
+            
+            loadRegistrations(1);
+        }
+
+        // Debounced filter for search inputs
+        function debounceFilter() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(applyFilters, 500);
+        }
+
+        // Refresh data
+        function refreshData() {
+            loadStats();
+            loadRegistrations(currentPage);
+        }
+
+        // Helper functions
+        function getStatusBadge(status) {
+            const statusMap = {
+                'pending': '<span class="badge status-pending">Chờ xử lý</span>',
+                'under_review': '<span class="badge status-under-review">Đang xem xét</span>',
+                'approved': '<span class="badge status-approved">Đã phê duyệt</span>',
+                'rejected': '<span class="badge status-rejected">Từ chối</span>',
+                'requires_info': '<span class="badge bg-info">Yêu cầu bổ sung</span>'
+            };
+            return statusMap[status] || `<span class="badge bg-secondary">${status}</span>`;
+        }
+
+        function getMarketValueBadge(value) {
+            if (!value) return '<span class="text-muted">Chưa đánh giá</span>';
+            
+            const valueMap = {
+                'high': '<span class="badge market-high">Cao</span>',
+                'medium': '<span class="badge market-medium">Trung bình</span>',
+                'low': '<span class="badge market-low">Thấp</span>',
+                'premium': '<span class="badge bg-purple text-white">Cao cấp</span>'
+            };
+            return valueMap[value] || `<span class="badge bg-secondary">${value}</span>`;
+        }
+
+        function getVerificationBadge(status) {
+            const statusMap = {
+                'not_verified': '<span class="badge bg-secondary">Chưa xác minh</span>',
+                'pending': '<span class="badge bg-warning">Đang xác minh</span>',
+                'verified': '<span class="badge bg-success">Đã xác minh</span>',
+                'failed': '<span class="badge bg-danger">Xác minh thất bại</span>'
+            };
+            return statusMap[status] || `<span class="badge bg-secondary">${status}</span>`;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN') + ' ' + date.toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
+        }
+
+        function showLoading(show) {
+            const spinner = document.getElementById('loadingSpinner');
+            if (show) {
+                spinner.classList.remove('d-none');
+            } else {
+                spinner.classList.add('d-none');
+            }
+        }
+
+        function showAlert(message, type) {
+            // Create alert element
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.parentNode.removeChild(alertDiv);
+                }
+            }, 5000);
+        }
+
+        function logout() {
+            localStorage.removeItem('admin_token');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

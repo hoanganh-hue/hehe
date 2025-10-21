@@ -1,0 +1,291 @@
+version: '3.8'
+
+services:
+  # MongoDB Replica Set
+  mongodb-primary:
+    image: mongo:6.0
+    container_name: mongodb-primary
+    restart: unless-stopped
+    environment:
+      MONGODB_DATABASE: ${MONGODB_DATABASE}
+    command: mongod --replSet rs0 --bind_ip_all
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_primary_data:/data/db
+      - mongodb_primary_config:/data/configdb
+    networks:
+      - database_network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  mongodb-secondary-1:
+    image: mongo:6.0
+    container_name: mongodb-secondary-1
+    restart: unless-stopped
+    command: mongod --replSet rs0 --bind_ip_all
+    volumes:
+      - mongodb_secondary1_data:/data/db
+      - mongodb_secondary1_config:/data/configdb
+    networks:
+      - database_network
+    depends_on:
+      - mongodb-primary
+
+  mongodb-secondary-2:
+    image: mongo:6.0
+    container_name: mongodb-secondary-2
+    restart: unless-stopped
+    command: mongod --replSet rs0 --bind_ip_all
+    volumes:
+      - mongodb_secondary2_data:/data/configdb
+      - mongodb_secondary2_config:/data/configdb
+    networks:
+      - database_network
+    depends_on:
+      - mongodb-primary
+
+  # Redis Cluster
+  redis-primary:
+    image: redis:7-alpine
+    container_name: redis-primary
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD} --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_primary_data:/data
+    networks:
+      - database_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  redis-replica:
+    image: redis:7-alpine
+    container_name: redis-replica
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD} --replicaof redis-primary 6379 --appendonly yes
+    volumes:
+      - redis_replica_data:/data
+    networks:
+      - database_network
+    depends_on:
+      - redis-primary
+
+  # InfluxDB 2.0
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    restart: unless-stopped
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: ${INFLUXDB_ADMIN_USER}
+      DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUXDB_ADMIN_PASSWORD}
+      DOCKER_INFLUXDB_INIT_ORG: ${INFLUXDB_ORG}
+      DOCKER_INFLUXDB_INIT_BUCKET: ${INFLUXDB_BUCKET}
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUXDB_TOKEN}
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+      - influxdb_config:/etc/influxdb2
+    networks:
+      - database_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # BeEF Framework
+  beef:
+    build:
+      context: ./beef_framework
+      dockerfile: Dockerfile
+    container_name: beef
+    restart: unless-stopped
+    environment:
+      BEEF_HOST: ${BEEF_HOST}
+      BEEF_PORT: ${BEEF_PORT}
+      BEEF_USER: ${BEEF_USER}
+      BEEF_PASSWORD: ${BEEF_PASSWORD}
+    ports:
+      - "3001:3000"  # Changed to 3001 to avoid port conflict with other services
+    volumes:
+      - beef_data:/opt/beef
+    networks:
+      - backend_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/ui/panel"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Backend FastAPI Application
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    restart: unless-stopped
+    environment:
+      - MONGODB_URI=mongodb://${MONGODB_ROOT_USERNAME}:${MONGODB_ROOT_PASSWORD}@mongodb-primary:27017/${MONGODB_DATABASE}?authSource=admin&replicaSet=rs0
+      - REDIS_HOST=redis-primary
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
+      - INFLUXDB_ORG=${INFLUXDB_ORG}
+      - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
+      - BEEF_URL=http://beef:3000
+      - BEEF_API_TOKEN=${BEEF_API_TOKEN}
+      - DOMAIN=${DOMAIN}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+    volumes:
+      - backend_logs:/app/logs
+      - backend_uploads:/app/uploads
+    networks:
+      - backend_network
+      - database_network
+    depends_on:
+      mongodb-primary:
+        condition: service_healthy
+      redis-primary:
+        condition: service_healthy
+      influxdb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend Nginx
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: unless-stopped
+    volumes:
+      - frontend_static:/usr/share/nginx/html/static
+    networks:
+      - frontend_network
+      - backend_network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/health/frontend"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx Load Balancer/Reverse Proxy
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - nginx_logs:/var/log/nginx
+      - certbot_conf:/etc/letsencrypt
+      - certbot_www:/var/www/certbot
+    networks:
+      - frontend_network
+      - backend_network
+    depends_on:
+      - frontend
+      - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Certbot for Let's Encrypt
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    restart: "no"
+    profiles:
+      - production  # Only run in production, not local development
+    volumes:
+      - certbot_conf:/etc/letsencrypt
+      - certbot_www:/var/www/certbot
+    command: certonly --webroot --webroot-path=/var/www/certbot --email ${SSL_EMAIL} --agree-tos --no-eff-email -d ${DOMAIN} -d www.${DOMAIN}
+    networks:
+      - frontend_network
+
+  # MongoDB Initialization
+  mongodb-init:
+    image: mongo:6.0
+    container_name: mongodb-init
+    restart: "no"
+    profiles:
+      - init  # Only run when explicitly requested
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD}
+    volumes:
+      - ./scripts/mongodb-init.js:/docker-entrypoint-initdb.d/mongodb-init.js:ro
+    networks:
+      - database_network
+    depends_on:
+      - mongodb-primary
+    command: >
+      bash -c "
+        sleep 10 &&
+        mongosh --host mongodb-primary:27017 -u ${MONGODB_ROOT_USERNAME} -p ${MONGODB_ROOT_PASSWORD} --authenticationDatabase admin /docker-entrypoint-initdb.d/mongodb-init.js
+      "
+
+volumes:
+  # MongoDB volumes
+  mongodb_primary_data:
+  mongodb_primary_config:
+  mongodb_secondary1_data:
+  mongodb_secondary1_config:
+  mongodb_secondary2_data:
+  mongodb_secondary2_config:
+  
+  # Redis volumes
+  redis_primary_data:
+  redis_replica_data:
+  
+  # InfluxDB volumes
+  influxdb_data:
+  influxdb_config:
+  
+  # BeEF volumes
+  beef_data:
+  
+  # Backend volumes
+  backend_logs:
+  backend_uploads:
+  
+  # Frontend volumes
+  frontend_static:
+  
+  # Nginx volumes
+  nginx_logs:
+  
+  # Certbot volumes
+  certbot_conf:
+  certbot_www:
+
+networks:
+  frontend_network:
+    driver: bridge
+  backend_network:
+    driver: bridge
+  database_network:
+    driver: bridge

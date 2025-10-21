@@ -1,0 +1,460 @@
+
+
+Quản lý Vay Doanh nghiệp - ZaloPay Admin Portal
+
+
+<div class="container-fluid">
+    <!-- Page header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">Quản lý Vay Doanh nghiệp</h1>
+            <p class="text-muted">Danh sách tất cả đơn vay của các doanh nghiệp</p>
+        </div>
+        <div>
+            <button class="btn btn-success me-2">
+                <i class="fas fa-download me-1"></i>Xuất Excel
+            </button>
+            <div class="btn-group" role="group">
+                <button class="btn btn-outline-primary active">Tất cả</button>
+                <button class="btn btn-outline-warning">Chờ duyệt</button>
+                <button class="btn btn-outline-success">Đã duyệt</button>
+                <button class="btn btn-outline-danger">Từ chối</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter and Search -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Tìm kiếm</label>
+                    <input type="text" class="form-control" placeholder="Tên doanh nghiệp, mã số thuế...">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Trạng thái</label>
+                    <select class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="pending">Chờ duyệt</option>
+                        <option value="approved">Đã duyệt</option>
+                        <option value="rejected">Từ chối</option>
+                        <option value="reviewing">Đang xem xét</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Ngành nghề</label>
+                    <select class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="manufacturing">Sản xuất</option>
+                        <option value="trading">Thương mại</option>
+                        <option value="services">Dịch vụ</option>
+                        <option value="technology">Công nghệ</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Số tiền vay</label>
+                    <select class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="0-1000000000">Dưới 1 tỷ</option>
+                        <option value="1000000000-5000000000">1-5 tỷ</option>
+                        <option value="5000000000-10000000000">5-10 tỷ</option>
+                        <option value="10000000000-0">Trên 10 tỷ</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Ngày nộp</label>
+                    <input type="date" class="form-control">
+                </div>
+                <div class="col-md-1 d-flex align-items-end">
+                    <button class="btn btn-primary w-100">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-left-primary">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Tổng đơn</div>
+                    <div class="h5 mb-0 font-weight-bold">456</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-warning">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Chờ duyệt</div>
+                    <div class="h5 mb-0 font-weight-bold">67</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-success">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Đã duyệt</div>
+                    <div class="h5 mb-0 font-weight-bold">324</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-danger">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Từ chối</div>
+                    <div class="h5 mb-0 font-weight-bold">65</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loan Applications Table -->
+    <div class="card">
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold">Danh sách đơn vay doanh nghiệp</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn</th>
+                            <th>Tên doanh nghiệp</th>
+                            <th>Mã số thuế</th>
+                            <th>Ngành nghề</th>
+                            <th>Số tiền vay</th>
+                            <th>Ngày nộp</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ENT-001</strong></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <div class="bg-primary rounded-circle text-white text-center" style="width: 35px; height: 35px; line-height: 35px; font-size: 12px;">
+                                            ABC
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-bold">Công ty TNHH ABC</div>
+                                        <div class="text-muted small">Nguyễn Văn A - Giám đốc</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>0123456789</td>
+                            <td><span class="badge bg-info">Sản xuất</span></td>
+                            <td><strong>5,000,000,000 ₫</strong></td>
+                            <td>20/09/2025</td>
+                            <td><span class="badge badge-status-pending">Chờ duyệt</span></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewLoanDetail('ENT-001')" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-success" onclick="approveLoan('ENT-001')" title="Duyệt">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="rejectLoan('ENT-001')" title="Từ chối">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>ENT-002</strong></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <div class="bg-success rounded-circle text-white text-center" style="width: 35px; height: 35px; line-height: 35px; font-size: 12px;">
+                                            XYZ
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-bold">Công ty CP XYZ</div>
+                                        <div class="text-muted small">Trần Thị B - Chủ tịch HQTV</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>0987654321</td>
+                            <td><span class="badge bg-warning">Thương mại</span></td>
+                            <td><strong>2,500,000,000 ₫</strong></td>
+                            <td>19/09/2025</td>
+                            <td><span class="badge badge-status-approved">Đã duyệt</span></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewLoanDetail('ENT-002')" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-info" onclick="downloadContract('ENT-002')" title="Tải hợp đồng">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>ENT-003</strong></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <div class="bg-info rounded-circle text-white text-center" style="width: 35px; height: 35px; line-height: 35px; font-size: 12px;">
+                                            DEF
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-bold">Công ty TNHH DEF Tech</div>
+                                        <div class="text-muted small">Lê Văn C - Giám đốc</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>0369258147</td>
+                            <td><span class="badge bg-primary">Công nghệ</span></td>
+                            <td><strong>8,000,000,000 ₫</strong></td>
+                            <td>18/09/2025</td>
+                            <td><span class="badge badge-status-reviewing">Đang xem xét</span></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewLoanDetail('ENT-003')" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-success" onclick="approveLoan('ENT-003')" title="Duyệt">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="rejectLoan('ENT-003')" title="Từ chối">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>ENT-004</strong></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <div class="bg-danger rounded-circle text-white text-center" style="width: 35px; height: 35px; line-height: 35px; font-size: 12px;">
+                                            GHI
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-bold">Công ty TNHH GHI Services</div>
+                                        <div class="text-muted small">Phạm Thị D - Giám đốc</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>0741852963</td>
+                            <td><span class="badge bg-secondary">Dịch vụ</span></td>
+                            <td><strong>1,200,000,000 ₫</strong></td>
+                            <td>17/09/2025</td>
+                            <td><span class="badge badge-status-rejected">Từ chối</span></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewLoanDetail('ENT-004')" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-warning" onclick="reviewLoan('ENT-004')" title="Xem xét lại">
+                                        <i class="fas fa-redo"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>ENT-005</strong></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <div class="bg-warning rounded-circle text-white text-center" style="width: 35px; height: 35px; line-height: 35px; font-size: 12px;">
+                                            JKL
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-bold">Công ty CP JKL Group</div>
+                                        <div class="text-muted small">Hoàng Văn E - Tổng giám đốc</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>0159753486</td>
+                            <td><span class="badge bg-info">Sản xuất</span></td>
+                            <td><strong>15,000,000,000 ₫</strong></td>
+                            <td>16/09/2025</td>
+                            <td><span class="badge badge-status-pending">Chờ duyệt</span></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewLoanDetail('ENT-005')" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-success" onclick="approveLoan('ENT-005')" title="Duyệt">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="rejectLoan('ENT-005')" title="Từ chối">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Loan pagination" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <span class="page-link">Trước</span>
+                    </li>
+                    <li class="page-item active">
+                        <span class="page-link">1</span>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Tiếp</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Loan Detail Modal -->
+<div class="modal fade" id="loanDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết đơn vay doanh nghiệp</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Loan detail content will be loaded here -->
+                <div id="loanDetailContent">
+                    <div class="text-center py-3">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-success" id="approveLoanBtn">
+                    <i class="fas fa-check me-2"></i>Duyệt đơn
+                </button>
+                <button type="button" class="btn btn-danger" id="rejectLoanBtn">
+                    <i class="fas fa-times me-2"></i>Từ chối
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+function viewLoanDetail(loanId) {
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('loanDetailModal'));
+    modal.show();
+    
+    // Load loan detail content (simulate API call)
+    setTimeout(() => {
+        document.getElementById('loanDetailContent').innerHTML = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6 class="text-primary">Thông tin pháp lý</h6>
+                    <table class="table table-sm">
+                        <tr><td><strong>Tên doanh nghiệp:</strong></td><td>Công ty TNHH ABC</td></tr>
+                        <tr><td><strong>Mã số thuế:</strong></td><td>0123456789</td></tr>
+                        <tr><td><strong>Ngành nghề:</strong></td><td>Sản xuất</td></tr>
+                        <tr><td><strong>Địa chỉ:</strong></td><td>123 Đường ABC, Q1, TP.HCM</td></tr>
+                        <tr><td><strong>Người đại diện:</strong></td><td>Nguyễn Văn A</td></tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="text-primary">Thông tin tài chính</h6>
+                    <table class="table table-sm">
+                        <tr><td><strong>Số tiền vay:</strong></td><td class="text-success"><strong>5,000,000,000 ₫</strong></td></tr>
+                        <tr><td><strong>Doanh thu hàng năm:</strong></td><td>50,000,000,000 ₫</td></tr>
+                        <tr><td><strong>Lợi nhuận:</strong></td><td>8,000,000,000 ₫</td></tr>
+                        <tr><td><strong>Tài sản đảm bảo:</strong></td><td>Bất động sản 12 tỷ</td></tr>
+                        <tr><td><strong>Mục đích vay:</strong></td><td>Mở rộng sản xuất</td></tr>
+                    </table>
+                </div>
+            </div>
+            <hr>
+            <h6 class="text-primary">Tài liệu đính kèm</h6>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <i class="fas fa-file-pdf fa-2x text-danger mb-2"></i>
+                            <p class="card-text small">Giấy đăng ký KD</p>
+                            <button class="btn btn-sm btn-outline-primary">Xem</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <i class="fas fa-file-excel fa-2x text-success mb-2"></i>
+                            <p class="card-text small">Báo cáo tài chính</p>
+                            <button class="btn btn-sm btn-outline-primary">Xem</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <i class="fas fa-file-image fa-2x text-info mb-2"></i>
+                            <p class="card-text small">Hợp đồng kinh tế</p>
+                            <button class="btn btn-sm btn-outline-primary">Xem</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }, 500);
+}
+
+function approveLoan(loanId) {
+    if (confirm('Bạn có chắc chắn muốn duyệt đơn vay này?')) {
+        // Simulate API call
+        toastr.success('Đã duyệt đơn vay ' + loanId + ' thành công!');
+        
+        // Update UI (in real app, reload data from server)
+        location.reload();
+    }
+}
+
+function rejectLoan(loanId) {
+    const reason = prompt('Nhập lý do từ chối:');
+    if (reason) {
+        // Simulate API call
+        toastr.error('Đã từ chối đơn vay ' + loanId);
+        
+        // Update UI (in real app, reload data from server)
+        location.reload();
+    }
+}
+
+function reviewLoan(loanId) {
+    if (confirm('Bạn muốn xem xét lại đơn vay này?')) {
+        // Simulate API call
+        toastr.info('Đơn vay ' + loanId + ' đã được chuyển sang trạng thái xem xét lại');
+        
+        // Update UI
+        location.reload();
+    }
+}
+
+function downloadContract(loanId) {
+    // Simulate file download
+    toastr.info('Đang tải hợp đồng cho đơn vay ' + loanId + '...');
+}
+</script>

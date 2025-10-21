@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="">
+    <title>ZaloPay Merchant - Đăng nhập</title>
+    <meta name="description" content="Đăng nhập vào hệ thống ZaloPay Merchant để quản lý thanh toán">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="flex justify-between items-center">
+                <div class="zalopay-logo">
+                    ZaloPay Merchant
+                </div>
+                <nav>
+                    <a href="/">Trang chủ</a>
+                    <a href="/merchant/register">Đăng ký</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Form -->
+    <main class="container">
+        <div class="merchant-form">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Đăng nhập Merchant</h2>
+                </div>
+                <div class="card-body">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="form-input"
+                                placeholder="merchant@company.com"
+                                required
+                            >
+                            <span class="form-error" id="emailError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="form-label">Mật khẩu</label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-input"
+                                placeholder="Nhập mật khẩu"
+                                required
+                            >
+                            <span class="form-error" id="passwordError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="flex items-center">
+                                <input type="checkbox" id="remember" name="remember">
+                                <span class="ml-2">Ghi nhớ đăng nhập</span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="loginBtn">
+                            <span id="loginText">Đăng nhập</span>
+                            <span id="loginLoading" class="loading" style="display: none;"></span>
+                        </button>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p>Chưa có tài khoản? <a href="/merchant/register">Đăng ký ngay</a></p>
+                        <p><a href="/merchant/forgot-password">Quên mật khẩu?</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OAuth Login Options -->
+            <div class="card mt-4">
+                <div class="card-body text-center">
+                    <p class="text-gray-600 mb-4">Hoặc đăng nhập với</p>
+                    <div class="space-x-4">
+                        <button id="googleLogin" class="btn btn-outline">
+                            <img src="/assets/images/google-icon.png" alt="Google" class="w-5 h-5 mr-2">
+                            Google
+                        </button>
+                        <button id="appleLogin" class="btn btn-outline">
+                            <img src="/assets/images/apple-icon.png" alt="Apple" class="w-5 h-5 mr-2">
+                            Apple
+                        </button>
+                        <button id="facebookLogin" class="btn btn-outline">
+                            <img src="/assets/images/facebook-icon.png" alt="Facebook" class="w-5 h-5 mr-2">
+                            Facebook
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p>&copy; 2024 ZaloPay. All rights reserved.</p>
+            <div class="security-indicator">Kết nối bảo mật SSL</div>
+        </div>
+    </footer>
+</body>
+</html>

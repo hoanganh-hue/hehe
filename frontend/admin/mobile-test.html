@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Mobile Responsive Test - ZaloPay Admin Portal</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Moment.js -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+
+    <!-- Mobile Responsive CSS -->
+    <link href="css/mobile-responsive.css" rel="stylesheet">
+    <!-- Mobile Typography CSS -->
+    <link href="css/mobile-typography.css" rel="stylesheet">
+
+    <style>
+        /* Test page specific styles */
+        .test-section {
+            border: 2px solid #007bff;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+        }
+
+        .test-info {
+            background: #e7f3ff;
+            border-left: 4px solid #007bff;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .device-preview {
+            border: 2px solid #28a745;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: #f8fff9;
+        }
+
+        .responsive-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            z-index: 9999;
+        }
+
+        .touch-target-demo {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .touch-target-item {
+            width: 44px;
+            height: 44px;
+            background: #007bff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+        }
+
+        .typography-demo {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .chart-demo {
+            height: 300px;
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Responsive indicator -->
+    <div class="responsive-indicator" id="responsiveIndicator">
+        <span id="screenSize">Desktop</span> - <span id="orientation">Landscape</span>
+    </div>
+
+    <div class="container-fluid">
+        <!-- Mobile Navigation Toggle -->
+        <button class="nav-toggle d-mobile-block d-tablet-none" onclick="toggleSidebar()" title="Toggle Navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mb-4">Mobile Responsive Design Test</h1>
+                <p class="text-center text-muted">Kiểm tra các tính năng responsive design cho ZaloPay Admin Portal</p>
+            </div>
+        </div>
+
+        <!-- Test Sections -->
+        <div class="row">
+            <!-- Device Information -->
+            <div class="col-12 mb-4">
+                <div class="test-section">
+                    <h3><i class="fas fa-mobile-alt"></i> Device Information</h3>
+                    <div class="test-info">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <strong>Screen Size:</strong> <span id="screenWidth">0</span> x <span id="screenHeight">0</span>
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Viewport:</strong> <span id="viewportSize">0</span> x <span id="viewportHeight">0</span>
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Device Pixel Ratio:</strong> <span id="devicePixelRatio">1</span>
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Touch Support:</strong> <span id="touchSupport">No</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Touch Targets Test -->
+            <div class="col-12 mb-4">
+                <div class="test-section">
+                    <h3><i class="fas fa-hand-pointer"></i> Touch Targets Test</h3>
+                    <p>Kiểm tra các touch targets có đủ lớn (tối thiểu 44px)</p>
+
+                    <div class="touch-target-demo">
+                        <button class="touch-target-item">44px</button>
+                        <button class="btn btn-primary touch-target">Primary Button</button>
+                        <button class="btn btn-secondary touch-target">Secondary</button>
+                        <button class="btn btn-sm btn-success touch-target">Small Button</button>
+                        <button class="btn btn-lg btn-warning touch-target">Large Button</button>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Form Controls</h5>
+                            <div class="mb-3">
+                                <input type="text" class="form-control touch-target" placeholder="Text input (44px+ height)">
+                            </div>
+                            <div class="mb-3">
+                                <select class="form-select touch-target">
+                                    <option>Select dropdown</option>
+                                    <option>Option 1</option>
+                                    <option>Option 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Interactive Elements</h5>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <div class="card touch-target" style="width: 100px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                                    <small>Card (44px)</small>
+                                </div>
+                                <div class="info-box touch-target" style="min-height: 44px;">
+                                    <div class="info-box-icon bg-info">
+                                        <i class="fas fa-info"></i>
+                                    </div>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Info Box</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typography Test -->
+            <div class="col-12 mb-4">
+                <div class="test-section">
+                    <h3><i class="fas fa-font"></i> Typography Test</h3>
+                    <p>Kiểm tra typography scaling và readability trên mobile</p>
+
+                    <div class="typography-demo">
+                        <h1>Heading 1 - Main Page Title</h1>
+                        <h2>Heading 2 - Section Title</h2>
+                        <h3>Heading 3 - Subsection Title</h3>
+                        <h4>Heading 4 - Component Title</h4>
+                        <h5>Heading 5 - Minor Title</h5>
+                        <h6>Heading 6 - Small Title</h6>
+
+                        <p>Đây là đoạn văn bản mẫu để kiểm tra font size, line height và readability trên các thiết bị mobile. Văn bản cần dễ đọc và có khoảng cách phù hợp giữa các dòng.</p>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Bold text</strong><br>
+                                <em>Italic text</em><br>
+                                <u>Underlined text</u><br>
+                                <small>Small text for captions</small>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="badge bg-primary">Primary Badge</span><br>
+                                <span class="badge bg-secondary">Secondary</span><br>
+                                <span class="text-muted">Muted text</span><br>
+                                <a href="#" class="touch-target">Link với touch target</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Responsiveness Test -->
+            <div class="col-12 mb-4">
+                <div class="test-section">
+                    <h3><i class="fas fa-chart-line"></i> Chart Responsiveness Test</h3>
+                    <p>Kiểm tra charts responsive trên mobile</p>
+
+                    <div class="row">
+                        <div class="col-lg-8 col-md-12 mb-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6>Line Chart - Mobile Responsive</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-demo">
+                                        <canvas id="testLineChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 mb-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6>Pie Chart - Mobile Responsive</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-demo">
+                                        <canvas id="testPieChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Responsiveness Test -->
+            <div class="col-12 mb-4">
+                <div class="test-section">
+                    <h3><i class="fas fa-table"></i> Table Responsiveness Test</h3>
+                    <p>Kiểm tra bảng responsive với horizontal scroll trên mobile</p>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>Status</th>
+                                            <th>Value</th>
+                                            <th>Campaign</th>
+                                            <th>Country</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td data-label="ID">1</td>
+                                            <td data-label="Name">Nguyễn Văn A</td>
+                                            <td data-label="Email">nguyenvana@example.com</td>
+                                            <td data-label="Phone">+84901234567</td>
+                                            <td data-label="Status"><span class="badge bg-success">Active</span></td>
+                                            <td data-label="Value">$1,250</td>
+                                            <td data-label="Campaign">Campaign A</td>
+                                            <td data-label="Country">🇻🇳 VN</td>
+                                            <td data-label="Actions">
+                                                <div class="btn-group-vertical">
+                                                    <button class="btn btn-sm btn-primary touch-target">View</button>
+                                                    <button class="btn btn-sm btn-warning touch-target">Edit</button>
+                                                    <button class="btn btn-sm btn-danger touch-target">Delete</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td data-label="ID">2</td>
+                                            <td data-label="Name">Trần Thị B</td>
+                                            <td data-label="Email">tranthib@example.com</td>
+                                            <td data-label="Phone">+84907654321</td>
+                                            <td data-label="Status"><span class="badge bg-warning">Pending</span></td>
+                                            <td data-label="Value">$850</td>
+                                            <td data-label="Campaign">Campaign B</td>
+                                            <td data-label="Country">🇻🇳 VN</td>
+                                            <td data-label="Actions">
+                                                <div class="btn-group-vertical">
+                                                    <button class="btn btn-sm btn-primary touch-target">View</button>
+                                                    <button class="btn btn-sm btn-warning touch-target">Edit</button>
+                                                    <button class="btn btn-sm btn-danger touch-target">Delete</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Breakpoint Test -->
+            <div class="col-12 mb-4">
+                <div class="test-section">
+                    <h3><i class="fas fa-code"></i> Breakpoint Test</h3>
+                    <p>Kiểm tra các breakpoint và responsive behavior</p>
+
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                            <div class="device-preview">
+                                <h6>XS (320px+)</h6>
+                                <div class="d-mobile-block d-tablet-none" style="background: #007bff; color: white; padding: 0.5rem; border-radius: 0.25rem;">
+                                    Mobile Only
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                            <div class="device-preview">
+                                <h6>SM (480px+)</h6>
+                                <div class="d-none d-sm-block" style="background: #28a745; color: white; padding: 0.5rem; border-radius: 0.25rem;">
+                                    Small+ Only
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                            <div class="device-preview">
+                                <h6>MD (768px+)</h6>
+                                <div class="d-none d-md-block" style="background: #ffc107; color: #000; padding: 0.5rem; border-radius: 0.25rem;">
+                                    Medium+ Only
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                            <div class="device-preview">
+                                <h6>LG (1024px+)</h6>
+                                <div class="d-none d-lg-block" style="background: #dc3545; color: white; padding: 0.5rem; border-radius: 0.25rem;">
+                                    Large+ Only
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                            <div class="device-preview">
+                                <h6>XL (1200px+)</h6>
+                                <div class="d-none d-xl-block" style="background: #6f42c1; color: white; padding: 0.5rem; border-radius: 0.25rem;">
+                                    XLarge+ Only
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Test -->
+            <div class="col-12 mb-4">
+                <div class="test-section">
+                    <h3><i class="fas fa-tachometer-alt"></i> Performance Test</h3>
+                    <p>Kiểm tra performance trên mobile</p>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button class="btn btn-primary w-100 mb-3" onclick="runPerformanceTest()">
+                                <i class="fas fa-play"></i> Run Performance Test
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-secondary w-100 mb-3" onclick="testTouchGestures()">
+                                <i class="fas fa-hand-pointer"></i> Test Touch Gestures
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="performanceResults" class="mt-3" style="display: none;">
+                        <h5>Kết quả Performance Test:</h5>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h3 id="loadTime">0ms</h3>
+                                        <small class="text-muted">Load Time</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h3 id="domElements">0</h3>
+                                        <small class="text-muted">DOM Elements</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h3 id="cssRules">0</h3>
+                                        <small class="text-muted">CSS Rules</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h3 id="jsFiles">0</h3>
+                                        <small class="text-muted">JS Files</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Gestures JS -->
+    <script src="js/mobile-gestures.js"></script>
+
+    <script>
+        // Responsive indicator update
+        function updateResponsiveIndicator() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const orientation = width > height ? 'Landscape' : 'Portrait';
+
+            let deviceType = 'Desktop';
+            if (width < 480) deviceType = 'Mobile XS';
+            else if (width < 768) deviceType = 'Mobile SM';
+            else if (width < 1024) deviceType = 'Tablet';
+            else if (width < 1200) deviceType = 'Desktop MD';
+            else deviceType = 'Desktop LG';
+
+            document.getElementById('screenSize').textContent = deviceType;
+            document.getElementById('orientation').textContent = orientation;
+            document.getElementById('screenWidth').textContent = screen.width;
+            document.getElementById('screenHeight').textContent = screen.height;
+            document.getElementById('viewportSize').textContent = width;
+            document.getElementById('viewportHeight').textContent = height;
+            document.getElementById('devicePixelRatio').textContent = window.devicePixelRatio || 1;
+            document.getElementById('touchSupport').textContent = 'ontouchstart' in window ? 'Yes' : 'No';
+        }
+
+        // Initialize charts for testing
+        function initializeTestCharts() {
+            // Line chart
+            const lineCtx = document.getElementById('testLineChart');
+            if (lineCtx) {
+                new Chart(lineCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Test Data',
+                            data: [12, 19, 3, 5, 2, 3],
+                            borderColor: '#007bff',
+                            backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            // Pie chart
+            const pieCtx = document.getElementById('testPieChart');
+            if (pieCtx) {
+                new Chart(pieCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Desktop', 'Mobile', 'Tablet'],
+                        datasets: [{
+                            data: [45, 35, 20],
+                            backgroundColor: ['#007bff', '#28a745', '#ffc107']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: window.innerWidth < 768 ? 'bottom' : 'right'
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Performance test
+        function runPerformanceTest() {
+            const startTime = performance.now();
+
+            // Simulate some work
+            setTimeout(() => {
+                const endTime = performance.now();
+                const loadTime = Math.round(endTime - startTime);
+
+                document.getElementById('loadTime').textContent = loadTime + 'ms';
+                document.getElementById('domElements').textContent = document.querySelectorAll('*').length;
+                document.getElementById('cssRules').textContent = getComputedStyle(document.body).length;
+                document.getElementById('jsFiles').textContent = document.querySelectorAll('script[src]').length;
+
+                document.getElementById('performanceResults').style.display = 'block';
+
+                showToast(`Performance test completed in ${loadTime}ms`, 'success');
+            }, 100);
+        }
+
+        // Touch gestures test
+        function testTouchGestures() {
+            showToast('Test touch gestures: Swipe left/right on charts and tables', 'info');
+
+            // Add visual feedback for touch areas
+            document.querySelectorAll('.touch-target').forEach(el => {
+                el.style.outline = '2px solid #007bff';
+                setTimeout(() => {
+                    el.style.outline = '';
+                }, 2000);
+            });
+        }
+
+        // Sidebar toggle for mobile
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const backdrop = document.querySelector('.sidebar-backdrop');
+
+            if (sidebar && backdrop) {
+                sidebar.classList.toggle('show');
+                backdrop.classList.toggle('show');
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateResponsiveIndicator();
+            initializeTestCharts();
+
+            // Update indicator on resize
+            window.addEventListener('resize', updateResponsiveIndicator);
+            window.addEventListener('orientationchange', function() {
+                setTimeout(updateResponsiveIndicator, 100);
+            });
+
+            // Add touch feedback to test buttons
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.classList.add('touch-target');
+            });
+        });
+
+        // Show toast function
+        function showToast(message, type = 'info') {
+            const toastHtml = `
+                <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'warning' ? 'warning' : type === 'danger' ? 'danger' : 'info'} border-0" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body">${message}</div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    </div>
+                </div>
+            `;
+
+            let toastContainer = document.getElementById('toastContainer');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.id = 'toastContainer';
+                toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+                document.body.appendChild(toastContainer);
+            }
+
+            toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+            const toast = new bootstrap.Toast(toastContainer.lastElementChild);
+            toast.show();
+        }
+    </script>
+</body>
+</html>

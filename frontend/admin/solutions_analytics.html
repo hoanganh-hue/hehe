@@ -1,0 +1,738 @@
+
+
+Phân tích Giải pháp - ZaloPay Admin Portal
+
+
+<div class="container-fluid">
+    <!-- Page header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">Phân tích Giải pháp</h1>
+            <p class="text-muted">Theo dõi và phân tích hiệu quả sử dụng các giải pháp ZaloPay</p>
+        </div>
+        <div>
+            <button class="btn btn-info me-2" onclick="refreshData()">
+                <i class="fas fa-sync-alt me-1"></i>Làm mới dữ liệu
+            </button>
+            <button class="btn btn-success me-2" onclick="exportAnalytics()">
+                <i class="fas fa-download me-1"></i>Xuất báo cáo
+            </button>
+            <div class="btn-group" role="group">
+                <button class="btn btn-outline-primary active" onclick="setTimeRange('7d')">7 ngày</button>
+                <button class="btn btn-outline-primary" onclick="setTimeRange('30d')">30 ngày</button>
+                <button class="btn btn-outline-primary" onclick="setTimeRange('90d')">90 ngày</button>
+                <button class="btn btn-outline-primary" onclick="setTimeRange('1y')">1 năm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overall Statistics -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Tổng giải pháp kích hoạt
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalActiveSolutions">
+                                15,247
+                            </div>
+                            <div class="text-xs text-success">
+                                <i class="fas fa-arrow-up"></i> +12% so với tuần trước
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-chart-line fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Doanh thu (30 ngày)
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalRevenue">
+                                2.4 tỷ ₫
+                            </div>
+                            <div class="text-xs text-success">
+                                <i class="fas fa-arrow-up"></i> +8.5% so với tháng trước
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Đối tác sử dụng (tuần)
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="weeklyActivePartners">
+                                3,456
+                            </div>
+                            <div class="text-xs text-info">
+                                <i class="fas fa-arrow-up"></i> +156 đối tác mới
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Tỷ lệ hài lòng
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="satisfactionRate">
+                                94.2%
+                            </div>
+                            <div class="text-xs text-success">
+                                <i class="fas fa-arrow-up"></i> +2.1% so với tháng trước
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-smile fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Solution Performance Charts -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Xu hướng sử dụng giải pháp (30 ngày qua)</h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow">
+                            <a class="dropdown-item" href="#" onclick="changeChartType('line')">Biểu đồ đường</a>
+                            <a class="dropdown-item" href="#" onclick="changeChartType('bar')">Biểu đồ cột</a>
+                            <a class="dropdown-item" href="#" onclick="changeChartType('area')">Biểu đồ vùng</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="usageChart" style="height: 320px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Top giải pháp phổ biến</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2">
+                        <canvas id="solutionsPieChart" style="height: 280px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Solution Categories Performance -->
+    <div class="row mb-4">
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Hiệu quả theo danh mục giải pháp</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="card border-left-success">
+                                <div class="card-body py-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Thanh toán tại quầy</div>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-auto">
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">45.2%</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="progress progress-sm mr-2">
+                                                <div class="progress-bar bg-success" style="width: 45.2%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-xs text-muted">6,789 đối tác sử dụng</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-left-info">
+                                <div class="card-body py-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Thanh toán online</div>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-auto">
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">28.7%</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="progress progress-sm mr-2">
+                                                <div class="progress-bar bg-info" style="width: 28.7%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-xs text-muted">4,321 đối tác sử dụng</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="card border-left-warning">
+                                <div class="card-body py-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Căn tin thông minh</div>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-auto">
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">15.1%</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="progress progress-sm mr-2">
+                                                <div class="progress-bar bg-warning" style="width: 15.1%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-xs text-muted">2,267 đối tác sử dụng</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-left-primary">
+                                <div class="card-body py-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Bãi đỗ xe</div>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-auto">
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">11.0%</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="progress progress-sm mr-2">
+                                                <div class="progress-bar bg-primary" style="width: 11.0%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-xs text-muted">1,654 đối tác sử dụng</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thống kê theo khu vực</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-bar">
+                        <canvas id="regionChart" style="height: 280px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Analytics Table -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Bảng phân tích chi tiết</h6>
+                    <div>
+                        <select class="form-select form-select-sm" id="analyticsFilter" onchange="updateAnalyticsTable()">
+                            <option value="all">Tất cả giải pháp</option>
+                            <option value="pos">Thanh toán tại quầy</option>
+                            <option value="online">Thanh toán online</option>
+                            <option value="canteen">Căn tin thông minh</option>
+                            <option value="parking">Bãi đỗ xe</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="analyticsTable">
+                            <thead>
+                                <tr>
+                                    <th>Giải pháp</th>
+                                    <th>Số đối tác</th>
+                                    <th>Giao dịch/ngày</th>
+                                    <th>Doanh thu</th>
+                                    <th>Tăng trưởng</th>
+                                    <th>Đánh giá</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-success rounded-circle me-2" style="width: 10px; height: 10px;"></div>
+                                            <div>
+                                                <div class="fw-bold">QR Code thanh toán</div>
+                                                <small class="text-muted">Thanh toán tại quầy</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>6,789</td>
+                                    <td>234,567</td>
+                                    <td>1.2 tỷ ₫</td>
+                                    <td>
+                                        <span class="text-success">+12.5%</span>
+                                        <i class="fas fa-arrow-up text-success"></i>
+                                    </td>
+                                    <td>
+                                        <div class="text-warning fw-bold">4.8/5.0</div>
+                                        <small class="text-muted">(2,345 đánh giá)</small>
+                                    </td>
+                                    <td><span class="badge bg-success">Hoạt động tốt</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-info rounded-circle me-2" style="width: 10px; height: 10px;"></div>
+                                            <div>
+                                                <div class="fw-bold">API Gateway</div>
+                                                <small class="text-muted">Thanh toán online</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>4,321</td>
+                                    <td>189,432</td>
+                                    <td>856 triệu ₫</td>
+                                    <td>
+                                        <span class="text-success">+8.7%</span>
+                                        <i class="fas fa-arrow-up text-success"></i>
+                                    </td>
+                                    <td>
+                                        <div class="text-warning fw-bold">4.6/5.0</div>
+                                        <small class="text-muted">(1,892 đánh giá)</small>
+                                    </td>
+                                    <td><span class="badge bg-success">Hoạt động tốt</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-warning rounded-circle me-2" style="width: 10px; height: 10px;"></div>
+                                            <div>
+                                                <div class="fw-bold">Căn tin thông minh</div>
+                                                <small class="text-muted">Thanh toán không tiền mặt</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>2,267</td>
+                                    <td>45,678</td>
+                                    <td>234 triệu ₫</td>
+                                    <td>
+                                        <span class="text-success">+15.2%</span>
+                                        <i class="fas fa-arrow-up text-success"></i>
+                                    </td>
+                                    <td>
+                                        <div class="text-warning fw-bold">4.4/5.0</div>
+                                        <small class="text-muted">(567 đánh giá)</small>
+                                    </td>
+                                    <td><span class="badge bg-info">Phát triển</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-primary rounded-circle me-2" style="width: 10px; height: 10px;"></div>
+                                            <div>
+                                                <div class="fw-bold">Quản lý bãi đỗ xe</div>
+                                                <small class="text-muted">Tự động hóa thu phí</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>1,654</td>
+                                    <td>12,345</td>
+                                    <td>89 triệu ₫</td>
+                                    <td>
+                                        <span class="text-success">+22.1%</span>
+                                        <i class="fas fa-arrow-up text-success"></i>
+                                    </td>
+                                    <td>
+                                        <div class="text-warning fw-bold">4.2/5.0</div>
+                                        <small class="text-muted">(234 đánh giá)</small>
+                                    </td>
+                                    <td><span class="badge bg-warning">Mới</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thống kê nhanh</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <div class="small text-muted">Tổng số giao dịch hôm nay</div>
+                        <div class="h5 font-weight-bold">1,234,567</div>
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-success" style="width: 78%"></div>
+                        </div>
+                        <div class="small text-success">78% so với hôm qua</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="small text-muted">Giải pháp được sử dụng nhiều nhất</div>
+                        <div class="h6 font-weight-bold">QR Code thanh toán</div>
+                        <div class="small text-muted">234,567 giao dịch hôm nay</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="small text-muted">Khu vực hoạt động nhất</div>
+                        <div class="h6 font-weight-bold">Hà Nội</div>
+                        <div class="small text-muted">3,456 đối tác hoạt động</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="small text-muted">Thời gian phản hồi trung bình</div>
+                        <div class="h6 font-weight-bold text-success">1.2 giây</div>
+                        <div class="small text-success">Giảm 0.3s so với tuần trước</div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-sm" onclick="viewDetailedReport()">
+                            <i class="fas fa-chart-bar me-1"></i>Xem báo cáo chi tiết
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Performance Alerts -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Cảnh báo hiệu suất</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="alert alert-warning">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    <div>
+                                        <strong>Giảm hiệu suất</strong><br>
+                                        <small>API Gateway có thời gian phản hồi chậm hơn bình thường 15%</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="alert alert-info">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <div>
+                                        <strong>Cơ hội phát triển</strong><br>
+                                        <small>Bãi đỗ xe có tiềm năng tăng trưởng 30% trong quý tới</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="alert alert-success">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    <div>
+                                        <strong>Hoạt động ổn định</strong><br>
+                                        <small>Tất cả hệ thống hoạt động bình thường, không có sự cố</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.border-left-primary {
+    border-left: 0.25rem solid #4e73df !important;
+}
+.border-left-warning {
+    border-left: 0.25rem solid #f6c23e !important;
+}
+.border-left-info {
+    border-left: 0.25rem solid #36b9cc !important;
+}
+.border-left-success {
+    border-left: 0.25rem solid #1cc88a !important;
+}
+.text-gray-800 {
+    color: #5a5c69 !important;
+}
+.text-xs {
+    font-size: 0.7rem;
+}
+.font-weight-bold {
+    font-weight: 700 !important;
+}
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+.progress-sm {
+    height: 0.5rem;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+let currentTimeRange = '7d';
+let usageChart, solutionsPieChart, regionChart;
+
+function setTimeRange(range) {
+    currentTimeRange = range;
+    
+    // Update active button
+    document.querySelectorAll('.btn-group .btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    // Refresh all charts and data
+    refreshData();
+}
+
+function refreshData() {
+    showToast('Đang cập nhật dữ liệu...', 'info');
+    
+    // Simulate data refresh
+    setTimeout(() => {
+        updateCharts();
+        updateStatistics();
+        showToast('Đã cập nhật dữ liệu thành công!', 'success');
+    }, 1500);
+}
+
+function updateCharts() {
+    // Update Usage Trend Chart
+    if (usageChart) usageChart.destroy();
+    const usageCtx = document.getElementById('usageChart').getContext('2d');
+    usageChart = new Chart(usageCtx, {
+        type: 'line',
+        data: {
+            labels: ['01/10', '02/10', '03/10', '04/10', '05/10', '06/10', '07/10'],
+            datasets: [{
+                label: 'QR Code thanh toán',
+                data: [120000, 135000, 142000, 138000, 145000, 152000, 158000],
+                borderColor: '#1cc88a',
+                backgroundColor: 'rgba(28, 200, 138, 0.1)',
+                tension: 0.4
+            }, {
+                label: 'API Gateway',
+                data: [89000, 92000, 88000, 95000, 102000, 98000, 105000],
+                borderColor: '#36b9cc',
+                backgroundColor: 'rgba(54, 185, 204, 0.1)',
+                tension: 0.4
+            }, {
+                label: 'Căn tin thông minh',
+                data: [34000, 36000, 38000, 42000, 45000, 48000, 52000],
+                borderColor: '#f6c23e',
+                backgroundColor: 'rgba(246, 194, 62, 0.1)',
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return (value / 1000) + 'k';
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    // Update Solutions Pie Chart
+    if (solutionsPieChart) solutionsPieChart.destroy();
+    const pieCtx = document.getElementById('solutionsPieChart').getContext('2d');
+    solutionsPieChart = new Chart(pieCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['QR Code', 'API Gateway', 'Căn tin', 'Bãi đỗ xe', 'Khác'],
+            datasets: [{
+                data: [45.2, 28.7, 15.1, 11.0, 2.0],
+                backgroundColor: ['#1cc88a', '#36b9cc', '#f6c23e', '#4e73df', '#e74a3b'],
+                hoverBackgroundColor: ['#17a673', '#2e96a8', '#d4a835', '#2e59d9', '#d32f2f']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+    
+    // Update Region Chart
+    if (regionChart) regionChart.destroy();
+    const regionCtx = document.getElementById('regionChart').getContext('2d');
+    regionChart = new Chart(regionCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Hà Nội', 'TP.HCM', 'Đà Nẵng', 'Cần Thơ', 'Hải Phòng'],
+            datasets: [{
+                label: 'Số đối tác',
+                data: [3456, 4123, 1234, 987, 765],
+                backgroundColor: '#4e73df',
+                borderColor: '#4e73df',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+function updateStatistics() {
+    // Simulate random updates to statistics
+    const stats = {
+        totalActiveSolutions: Math.floor(Math.random() * 1000) + 15000,
+        totalRevenue: (Math.random() * 0.5 + 2.0).toFixed(1),
+        weeklyActivePartners: Math.floor(Math.random() * 500) + 3000,
+        satisfactionRate: (Math.random() * 5 + 92).toFixed(1)
+    };
+    
+    document.getElementById('totalActiveSolutions').textContent = stats.totalActiveSolutions.toLocaleString();
+    document.getElementById('totalRevenue').textContent = stats.totalRevenue + ' tỷ ₫';
+    document.getElementById('weeklyActivePartners').textContent = stats.weeklyActivePartners.toLocaleString();
+    document.getElementById('satisfactionRate').textContent = stats.satisfactionRate + '%';
+}
+
+function changeChartType(type) {
+    if (usageChart) {
+        usageChart.config.type = type;
+        usageChart.update();
+    }
+    showToast(`Đã chuyển sang biểu đồ ${type}`, 'info');
+}
+
+function updateAnalyticsTable() {
+    const filter = document.getElementById('analyticsFilter').value;
+    showToast(`Đang lọc dữ liệu cho: ${filter}`, 'info');
+    // Here you would filter the table data based on the selected option
+}
+
+function viewDetailedReport() {
+    showToast('Mở báo cáo chi tiết...', 'info');
+    // Here you would navigate to a detailed report page
+}
+
+function exportAnalytics() {
+    showToast('Đang xuất báo cáo phân tích...', 'info');
+    
+    setTimeout(() => {
+        // Simulate export process
+        const exportData = {
+            timeRange: currentTimeRange,
+            totalSolutions: document.getElementById('totalActiveSolutions').textContent,
+            revenue: document.getElementById('totalRevenue').textContent,
+            partners: document.getElementById('weeklyActivePartners').textContent,
+            satisfaction: document.getElementById('satisfactionRate').textContent,
+            exportTime: new Date().toISOString()
+        };
+        
+        console.log('Exporting analytics data:', exportData);
+        showToast('Đã xuất báo cáo thành công!', 'success');
+        
+        // Create and download a sample file
+        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `zalopay_solutions_analytics_${currentTimeRange}_${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }, 2000);
+}
+
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    toast.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.remove();
+    }, 5000);
+}
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    updateCharts();
+    
+    // Auto refresh data every 5 minutes
+    setInterval(refreshData, 300000);
+    
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+</script>

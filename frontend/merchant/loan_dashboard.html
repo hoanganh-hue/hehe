@@ -1,0 +1,456 @@
+
+
+Dashboard Vay - ZaloPay Merchant
+
+
+<main class="main-content">
+    <div class="container mt-5 pt-5">
+        <!-- Page Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="text-primary">Dashboard Vay vốn</h1>
+                        <p class="text-muted">Tổng quan về tình hình vay vốn của doanh nghiệp</p>
+                    </div>
+                    <div>
+                        <a href="loan_application.html" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Đăng ký vay mới
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row mb-4">
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Tổng đơn vay
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    3
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Đang chờ duyệt
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    1
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clock fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Đã được duyệt
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    2
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                    Tổng giá trị vay
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    850 triệu ₫
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Loans Overview -->
+        <div class="row mb-4">
+            <div class="col-lg-8">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Khoản vay hiện tại</h6>
+                    </div>
+                    <div class="card-body">
+                        <!-- Loan 1 -->
+                        <div class="d-flex align-items-center mb-4 p-3 border rounded">
+                            <div class="me-3">
+                                <div class="bg-success rounded-circle text-white text-center" style="width: 50px; height: 50px; line-height: 50px;">
+                                    <i class="fas fa-store"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="font-weight-bold h6 mb-1">Vay Hộ Kinh doanh #001</div>
+                                <div class="text-muted small">Giải ngân: 15/09/2025</div>
+                                <div class="row mt-2">
+                                    <div class="col-sm-4">
+                                        <small class="text-muted">Số tiền:</small>
+                                        <div class="font-weight-bold">500,000,000 ₫</div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <small class="text-muted">Lãi suất:</small>
+                                        <div class="font-weight-bold">1.2%/tháng</div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <small class="text-muted">Kỳ hạn:</small>
+                                        <div class="font-weight-bold">24 tháng</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-success mb-2">Đang thanh toán</span>
+                                <div class="small text-muted">Kỳ thanh toán tiếp theo:</div>
+                                <div class="font-weight-bold text-warning">15/10/2025</div>
+                            </div>
+                        </div>
+
+                        <!-- Loan 2 -->
+                        <div class="d-flex align-items-center mb-4 p-3 border rounded">
+                            <div class="me-3">
+                                <div class="bg-primary rounded-circle text-white text-center" style="width: 50px; height: 50px; line-height: 50px;">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="font-weight-bold h6 mb-1">Vay Cá nhân KD #002</div>
+                                <div class="text-muted small">Giải ngân: 01/08/2025</div>
+                                <div class="row mt-2">
+                                    <div class="col-sm-4">
+                                        <small class="text-muted">Số tiền:</small>
+                                        <div class="font-weight-bold">350,000,000 ₫</div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <small class="text-muted">Lãi suất:</small>
+                                        <div class="font-weight-bold">0.9%/tháng</div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <small class="text-muted">Kỳ hạn:</small>
+                                        <div class="font-weight-bold">18 tháng</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-success mb-2">Đang thanh toán</span>
+                                <div class="small text-muted">Kỳ thanh toán tiếp theo:</div>
+                                <div class="font-weight-bold text-warning">01/10/2025</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="col-lg-4">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Thao tác nhanh</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a href="loan_application.html" class="btn btn-primary">
+                                <i class="fas fa-plus me-2"></i>Đăng ký vay mới
+                            </a>
+                            <a href="loan_status.html" class="btn btn-outline-primary">
+                                <i class="fas fa-list me-2"></i>Xem tất cả đơn vay
+                            </a>
+                            <a href="loan_calculator.html" class="btn btn-outline-info">
+                                <i class="fas fa-calculator me-2"></i>Tính toán khoản vay
+                            </a>
+                            <button class="btn btn-outline-success">
+                                <i class="fas fa-download me-2"></i>Xuất sao kê
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Schedule -->
+                <div class="card shadow">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Lịch thanh toán sắp tới</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3 p-2 bg-light rounded">
+                            <div>
+                                <div class="font-weight-bold">Vay HKD #001</div>
+                                <small class="text-muted">Kỳ 3/24</small>
+                            </div>
+                            <div class="text-end">
+                                <div class="font-weight-bold text-warning">15/10/2025</div>
+                                <small class="text-muted">21,500,000 ₫</small>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3 p-2 bg-light rounded">
+                            <div>
+                                <div class="font-weight-bold">Vay CN KD #002</div>
+                                <small class="text-muted">Kỳ 5/18</small>
+                            </div>
+                            <div class="text-end">
+                                <div class="font-weight-bold text-info">01/11/2025</div>
+                                <small class="text-muted">19,850,000 ₫</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activities -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Hoạt động gần đây</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-success"></div>
+                                <div class="timeline-content">
+                                    <h6 class="mb-1">Thanh toán thành công</h6>
+                                    <p class="mb-1">Vay HKD #001 - Kỳ 2: 21,500,000 ₫</p>
+                                    <small class="text-muted">15/09/2025 09:45</small>
+                                </div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-info"></div>
+                                <div class="timeline-content">
+                                    <h6 class="mb-1">Đơn vay được duyệt</h6>
+                                    <p class="mb-1">Vay HKD #001 đã được phê duyệt</p>
+                                    <small class="text-muted">10/09/2025 14:20</small>
+                                </div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-warning"></div>
+                                <div class="timeline-content">
+                                    <h6 class="mb-1">Đơn vay đang xét duyệt</h6>
+                                    <p class="mb-1">Vay DN #003 - 2 tỷ ₫ đang được xem xét</p>
+                                    <small class="text-muted">05/09/2025 16:30</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<style>
+/* Additional styles for loan dashboard */
+.border-left-primary {
+    border-left: 0.25rem solid #4e73df !important;
+}
+
+.border-left-warning {
+    border-left: 0.25rem solid #f6c23e !important;
+}
+
+.border-left-success {
+    border-left: 0.25rem solid #1cc88a !important;
+}
+
+.border-left-info {
+    border-left: 0.25rem solid #36b9cc !important;
+}
+
+.timeline {
+    position: relative;
+    padding-left: 20px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+    padding-left: 25px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -8px;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #dee2e6;
+}
+</style>
+
+<script src="js/loan-api.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        // Load dashboard data from API
+        const dashboardData = await loanAPI.getDashboardData();
+        
+        // Update summary statistics
+        document.querySelector('.border-left-primary .h5').textContent = dashboardData.summary.total_applications;
+        document.querySelector('.border-left-warning .h5').textContent = dashboardData.summary.pending_applications;
+        document.querySelector('.border-left-success .h5').textContent = dashboardData.summary.approved_applications;
+        document.querySelector('.border-left-info .h5').textContent = loanAPI.formatCurrency(dashboardData.summary.total_disbursed_amount);
+        
+        // Update active loans section
+        updateActiveLoans(dashboardData.active_loans);
+        
+        // Update upcoming payments
+        updateUpcomingPayments(dashboardData.upcoming_payments);
+        
+        // Update recent activities
+        updateRecentActivities(dashboardData.recent_activities);
+        
+    } catch (error) {
+        console.error('Error loading dashboard data:', error);
+        loanAPI.showError('Không thể tải dữ liệu dashboard');
+    }
+});
+
+function updateActiveLoans(activeLoans) {
+    const container = document.querySelector('.card-body');
+    if (!activeLoans || activeLoans.length === 0) {
+        container.innerHTML = '<p class="text-muted">Chưa có khoản vay nào đang hoạt động.</p>';
+        return;
+    }
+    
+    let html = '';
+    activeLoans.forEach(loan => {
+        html += `
+            <div class="d-flex align-items-center mb-4 p-3 border rounded">
+                <div class="me-3">
+                    <div class="bg-success rounded-circle text-white text-center" style="width: 50px; height: 50px; line-height: 50px;">
+                        <i class="fas fa-${loan.loan_type === 'business' ? 'store' : loan.loan_type === 'enterprise' ? 'building' : 'user-tie'}"></i>
+                    </div>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="font-weight-bold h6 mb-1">${loanAPI.getLoanTypeName(loan.loan_type)} #${loan.loan_id}</div>
+                    <div class="text-muted small">Giải ngân: ${loanAPI.formatDate(loan.disbursement_date)}</div>
+                    <div class="row mt-2">
+                        <div class="col-sm-4">
+                            <small class="text-muted">Số tiền:</small>
+                            <div class="font-weight-bold">${loanAPI.formatCurrency(loan.amount)}</div>
+                        </div>
+                        <div class="col-sm-4">
+                            <small class="text-muted">Lãi suất:</small>
+                            <div class="font-weight-bold">${loan.interest_rate}%/tháng</div>
+                        </div>
+                        <div class="col-sm-4">
+                            <small class="text-muted">Kỳ hạn:</small>
+                            <div class="font-weight-bold">${loan.term_months} tháng</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <span class="badge bg-success mb-2">Đang thanh toán</span>
+                    <div class="small text-muted">Kỳ thanh toán tiếp theo:</div>
+                    <div class="font-weight-bold text-warning">${loanAPI.formatDate(loan.next_payment_date)}</div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function updateUpcomingPayments(payments) {
+    const container = document.querySelector('.card-body');
+    if (!payments || payments.length === 0) return;
+    
+    let html = '';
+    payments.forEach(payment => {
+        html += `
+            <div class="d-flex justify-content-between align-items-center mb-3 p-2 bg-light rounded">
+                <div>
+                    <div class="font-weight-bold">${payment.loan_id}</div>
+                    <small class="text-muted">Kỳ ${payment.payment_number}/${payment.total_payments}</small>
+                </div>
+                <div class="text-end">
+                    <div class="font-weight-bold text-warning">${loanAPI.formatDate(payment.due_date)}</div>
+                    <small class="text-muted">${loanAPI.formatCurrency(payment.amount)}</small>
+                </div>
+            </div>
+        `;
+    });
+    
+    // Find and update the payment schedule container
+    const paymentContainer = document.querySelectorAll('.card-body')[2]; // Third card body
+    if (paymentContainer) {
+        paymentContainer.innerHTML = html;
+    }
+}
+
+function updateRecentActivities(activities) {
+    const container = document.querySelector('.timeline');
+    if (!activities || activities.length === 0) return;
+    
+    let html = '';
+    activities.forEach(activity => {
+        const markerClass = activity.type === 'payment_success' ? 'bg-success' : 
+                           activity.type === 'loan_approved' ? 'bg-info' : 'bg-warning';
+        
+        html += `
+            <div class="timeline-item">
+                <div class="timeline-marker ${markerClass}"></div>
+                <div class="timeline-content">
+                    <h6 class="mb-1">${activity.description}</h6>
+                    <p class="mb-1">${activity.details}</p>
+                    <small class="text-muted">${loanAPI.formatDate(activity.timestamp)}</small>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+</script>
+

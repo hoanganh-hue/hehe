@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên hệ - ZaloPay Merchant</title>
+    <meta name="description" content="Liên hệ với đội ngũ hỗ trợ ZaloPay Merchant để được tư vấn và giải đáp mọi thắc mắc">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="/css/merchant.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="/images/zalopay-logo.png" alt="ZaloPay" height="40" class="me-2">
+                <span class="fw-bold text-primary">ZaloPay Merchant</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#features">Tính năng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#pricing">Bảng giá</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/contact.html">Liên hệ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/faq.html">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary ms-2" href="/auth_signup.html">Đăng ký ngay</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section bg-gradient-primary text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-4 fw-bold mb-3">Liên hệ với chúng tôi</h1>
+                    <p class="lead">
+                        Đội ngũ hỗ trợ ZaloPay Merchant luôn sẵn sàng giúp đỡ bạn 24/7
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Methods -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="contact-card h-100 p-4 border rounded-3 shadow-sm text-center">
+                        <div class="contact-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                            <i class="fas fa-phone fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Hotline</h4>
+                        <p class="text-muted mb-3">
+                            Gọi ngay để được tư vấn trực tiếp
+                        </p>
+                        <a href="tel:19001234" class="btn btn-outline-primary">
+                            <i class="fas fa-phone me-2"></i>1900 1234
+                        </a>
+                        <p class="text-muted small mt-2">24/7 - Miễn phí</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="contact-card h-100 p-4 border rounded-3 shadow-sm text-center">
+                        <div class="contact-icon bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                            <i class="fas fa-envelope fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Email</h4>
+                        <p class="text-muted mb-3">
+                            Gửi email để được hỗ trợ chi tiết
+                        </p>
+                        <a href="mailto:support@zalopay.com" class="btn btn-outline-success">
+                            <i class="fas fa-envelope me-2"></i>support@zalopay.com
+                        </a>
+                        <p class="text-muted small mt-2">Phản hồi trong 2 giờ</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="contact-card h-100 p-4 border rounded-3 shadow-sm text-center">
+                        <div class="contact-icon bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                            <i class="fas fa-comments fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Live Chat</h4>
+                        <p class="text-muted mb-3">
+                            Chat trực tiếp với chuyên viên
+                        </p>
+                        <button class="btn btn-outline-warning" onclick="openLiveChat()">
+                            <i class="fas fa-comments me-2"></i>Bắt đầu chat
+                        </button>
+                        <p class="text-muted small mt-2">8:00 - 22:00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card shadow-lg border-0">
+                        <div class="card-body p-5">
+                            <div class="text-center mb-4">
+                                <h2 class="display-5 fw-bold mb-3">Gửi tin nhắn cho chúng tôi</h2>
+                                <p class="text-muted">
+                                    Điền form bên dưới và chúng tôi sẽ liên hệ lại với bạn trong thời gian sớm nhất
+                                </p>
+                            </div>
+                            
+                            <form id="contactForm" class="needs-validation" novalidate>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="firstName" class="form-label">Họ và tên đệm *</label>
+                                        <input type="text" class="form-control" id="firstName" required>
+                                        <div class="invalid-feedback">
+                                            Vui lòng nhập họ và tên đệm
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="lastName" class="form-label">Tên *</label>
+                                        <input type="text" class="form-control" id="lastName" required>
+                                        <div class="invalid-feedback">
+                                            Vui lòng nhập tên
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Email *</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                        <div class="invalid-feedback">
+                                            Vui lòng nhập email hợp lệ
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="phone" class="form-label">Số điện thoại *</label>
+                                        <input type="tel" class="form-control" id="phone" required>
+                                        <div class="invalid-feedback">
+                                            Vui lòng nhập số điện thoại
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <label for="company" class="form-label">Tên công ty</label>
+                                        <input type="text" class="form-control" id="company">
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <label for="subject" class="form-label">Chủ đề *</label>
+                                        <select class="form-select" id="subject" required>
+                                            <option value="">Chọn chủ đề</option>
+                                            <option value="general">Thông tin chung</option>
+                                            <option value="technical">Hỗ trợ kỹ thuật</option>
+                                            <option value="billing">Thanh toán & Hóa đơn</option>
+                                            <option value="integration">Tích hợp API</option>
+                                            <option value="partnership">Đối tác</option>
+                                            <option value="other">Khác</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Vui lòng chọn chủ đề
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <label for="message" class="form-label">Nội dung tin nhắn *</label>
+                                        <textarea class="form-control" id="message" rows="5" required></textarea>
+                                        <div class="invalid-feedback">
+                                            Vui lòng nhập nội dung tin nhắn
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="agreePrivacy" required>
+                                            <label class="form-check-label" for="agreePrivacy">
+                                                Tôi đồng ý với <a href="#" class="text-primary">Chính sách bảo mật</a> 
+                                                và cho phép ZaloPay sử dụng thông tin để liên hệ
+                                            </label>
+                                            <div class="invalid-feedback">
+                                                Vui lòng đồng ý với chính sách bảo mật
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center mt-4">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5">
+                                        <i class="fas fa-paper-plane me-2"></i>Gửi tin nhắn
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Office Locations -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5">
+                    <h2 class="display-5 fw-bold mb-3">Văn phòng của chúng tôi</h2>
+                    <p class="lead text-muted">
+                        Ghé thăm văn phòng ZaloPay để được tư vấn trực tiếp
+                    </p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="office-card p-4 border rounded-3 shadow-sm">
+                        <div class="d-flex align-items-start">
+                            <div class="office-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3">
+                                <i class="fas fa-building fa-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="fw-bold mb-2">Trụ sở chính - Hà Nội</h4>
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-map-marker-alt me-2"></i>
+                                    Tầng 10, Tòa nhà VNPT, 57 Huỳnh Thúc Kháng, Đống Đa, Hà Nội
+                                </p>
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-phone me-2"></i>
+                                    024 1234 5678
+                                </p>
+                                <p class="text-muted mb-0">
+                                    <i class="fas fa-clock me-2"></i>
+                                    Thứ 2 - Thứ 6: 8:00 - 18:00
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="office-card p-4 border rounded-3 shadow-sm">
+                        <div class="d-flex align-items-start">
+                            <div class="office-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3">
+                                <i class="fas fa-building fa-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="fw-bold mb-2">Chi nhánh - TP.HCM</h4>
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-map-marker-alt me-2"></i>
+                                    Tầng 15, Tòa nhà Bitexco, 2 Hải Triều, Quận 1, TP.HCM
+                                </p>
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-phone me-2"></i>
+                                    028 1234 5678
+                                </p>
+                                <p class="text-muted mb-0">
+                                    <i class="fas fa-clock me-2"></i>
+                                    Thứ 2 - Thứ 6: 8:00 - 18:00
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">ZaloPay Merchant</h5>
+                    <p class="text-muted">
+                        Giải pháp thanh toán trực tuyến hàng đầu Việt Nam, 
+                        được tin tưởng bởi hàng nghìn doanh nghiệp.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Sản phẩm</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Thanh toán online</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">QR Code</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">API Integration</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Webhook</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Hỗ trợ</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/guide.html" class="text-muted text-decoration-none">Hướng dẫn</a></li>
+                        <li><a href="/faq.html" class="text-muted text-decoration-none">FAQ</a></li>
+                        <li><a href="/contact.html" class="text-muted text-decoration-none">Liên hệ</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Tài liệu API</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Công ty</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Về chúng tôi</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Tin tức</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Tuyển dụng</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Đối tác</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Pháp lý</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Điều khoản sử dụng</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Chính sách bảo mật</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Cookie Policy</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="my-4">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-muted mb-0">
+                        © 2024 ZaloPay Merchant. Tất cả quyền được bảo lưu.
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="text-muted mb-0">
+                        Được phát triển bởi <strong>ZaloPay Team</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="/js/merchant.js"></script>
+    
+    <script>
+        // Form validation
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        } else {
+                            event.preventDefault();
+                            submitContactForm();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+        function submitContactForm() {
+            // Get form data
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                company: document.getElementById('company').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+            
+            // Show success message
+            alert('Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong thời gian sớm nhất.');
+            
+            // Reset form
+            document.getElementById('contactForm').reset();
+            document.getElementById('contactForm').classList.remove('was-validated');
+        }
+
+        function openLiveChat() {
+            // Open live chat widget
+            alert('Tính năng Live Chat sẽ được kích hoạt sớm!');
+        }
+    </script>
+</body>
+</html>

