@@ -130,10 +130,12 @@ services:
   # Backend FastAPI Application
   backend:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     container_name: backend
     restart: unless-stopped
+    ports:
+      - "8000:8000"  # Expose backend port for direct access
     environment:
       - MONGODB_URI=mongodb://${MONGODB_ROOT_USERNAME}:${MONGODB_ROOT_PASSWORD}@mongodb-primary:27017/${MONGODB_DATABASE}?authSource=admin&replicaSet=rs0
       - REDIS_HOST=redis-primary

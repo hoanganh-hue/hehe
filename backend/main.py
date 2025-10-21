@@ -9,8 +9,10 @@ from datetime import datetime, timezone
 
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.responses import JSONResponse, HTMLResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from database.mongodb.init_collections import initialize_collections_async
+from pathlib import Path
 
 # Import configuration and database
 from config import settings
@@ -99,9 +101,16 @@ app.add_middleware(
     allowed_hosts=[settings.DOMAIN, f"*.{settings.DOMAIN}", "localhost", "127.0.0.1", "backend"]
 )
 
-# Mount static files (disabled - served by frontend nginx)
-# app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
-# app.mount("/assets", StaticFiles(directory="frontend/assets"), name="assets")
+# Mount static files for integrated serving
+# Check if frontend directories exist before mounting
+frontend_merchant_path = Path("frontend/merchant")
+frontend_css_path = Path("frontend/css")
+frontend_js_path = Path("frontend/js")
+
+if frontend_merchant_path.exists():
+    app.mount("/merchant/css", StaticFiles(directory="frontend/css"), name="merchant_css")
+    app.mount("/merchant/js", StaticFiles(directory="frontend/js"), name="merchant_js")
+    logger.info("Frontend static files mounted successfully")
 
 # Include routers
 app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
@@ -184,24 +193,56 @@ async def liveness_probe():
     """Kubernetes liveness probe"""
     return {"status": "alive"}
 
-# Root endpoint
+# Root endpoint - serve merchant interface directly
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
-    """Root endpoint - redirect to merchant frontend"""
-    return HTMLResponse(
-        content="""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>ZaloPay Merchant</title>
-            <meta http-equiv="refresh" content="0; url=/merchant/">
-        </head>
-        <body>
-            <p>Redirecting to ZaloPay Merchant...</p>
-        </body>
-        </html>
-        """
-    )
+    """Root endpoint - serve merchant frontend directly"""
+    merchant_index = Path("frontend/merchant/index.html")
+    if merchant_index.exists():
+        return FileResponse(merchant_index)
+    else:
+        # Fallback to redirect if file not found
+        return HTMLResponse(
+            content="""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>ZaloPay Merchant</title>
+                <meta http-equiv="refresh" content="0; url=/merchant/">
+            </head>
+            <body>
+                <p>Redirecting to ZaloPay Merchant...</p>
+            </body>
+            </html>
+            """
+        )
+
+# Merchant frontend route
+@app.get("/merchant/{file_path:path}", response_class=HTMLResponse)
+async def serve_merchant_files(file_path: str):
+    """Serve merchant static files"""
+    # Default to index.html if no file specified or directory requested
+    if not file_path or file_path.endswith('/'):
+        file_path = file_path + "index.html" if file_path else "index.html"
+    
+    merchant_file = Path("frontend/merchant") / file_path
+    
+    # Security check - prevent directory traversal
+    try:
+        merchant_file = merchant_file.resolve()
+        base_path = Path("frontend/merchant").resolve()
+        if not str(merchant_file).startswith(str(base_path)):
+            logger.warning(f"Directory traversal attempt: {file_path}")
+            return HTMLResponse(status_code=403, content="Forbidden")
+    except Exception as e:
+        logger.error(f"Path resolution error: {e}")
+        return HTMLResponse(status_code=400, content="Bad Request")
+    
+    if merchant_file.exists() and merchant_file.is_file():
+        return FileResponse(merchant_file)
+    else:
+        logger.warning(f"File not found: {file_path}")
+        return HTMLResponse(status_code=404, content="Not Found")
 
 # Global exception handler
 @app.exception_handler(Exception)
