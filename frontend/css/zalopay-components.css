@@ -1,0 +1,572 @@
+/*
+ * ZaloPay Design System - Components
+ * Specific UI components matching ZaloPay design patterns
+ */
+
+@import url('zalopay-variables.css');
+
+/* ============================================================================
+   NAVIGATION HEADER
+   ========================================================================= */
+
+.zp-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-index-sticky);
+    height: var(--header-height);
+    background: var(--bg-primary);
+    border-bottom: var(--border-width) solid var(--border-color);
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.zp-header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 var(--space-6);
+    max-width: var(--container-2xl);
+    margin: 0 auto;
+}
+
+.zp-header-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-xl);
+}
+
+.zp-header-logo img {
+    height: 40px;
+}
+
+.zp-header-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.zp-header-nav-link {
+    padding: var(--space-2) var(--space-4);
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    border-radius: var(--radius-base);
+    transition: all var(--transition-fast);
+}
+
+.zp-header-nav-link:hover {
+    background: var(--color-gray-100);
+    color: var(--zalopay-blue-primary);
+}
+
+.zp-header-nav-link.active {
+    background: var(--zalopay-blue-lighter);
+    color: var(--zalopay-blue-dark);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Mobile Menu Toggle */
+.zp-mobile-menu-toggle {
+    display: none;
+    padding: var(--space-2);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .zp-mobile-menu-toggle {
+        display: block;
+    }
+    
+    .zp-header-nav {
+        display: none;
+    }
+    
+    .zp-header-nav.mobile-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        background: var(--bg-primary);
+        border-bottom: var(--border-width) solid var(--border-color);
+        padding: var(--space-4);
+        gap: var(--space-2);
+    }
+}
+
+/* ============================================================================
+   HERO SECTION
+   ========================================================================= */
+
+.zp-hero {
+    position: relative;
+    background: var(--gradient-primary);
+    color: var(--text-inverse);
+    padding: var(--space-24) 0;
+    overflow: hidden;
+}
+
+.zp-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.05" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+    background-size: cover;
+    background-position: bottom;
+    opacity: 0.3;
+}
+
+.zp-hero-container {
+    position: relative;
+    z-index: 2;
+    max-width: var(--container-xl);
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+    text-align: center;
+}
+
+.zp-hero-title {
+    font-size: var(--font-size-5xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--space-6);
+}
+
+.zp-hero-subtitle {
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-relaxed);
+    opacity: 0.9;
+    margin-bottom: var(--space-8);
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.zp-hero-cta {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .zp-hero {
+        padding: var(--space-16) 0;
+    }
+    
+    .zp-hero-title {
+        font-size: var(--font-size-3xl);
+    }
+    
+    .zp-hero-subtitle {
+        font-size: var(--font-size-lg);
+    }
+}
+
+/* ============================================================================
+   FEATURE CARDS
+   ========================================================================= */
+
+.zp-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+    padding: var(--space-8) 0;
+}
+
+.zp-feature-card {
+    padding: var(--space-6);
+    background: var(--bg-primary);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-xl);
+    transition: all var(--transition-base);
+}
+
+.zp-feature-card:hover {
+    border-color: var(--zalopay-blue-primary);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+}
+
+.zp-feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    background: var(--gradient-primary);
+    color: var(--text-inverse);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-4);
+    font-size: var(--font-size-2xl);
+}
+
+.zp-feature-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-3);
+    color: var(--text-primary);
+}
+
+.zp-feature-description {
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+}
+
+/* ============================================================================
+   STATISTICS SECTION
+   ========================================================================= */
+
+.zp-stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-6);
+    padding: var(--space-12) 0;
+}
+
+.zp-stat-item {
+    text-align: center;
+    padding: var(--space-6);
+}
+
+.zp-stat-value {
+    font-size: var(--font-size-5xl);
+    font-weight: var(--font-weight-bold);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--space-2);
+}
+
+.zp-stat-label {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    font-weight: var(--font-weight-medium);
+}
+
+/* ============================================================================
+   PRICING CARDS
+   ========================================================================= */
+
+.zp-pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-8);
+    padding: var(--space-8) 0;
+}
+
+.zp-pricing-card {
+    background: var(--bg-primary);
+    border: var(--border-width-2) solid var(--border-color);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    transition: all var(--transition-base);
+    position: relative;
+}
+
+.zp-pricing-card:hover {
+    border-color: var(--zalopay-blue-primary);
+    box-shadow: var(--shadow-xl);
+    transform: scale(1.02);
+}
+
+.zp-pricing-card.featured {
+    border-color: var(--zalopay-blue-primary);
+    box-shadow: var(--shadow-lg);
+}
+
+.zp-pricing-badge {
+    position: absolute;
+    top: -12px;
+    right: var(--space-6);
+    background: var(--gradient-primary);
+    color: var(--text-inverse);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.zp-pricing-name {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-4);
+}
+
+.zp-pricing-price {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+}
+
+.zp-pricing-amount {
+    font-size: var(--font-size-5xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--zalopay-blue-primary);
+}
+
+.zp-pricing-period {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+}
+
+.zp-pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-8) 0;
+}
+
+.zp-pricing-feature {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    color: var(--text-primary);
+}
+
+.zp-pricing-feature::before {
+    content: '✓';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: var(--color-success);
+    color: white;
+    border-radius: var(--radius-full);
+    font-weight: var(--font-weight-bold);
+    flex-shrink: 0;
+}
+
+/* ============================================================================
+   ACCORDION / FAQ
+   ========================================================================= */
+
+.zp-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.zp-accordion-item {
+    background: var(--bg-primary);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.zp-accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-5);
+    cursor: pointer;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
+    background: var(--bg-primary);
+}
+
+.zp-accordion-header:hover {
+    background: var(--color-gray-50);
+}
+
+.zp-accordion-header.active {
+    background: var(--zalopay-blue-lighter);
+    color: var(--zalopay-blue-dark);
+}
+
+.zp-accordion-icon {
+    transition: transform var(--transition-fast);
+}
+
+.zp-accordion-header.active .zp-accordion-icon {
+    transform: rotate(180deg);
+}
+
+.zp-accordion-content {
+    padding: 0 var(--space-5);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-base), padding var(--transition-base);
+}
+
+.zp-accordion-content.active {
+    padding: 0 var(--space-5) var(--space-5);
+    max-height: 500px;
+}
+
+/* ============================================================================
+   FOOTER
+   ========================================================================= */
+
+.zp-footer {
+    background: var(--color-gray-900);
+    color: var(--text-inverse);
+    padding: var(--space-16) 0 var(--space-8);
+}
+
+.zp-footer-container {
+    max-width: var(--container-2xl);
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+}
+
+.zp-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-8);
+    margin-bottom: var(--space-12);
+}
+
+.zp-footer-section-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-4);
+}
+
+.zp-footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.zp-footer-link {
+    display: block;
+    padding: var(--space-2) 0;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.zp-footer-link:hover {
+    color: var(--text-inverse);
+}
+
+.zp-footer-bottom {
+    padding-top: var(--space-8);
+    border-top: var(--border-width) solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ============================================================================
+   BREADCRUMB
+   ========================================================================= */
+
+.zp-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-4) 0;
+    font-size: var(--font-size-sm);
+}
+
+.zp-breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.zp-breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.zp-breadcrumb-link:hover {
+    color: var(--zalopay-blue-primary);
+}
+
+.zp-breadcrumb-separator {
+    color: var(--text-tertiary);
+}
+
+/* ============================================================================
+   TABS
+   ========================================================================= */
+
+.zp-tabs {
+    border-bottom: var(--border-width-2) solid var(--border-color);
+}
+
+.zp-tabs-list {
+    display: flex;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.zp-tab {
+    padding: var(--space-4) var(--space-6);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    background: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.zp-tab:hover {
+    color: var(--text-primary);
+}
+
+.zp-tab.active {
+    color: var(--zalopay-blue-primary);
+    border-bottom-color: var(--zalopay-blue-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+.zp-tab-content {
+    padding: var(--space-6) 0;
+}
+
+/* ============================================================================
+   LOADING SPINNER
+   ========================================================================= */
+
+.zp-spinner {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border: 3px solid var(--color-gray-200);
+    border-top-color: var(--zalopay-blue-primary);
+    border-radius: var(--radius-full);
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.zp-spinner-lg {
+    width: 3rem;
+    height: 3rem;
+    border-width: 4px;
+}
+
+.zp-spinner-sm {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-width: 2px;
+}

@@ -1,0 +1,3331 @@
+{
+  "summary": {
+    "files_checked": 72,
+    "total_issues": 524,
+    "colors_found": 62,
+    "fonts_found": 2,
+    "spacing_values": 45
+  },
+  "issues": {
+    "/home/runner/work/hehe/hehe/frontend/merchant/verify_success.html": [
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/registration_success.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 3 inline styles (should use CSS classes)",
+        "count": 3
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #11998e",
+        "value": "#11998e"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #38ef7d",
+        "value": "#38ef7d"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #6c757d",
+        "value": "#6c757d"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e7f3ff",
+        "value": "#e7f3ff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #0066cc",
+        "value": "#0066cc"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dee2e6",
+        "value": "#dee2e6"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #fff9e6",
+        "value": "#fff9e6"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/verify.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 1 inline styles (should use CSS classes)",
+        "count": 1
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/loan_status.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 7 inline styles (should use CSS classes)",
+        "count": 7
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/auth_success.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 1 inline styles (should use CSS classes)",
+        "count": 1
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/business_verification.html": [
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e3e6f0",
+        "value": "#e3e6f0"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e3e6f0",
+        "value": "#e3e6f0"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #6c757d",
+        "value": "#6c757d"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #6c757d",
+        "value": "#6c757d"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #495057",
+        "value": "#495057"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e3e6f0",
+        "value": "#e3e6f0"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #495057",
+        "value": "#495057"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dee2e6",
+        "value": "#dee2e6"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8fff8",
+        "value": "#f8fff8"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e3e6f0",
+        "value": "#e3e6f0"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e9ecef",
+        "value": "#e9ecef"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #0056b3",
+        "value": "#0056b3"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/register_success.html": [
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/loan_calculator.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 1 inline styles (should use CSS classes)",
+        "count": 1
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/support.html": [
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/loan_dashboard.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 3 inline styles (should use CSS classes)",
+        "count": 3
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4e73df",
+        "value": "#4e73df"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f6c23e",
+        "value": "#f6c23e"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #1cc88a",
+        "value": "#1cc88a"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #36b9cc",
+        "value": "#36b9cc"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dee2e6",
+        "value": "#dee2e6"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/solutions.html": [
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/auth_error.html": [
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #c82333",
+        "value": "#c82333"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #c82333",
+        "value": "#c82333"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8d7da",
+        "value": "#f8d7da"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #fff3cd",
+        "value": "#fff3cd"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e9ecef",
+        "value": "#e9ecef"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4285f4",
+        "value": "#4285f4"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4285f4",
+        "value": "#4285f4"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #0056b3",
+        "value": "#0056b3"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #0056b3",
+        "value": "#0056b3"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #004085",
+        "value": "#004085"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e7f3ff",
+        "value": "#e7f3ff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dee2e6",
+        "value": "#dee2e6"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #6c757d",
+        "value": "#6c757d"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4285F4",
+        "value": "#4285F4"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #34A853",
+        "value": "#34A853"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #FBBC05",
+        "value": "#FBBC05"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #EA4335",
+        "value": "#EA4335"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/loan_application.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 1 inline styles (should use CSS classes)",
+        "count": 1
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #0056b3",
+        "value": "#0056b3"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/google_auth.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 3 inline styles (should use CSS classes)",
+        "count": 3
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/report_bug.html": [
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/apple_auth.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 3 inline styles (should use CSS classes)",
+        "count": 3
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/merchant_dashboard.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 3 inline styles (should use CSS classes)",
+        "count": 3
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #0056b3",
+        "value": "#0056b3"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e3e6f0",
+        "value": "#e3e6f0"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/merchant/register.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 2 inline styles (should use CSS classes)",
+        "count": 2
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/mobile-test.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 8 inline styles (should use CSS classes)",
+        "count": 8
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e7f3ff",
+        "value": "#e7f3ff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8fff9",
+        "value": "#f8fff9"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #6f42c1",
+        "value": "#6f42c1"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/main_dashboard.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 3 inline styles (should use CSS classes)",
+        "count": 3
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/beef_panel.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 1 inline styles (should use CSS classes)",
+        "count": 1
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/real_time_dashboard.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 2 inline styles (should use CSS classes)",
+        "count": 2
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e3e6f0",
+        "value": "#e3e6f0"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fc",
+        "value": "#f8f9fc"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #17a2b8",
+        "value": "#17a2b8"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e3e6f0",
+        "value": "#e3e6f0"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #5a5c69",
+        "value": "#5a5c69"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/gmail_data_viewer.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 2 inline styles (should use CSS classes)",
+        "count": 2
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e3f2fd",
+        "value": "#e3f2fd"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e3f2fd",
+        "value": "#e3f2fd"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #0056b3",
+        "value": "#0056b3"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e9ecef",
+        "value": "#e9ecef"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #fff3cd",
+        "value": "#fff3cd"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/merchant_registrations.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 2 inline styles (should use CSS classes)",
+        "count": 2
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #0066cc",
+        "value": "#0066cc"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #004499",
+        "value": "#004499"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #2c3e50",
+        "value": "#2c3e50"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #34495e",
+        "value": "#34495e"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #bdc3c7",
+        "value": "#bdc3c7"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #3498db",
+        "value": "#3498db"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #11998e",
+        "value": "#11998e"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #38ef7d",
+        "value": "#38ef7d"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ff416c",
+        "value": "#ff416c"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ff4b2b",
+        "value": "#ff4b2b"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f093fb",
+        "value": "#f093fb"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f5576c",
+        "value": "#f5576c"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #6f42c1",
+        "value": "#6f42c1"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #495057",
+        "value": "#495057"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #fff3cd",
+        "value": "#fff3cd"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #856404",
+        "value": "#856404"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #d4edda",
+        "value": "#d4edda"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #155724",
+        "value": "#155724"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8d7da",
+        "value": "#f8d7da"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #721c24",
+        "value": "#721c24"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #d1ecf1",
+        "value": "#d1ecf1"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #0c5460",
+        "value": "#0c5460"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e1bee7",
+        "value": "#e1bee7"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4a148c",
+        "value": "#4a148c"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #fff3e0",
+        "value": "#fff3e0"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e65100",
+        "value": "#e65100"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f3e5f5",
+        "value": "#f3e5f5"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #6a1b9a",
+        "value": "#6a1b9a"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e9ecef",
+        "value": "#e9ecef"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/index.html": [
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00d4aa",
+        "value": "#00d4aa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00b894",
+        "value": "#00b894"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00d4aa",
+        "value": "#00d4aa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00b894",
+        "value": "#00b894"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00d4aa",
+        "value": "#00d4aa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00b894",
+        "value": "#00b894"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00b894",
+        "value": "#00b894"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #009975",
+        "value": "#009975"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e9ecef",
+        "value": "#e9ecef"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00d4aa",
+        "value": "#00d4aa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00d4aa",
+        "value": "#00d4aa"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/support_tickets.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 1 inline styles (should use CSS classes)",
+        "count": 1
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4e73df",
+        "value": "#4e73df"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f6c23e",
+        "value": "#f6c23e"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #36b9cc",
+        "value": "#36b9cc"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #1cc88a",
+        "value": "#1cc88a"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e74a3b",
+        "value": "#e74a3b"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #5a5c69",
+        "value": "#5a5c69"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/victim_database.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 4 inline styles (should use CSS classes)",
+        "count": 4
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/enhanced_dashboard.html": [
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #17a2b8",
+        "value": "#17a2b8"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ea4335",
+        "value": "#ea4335"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #6c757d",
+        "value": "#6c757d"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #6f42c1",
+        "value": "#6f42c1"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #6c757d",
+        "value": "#6c757d"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/loan_dashboard.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 3 inline styles (should use CSS classes)",
+        "count": 3
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00d4aa",
+        "value": "#00d4aa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #17a2b8",
+        "value": "#17a2b8"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #17a2b8",
+        "value": "#17a2b8"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/users.html": [
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/proxy_management.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 6 inline styles (should use CSS classes)",
+        "count": 6
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e9ecef",
+        "value": "#e9ecef"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #20c997",
+        "value": "#20c997"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dee2e6",
+        "value": "#dee2e6"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/loan_enterprise_list.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 5 inline styles (should use CSS classes)",
+        "count": 5
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/contact_requests.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 3 inline styles (should use CSS classes)",
+        "count": 3
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4e73df",
+        "value": "#4e73df"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f6c23e",
+        "value": "#f6c23e"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #36b9cc",
+        "value": "#36b9cc"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #1cc88a",
+        "value": "#1cc88a"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #5a5c69",
+        "value": "#5a5c69"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/transactions.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 1 inline styles (should use CSS classes)",
+        "count": 1
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/gmail_extraction_progress.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 4 inline styles (should use CSS classes)",
+        "count": 4
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e3f2fd",
+        "value": "#e3f2fd"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #2196f3",
+        "value": "#2196f3"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e8f5e8",
+        "value": "#e8f5e8"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4caf50",
+        "value": "#4caf50"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #fff3e0",
+        "value": "#fff3e0"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ff9800",
+        "value": "#ff9800"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffebee",
+        "value": "#ffebee"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f44336",
+        "value": "#f44336"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/faq_management.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 1 inline styles (should use CSS classes)",
+        "count": 1
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4e73df",
+        "value": "#4e73df"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f6c23e",
+        "value": "#f6c23e"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #36b9cc",
+        "value": "#36b9cc"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #1cc88a",
+        "value": "#1cc88a"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #5a5c69",
+        "value": "#5a5c69"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/loan_base.html": [
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00d4aa",
+        "value": "#00d4aa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00b894",
+        "value": "#00b894"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00d4aa",
+        "value": "#00d4aa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00b894",
+        "value": "#00b894"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00d4aa",
+        "value": "#00d4aa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #17a2b8",
+        "value": "#17a2b8"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00d4aa",
+        "value": "#00d4aa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00d4aa",
+        "value": "#00d4aa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00d4aa",
+        "value": "#00d4aa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00b894",
+        "value": "#00b894"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #00b894",
+        "value": "#00b894"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #17a2b8",
+        "value": "#17a2b8"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/verification_detail.html": [
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/beef_dashboard.html": [
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f093fb",
+        "value": "#f093fb"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f5576c",
+        "value": "#f5576c"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/advanced_victim_management.html": [
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #fd7e14",
+        "value": "#fd7e14"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dee2e6",
+        "value": "#dee2e6"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dee2e6",
+        "value": "#dee2e6"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dee2e6",
+        "value": "#dee2e6"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #6c757d",
+        "value": "#6c757d"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #fd7e14",
+        "value": "#fd7e14"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/solutions_analytics.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 12 inline styles (should use CSS classes)",
+        "count": 12
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4e73df",
+        "value": "#4e73df"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f6c23e",
+        "value": "#f6c23e"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #36b9cc",
+        "value": "#36b9cc"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #1cc88a",
+        "value": "#1cc88a"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #5a5c69",
+        "value": "#5a5c69"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #1cc88a",
+        "value": "#1cc88a"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #36b9cc",
+        "value": "#36b9cc"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f6c23e",
+        "value": "#f6c23e"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #1cc88a",
+        "value": "#1cc88a"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #36b9cc",
+        "value": "#36b9cc"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f6c23e",
+        "value": "#f6c23e"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4e73df",
+        "value": "#4e73df"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e74a3b",
+        "value": "#e74a3b"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #17a673",
+        "value": "#17a673"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #2e96a8",
+        "value": "#2e96a8"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #d4a835",
+        "value": "#d4a835"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #2e59d9",
+        "value": "#2e59d9"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #d32f2f",
+        "value": "#d32f2f"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4e73df",
+        "value": "#4e73df"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4e73df",
+        "value": "#4e73df"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/verifications.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 1 inline styles (should use CSS classes)",
+        "count": 1
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/login.html": [
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f0f2f5",
+        "value": "#f0f2f5"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/gmail_export_interface.html": [
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e9ecef",
+        "value": "#e9ecef"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9ff",
+        "value": "#f8f9ff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dee2e6",
+        "value": "#dee2e6"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9ff",
+        "value": "#f8f9ff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/activity_logs.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 1 inline styles (should use CSS classes)",
+        "count": 1
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #fd7e14",
+        "value": "#fd7e14"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #17a2b8",
+        "value": "#17a2b8"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #6c757d",
+        "value": "#6c757d"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #fff3cd",
+        "value": "#fff3cd"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffeaa7",
+        "value": "#ffeaa7"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #FF6384",
+        "value": "#FF6384"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #36A2EB",
+        "value": "#36A2EB"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #FFCE56",
+        "value": "#FFCE56"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4BC0C0",
+        "value": "#4BC0C0"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #9966FF",
+        "value": "#9966FF"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #FF9F40",
+        "value": "#FF9F40"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #FF6384",
+        "value": "#FF6384"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #C9CBCF",
+        "value": "#C9CBCF"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4BC0C0",
+        "value": "#4BC0C0"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #FF6384",
+        "value": "#FF6384"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #fd7e14",
+        "value": "#fd7e14"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #17a2b8",
+        "value": "#17a2b8"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #6c757d",
+        "value": "#6c757d"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/transaction_detail.html": [
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/test_admin_interface.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 1 inline styles (should use CSS classes)",
+        "count": 1
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #d4edda",
+        "value": "#d4edda"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #c3e6cb",
+        "value": "#c3e6cb"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #155724",
+        "value": "#155724"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8d7da",
+        "value": "#f8d7da"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f5c6cb",
+        "value": "#f5c6cb"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #721c24",
+        "value": "#721c24"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #fff3cd",
+        "value": "#fff3cd"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffeaa7",
+        "value": "#ffeaa7"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #856404",
+        "value": "#856404"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e2e3e5",
+        "value": "#e2e3e5"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #d6d8db",
+        "value": "#d6d8db"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #383d41",
+        "value": "#383d41"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/victim_profile.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 18 inline styles (should use CSS classes)",
+        "count": 18
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #0056b3",
+        "value": "#0056b3"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #17a2b8",
+        "value": "#17a2b8"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #138496",
+        "value": "#138496"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e0a800",
+        "value": "#e0a800"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e3e6f0",
+        "value": "#e3e6f0"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #e3e6f0",
+        "value": "#e3e6f0"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #495057",
+        "value": "#495057"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #6c757d",
+        "value": "#6c757d"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/partners.html": [
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/monitoring_dashboard.html": [
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #17a2b8",
+        "value": "#17a2b8"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/loan_business_list.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 5 inline styles (should use CSS classes)",
+        "count": 5
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/solutions_dashboard.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 3 inline styles (should use CSS classes)",
+        "count": 3
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4e73df",
+        "value": "#4e73df"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f6c23e",
+        "value": "#f6c23e"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #36b9cc",
+        "value": "#36b9cc"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #1cc88a",
+        "value": "#1cc88a"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #5a5c69",
+        "value": "#5a5c69"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/beef.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 1 inline styles (should use CSS classes)",
+        "count": 1
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/gmail_access.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 10 inline styles (should use CSS classes)",
+        "count": 10
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #667eea",
+        "value": "#667eea"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #764ba2",
+        "value": "#764ba2"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/campaign_control.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 11 inline styles (should use CSS classes)",
+        "count": 11
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #28a745",
+        "value": "#28a745"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #ffc107",
+        "value": "#ffc107"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #dc3545",
+        "value": "#dc3545"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #007bff",
+        "value": "#007bff"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/guides_management.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 9 inline styles (should use CSS classes)",
+        "count": 9
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #4e73df",
+        "value": "#4e73df"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f6c23e",
+        "value": "#f6c23e"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #36b9cc",
+        "value": "#36b9cc"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #1cc88a",
+        "value": "#1cc88a"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #5a5c69",
+        "value": "#5a5c69"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "unexpected_color",
+        "severity": "info",
+        "message": "Unexpected color found: #f8f9fa",
+        "value": "#f8f9fa"
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/admin/loan_individual_list.html": [
+      {
+        "type": "inline_style",
+        "severity": "warning",
+        "message": "Found 5 inline styles (should use CSS classes)",
+        "count": 5
+      },
+      {
+        "type": "missing_zalopay_css",
+        "severity": "error",
+        "message": "ZaloPay CSS files not imported"
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/css/zalopay-shared.css": [
+      {
+        "type": "hardcoded_colors",
+        "severity": "warning",
+        "message": "Found 17 hardcoded colors (should use CSS variables)",
+        "count": 17
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/css/admin.css": [
+      {
+        "type": "important_overuse",
+        "severity": "warning",
+        "message": "Excessive use of !important (13 times)",
+        "count": 13
+      }
+    ],
+    "/home/runner/work/hehe/hehe/frontend/css/merchant.css": [
+      {
+        "type": "important_overuse",
+        "severity": "warning",
+        "message": "Excessive use of !important (13 times)",
+        "count": 13
+      }
+    ]
+  },
+  "design_tokens": {
+    "colors": [
+      "#000000",
+      "#0000ff",
+      "#0052CC",
+      "#0052a3",
+      "#0068FF",
+      "#008000",
+      "#008a5a",
+      "#00A078",
+      "#00C896",
+      "#00ff00",
+      "#065F46",
+      "#0c5460",
+      "#111827",
+      "#121212",
+      "#155724",
+      "#1F2937",
+      "#1a1a1a",
+      "#1e1e1e",
+      "#2d2d2d",
+      "#33D4A9",
+      "#374151",
+      "#3D8AFF",
+      "#495057",
+      "#4B5563",
+      "#6B7280",
+      "#6c757d",
+      "#721c24",
+      "#7B61FF",
+      "#856404",
+      "#92400E",
+      "#991B1B",
+      "#9CA3AF",
+      "#D1D5DB",
+      "#D1FAE5",
+      "#E03128",
+      "#E5E7EB",
+      "#E5F0FF",
+      "#F3F4F6",
+      "#F9FAFB",
+      "#FEE2E2",
+      "#FEF3C7",
+      "#FF3B30",
+      "#FF6D3D",
+      "#FFB800",
+      "#FFFFFF",
+      "#bee5eb",
+      "#c3e6cb",
+      "#d1ecf1",
+      "#d4edda",
+      "#dee2e6",
+      "#e0a800",
+      "#e55a2b",
+      "#e9ecef",
+      "#f1f1f1",
+      "#f5c6cb",
+      "#f8d7da",
+      "#f8f9fa",
+      "#ff0000",
+      "#ffeaa7",
+      "#fff3cd",
+      "#ffff00",
+      "#ffffff"
+    ],
+    "fonts": [
+      "var(--font-family-primary)",
+      "var(--font-family-primary, 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif)"
+    ],
+    "spacing": [
+      "-1px",
+      "0",
+      "0 !important",
+      "0 0 var(--space-8) 0",
+      "0 0.25rem",
+      "0 auto",
+      "0 var(--space-5)",
+      "0 var(--space-5) var(--space-5)",
+      "0 var(--space-6)",
+      "0.5rem 0",
+      "0.5rem 0.75rem",
+      "0.75rem 1.25rem",
+      "0.75rem 1.5rem",
+      "0.75rem 1rem",
+      "0.875rem 1.5rem",
+      "1rem",
+      "1rem 1.25rem",
+      "1rem 2rem",
+      "3rem 0",
+      "var(--space-1) var(--space-2)"
+    ]
+  }
+}
