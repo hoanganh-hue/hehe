@@ -1,0 +1,547 @@
+/*
+ * ZaloPay Design System - Shared Components
+ * Reusable UI components consistent with ZaloPay branding
+ */
+
+@import url('zalopay-variables.css');
+
+/* ============================================================================
+   BUTTONS
+   ========================================================================= */
+
+.zp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3) var(--space-6);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+    text-decoration: none;
+    border: none;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    white-space: nowrap;
+}
+
+.zp-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Button Sizes */
+.zp-btn-sm {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-sm);
+    border-radius: var(--radius-base);
+}
+
+.zp-btn-lg {
+    padding: var(--space-4) var(--space-8);
+    font-size: var(--font-size-lg);
+    border-radius: var(--radius-xl);
+}
+
+.zp-btn-xl {
+    padding: var(--space-5) var(--space-10);
+    font-size: var(--font-size-xl);
+    border-radius: var(--radius-xl);
+}
+
+/* Button Variants */
+.zp-btn-primary {
+    background: var(--gradient-primary);
+    color: var(--text-inverse);
+    box-shadow: var(--shadow-sm);
+}
+
+.zp-btn-primary:hover {
+    background: linear-gradient(135deg, #0052CC 0%, #00A078 100%);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+.zp-btn-primary:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+.zp-btn-secondary {
+    background: var(--color-gray-100);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-xs);
+}
+
+.zp-btn-secondary:hover {
+    background: var(--color-gray-200);
+    box-shadow: var(--shadow-sm);
+}
+
+.zp-btn-outline {
+    background: transparent;
+    color: var(--zalopay-blue-primary);
+    border: var(--border-width-2) solid var(--zalopay-blue-primary);
+}
+
+.zp-btn-outline:hover {
+    background: var(--zalopay-blue-lighter);
+    border-color: var(--zalopay-blue-dark);
+}
+
+.zp-btn-ghost {
+    background: transparent;
+    color: var(--zalopay-blue-primary);
+}
+
+.zp-btn-ghost:hover {
+    background: var(--color-gray-100);
+}
+
+.zp-btn-danger {
+    background: var(--color-danger);
+    color: var(--text-inverse);
+}
+
+.zp-btn-danger:hover {
+    background: #E03128;
+    box-shadow: var(--shadow-md);
+}
+
+.zp-btn-success {
+    background: var(--color-success);
+    color: var(--text-inverse);
+}
+
+.zp-btn-success:hover {
+    background: var(--zalopay-green-dark);
+    box-shadow: var(--shadow-md);
+}
+
+/* Button with Icon */
+.zp-btn-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.zp-btn-icon-only {
+    padding: var(--space-3);
+    aspect-ratio: 1;
+}
+
+/* Button Group */
+.zp-btn-group {
+    display: inline-flex;
+    gap: var(--space-2);
+}
+
+/* ============================================================================
+   FORMS
+   ========================================================================= */
+
+.zp-form-group {
+    margin-bottom: var(--space-5);
+}
+
+.zp-form-label {
+    display: block;
+    margin-bottom: var(--space-2);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+}
+
+.zp-form-label-required::after {
+    content: '*';
+    color: var(--color-danger);
+    margin-left: var(--space-1);
+}
+
+.zp-form-control {
+    display: block;
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-base);
+    transition: all var(--transition-fast);
+}
+
+.zp-form-control:focus {
+    outline: none;
+    border-color: var(--zalopay-blue-primary);
+    box-shadow: 0 0 0 3px var(--zalopay-blue-lighter);
+}
+
+.zp-form-control:disabled {
+    background-color: var(--color-gray-100);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.zp-form-control-lg {
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--font-size-lg);
+    border-radius: var(--radius-md);
+}
+
+.zp-form-control-sm {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-sm);
+}
+
+/* Form Control States */
+.zp-form-control-error {
+    border-color: var(--color-danger);
+}
+
+.zp-form-control-error:focus {
+    box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.1);
+}
+
+.zp-form-control-success {
+    border-color: var(--color-success);
+}
+
+.zp-form-help-text {
+    display: block;
+    margin-top: var(--space-1);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.zp-form-error-text {
+    display: block;
+    margin-top: var(--space-1);
+    font-size: var(--font-size-sm);
+    color: var(--color-danger);
+}
+
+/* Checkbox & Radio */
+.zp-checkbox,
+.zp-radio {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    cursor: pointer;
+}
+
+.zp-checkbox input,
+.zp-radio input {
+    width: 1.25rem;
+    height: 1.25rem;
+    cursor: pointer;
+    accent-color: var(--zalopay-blue-primary);
+}
+
+/* Select */
+.zp-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236B7280' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--space-3) center;
+    padding-right: var(--space-10);
+}
+
+/* ============================================================================
+   CARDS
+   ========================================================================= */
+
+.zp-card {
+    background: var(--bg-primary);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: all var(--transition-base);
+}
+
+.zp-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.zp-card-static {
+    box-shadow: var(--shadow-sm);
+}
+
+.zp-card-static:hover {
+    transform: none;
+}
+
+.zp-card-header {
+    padding: var(--space-5) var(--space-6);
+    border-bottom: var(--border-width) solid var(--border-color);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-lg);
+}
+
+.zp-card-body {
+    padding: var(--space-6);
+}
+
+.zp-card-footer {
+    padding: var(--space-5) var(--space-6);
+    border-top: var(--border-width) solid var(--border-color);
+    background: var(--bg-secondary);
+}
+
+/* Card Variants */
+.zp-card-elevated {
+    border: none;
+    box-shadow: var(--shadow-lg);
+}
+
+.zp-card-gradient {
+    background: var(--gradient-primary);
+    color: var(--text-inverse);
+    border: none;
+}
+
+/* ============================================================================
+   BADGES
+   ========================================================================= */
+
+.zp-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+}
+
+.zp-badge-primary {
+    background: var(--zalopay-blue-lighter);
+    color: var(--zalopay-blue-dark);
+}
+
+.zp-badge-success {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.zp-badge-warning {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.zp-badge-danger {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+.zp-badge-info {
+    background: var(--zalopay-blue-lighter);
+    color: var(--zalopay-blue-dark);
+}
+
+.zp-badge-gray {
+    background: var(--color-gray-200);
+    color: var(--color-gray-700);
+}
+
+/* Badge Sizes */
+.zp-badge-sm {
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.625rem;
+}
+
+.zp-badge-lg {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-sm);
+}
+
+/* ============================================================================
+   ALERTS
+   ========================================================================= */
+
+.zp-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid;
+    margin-bottom: var(--space-4);
+}
+
+.zp-alert-icon {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.zp-alert-content {
+    flex: 1;
+}
+
+.zp-alert-title {
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-1);
+}
+
+.zp-alert-success {
+    background: #D1FAE5;
+    border-color: var(--color-success);
+    color: #065F46;
+}
+
+.zp-alert-warning {
+    background: #FEF3C7;
+    border-color: var(--color-warning);
+    color: #92400E;
+}
+
+.zp-alert-danger {
+    background: #FEE2E2;
+    border-color: var(--color-danger);
+    color: #991B1B;
+}
+
+.zp-alert-info {
+    background: var(--zalopay-blue-lighter);
+    border-color: var(--zalopay-blue-primary);
+    color: var(--zalopay-blue-dark);
+}
+
+/* ============================================================================
+   MODALS
+   ========================================================================= */
+
+.zp-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: var(--z-index-modal-backdrop);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+}
+
+.zp-modal {
+    background: var(--bg-primary);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-2xl);
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: var(--z-index-modal);
+}
+
+.zp-modal-header {
+    padding: var(--space-6);
+    border-bottom: var(--border-width) solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.zp-modal-title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+}
+
+.zp-modal-close {
+    padding: var(--space-2);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    border-radius: var(--radius-base);
+    transition: all var(--transition-fast);
+}
+
+.zp-modal-close:hover {
+    background: var(--color-gray-100);
+    color: var(--text-primary);
+}
+
+.zp-modal-body {
+    padding: var(--space-6);
+    overflow-y: auto;
+}
+
+.zp-modal-footer {
+    padding: var(--space-6);
+    border-top: var(--border-width) solid var(--border-color);
+    display: flex;
+    gap: var(--space-3);
+    justify-content: flex-end;
+}
+
+/* ============================================================================
+   UTILITIES
+   ========================================================================= */
+
+/* Spacing Utilities */
+.zp-mt-auto { margin-top: auto; }
+.zp-mb-auto { margin-bottom: auto; }
+.zp-ml-auto { margin-left: auto; }
+.zp-mr-auto { margin-right: auto; }
+
+/* Text Utilities */
+.zp-text-center { text-align: center; }
+.zp-text-left { text-align: left; }
+.zp-text-right { text-align: right; }
+
+.zp-font-bold { font-weight: var(--font-weight-bold); }
+.zp-font-semibold { font-weight: var(--font-weight-semibold); }
+.zp-font-medium { font-weight: var(--font-weight-medium); }
+
+.zp-text-primary { color: var(--text-primary); }
+.zp-text-secondary { color: var(--text-secondary); }
+.zp-text-tertiary { color: var(--text-tertiary); }
+
+/* Display Utilities */
+.zp-flex { display: flex; }
+.zp-inline-flex { display: inline-flex; }
+.zp-grid { display: grid; }
+.zp-hidden { display: none; }
+
+/* Flex Utilities */
+.zp-flex-col { flex-direction: column; }
+.zp-flex-row { flex-direction: row; }
+.zp-items-center { align-items: center; }
+.zp-justify-center { justify-content: center; }
+.zp-justify-between { justify-content: space-between; }
+.zp-gap-2 { gap: var(--space-2); }
+.zp-gap-4 { gap: var(--space-4); }
+.zp-gap-6 { gap: var(--space-6); }
+
+/* Width Utilities */
+.zp-w-full { width: 100%; }
+.zp-w-auto { width: auto; }
+
+/* Animation Utilities */
+.zp-fade-in {
+    animation: fadeIn var(--transition-base);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
