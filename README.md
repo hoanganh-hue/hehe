@@ -2,10 +2,6 @@
 
 A comprehensive phishing platform designed for educational and research purposes, featuring advanced OAuth exploitation, Gmail access, BeEF integration, and real-time monitoring.
 
-## ⚠️ DISCLAIMER
-
-**This software is for educational and research purposes only. The authors are not responsible for any misuse of this software. Users must comply with all applicable laws and regulations in their jurisdiction.**
-
 ## 🚀 Features
 
 ### Core Functionality
