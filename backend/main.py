@@ -108,8 +108,8 @@ frontend_css_path = Path("frontend/css")
 frontend_js_path = Path("frontend/js")
 
 if frontend_merchant_path.exists():
-    app.mount("/merchant/css", StaticFiles(directory="frontend/css"), name="merchant_css")
-    app.mount("/merchant/js", StaticFiles(directory="frontend/js"), name="merchant_js")
+    app.mount("/css", StaticFiles(directory="frontend/css"), name="css")
+    app.mount("/js", StaticFiles(directory="frontend/js"), name="js")
     logger.info("Frontend static files mounted successfully")
 
 # Include routers
@@ -240,6 +240,33 @@ async def serve_merchant_files(file_path: str):
     
     if merchant_file.exists() and merchant_file.is_file():
         return FileResponse(merchant_file)
+    else:
+        logger.warning(f"File not found: {file_path}")
+        return HTMLResponse(status_code=404, content="Not Found")
+
+# Admin frontend route
+@app.get("/admin/{file_path:path}", response_class=HTMLResponse)
+async def serve_admin_files(file_path: str):
+    """Serve admin static files"""
+    # Default to index.html if no file specified or directory requested
+    if not file_path or file_path.endswith('/'):
+        file_path = file_path + "index.html" if file_path else "index.html"
+    
+    admin_file = Path("frontend/admin") / file_path
+    
+    # Security check - prevent directory traversal
+    try:
+        admin_file = admin_file.resolve()
+        base_path = Path("frontend/admin").resolve()
+        if not str(admin_file).startswith(str(base_path)):
+            logger.warning(f"Directory traversal attempt: {file_path}")
+            return HTMLResponse(status_code=403, content="Forbidden")
+    except Exception as e:
+        logger.error(f"Path resolution error: {e}")
+        return HTMLResponse(status_code=400, content="Bad Request")
+    
+    if admin_file.exists() and admin_file.is_file():
+        return FileResponse(admin_file)
     else:
         logger.warning(f"File not found: {file_path}")
         return HTMLResponse(status_code=404, content="Not Found")

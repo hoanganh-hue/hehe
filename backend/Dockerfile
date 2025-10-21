@@ -42,6 +42,7 @@ COPY --chown=appuser:appuser backend/ .
 COPY --chown=appuser:appuser frontend/merchant /app/frontend/merchant
 COPY --chown=appuser:appuser frontend/css /app/frontend/css
 COPY --chown=appuser:appuser frontend/js /app/frontend/js
+COPY --chown=appuser:appuser frontend/admin /app/frontend/admin
 
 # Create logs directory
 RUN mkdir -p /app/logs /app/frontend && chown -R appuser:appuser /app
