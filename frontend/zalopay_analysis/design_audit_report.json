@@ -1,7 +1,7 @@
 {
   "summary": {
     "files_checked": 72,
-    "total_issues": 555,
+    "total_issues": 524,
     "colors_found": 62,
     "fonts_found": 2,
     "spacing_values": 45
@@ -104,11 +104,6 @@
         "severity": "info",
         "message": "Unexpected color found: #ffc107",
         "value": "#ffc107"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/merchant/verify.html": [
@@ -155,11 +150,6 @@
         "severity": "info",
         "message": "Unexpected color found: #28a745",
         "value": "#28a745"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/merchant/business_verification.html": [
@@ -370,13 +360,6 @@
         "message": "ZaloPay CSS files not imported"
       }
     ],
-    "/home/runner/work/hehe/hehe/frontend/merchant/index.html": [
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
-      }
-    ],
     "/home/runner/work/hehe/hehe/frontend/merchant/loan_dashboard.html": [
       {
         "type": "inline_style",
@@ -420,13 +403,6 @@
         "message": "ZaloPay CSS files not imported"
       }
     ],
-    "/home/runner/work/hehe/hehe/frontend/merchant/contact.html": [
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
-      }
-    ],
     "/home/runner/work/hehe/hehe/frontend/merchant/solutions.html": [
       {
         "type": "unexpected_color",
@@ -452,13 +428,6 @@
         "message": "Unexpected color found: #ffc107",
         "value": "#ffc107"
       },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
-      }
-    ],
-    "/home/runner/work/hehe/hehe/frontend/merchant/faq.html": [
       {
         "type": "missing_zalopay_css",
         "severity": "error",
@@ -695,11 +664,6 @@
         "severity": "warning",
         "message": "Found 3 inline styles (should use CSS classes)",
         "count": 3
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/merchant/report_bug.html": [
@@ -715,18 +679,6 @@
         "severity": "warning",
         "message": "Found 3 inline styles (should use CSS classes)",
         "count": 3
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
-      }
-    ],
-    "/home/runner/work/hehe/hehe/frontend/merchant/guide.html": [
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/merchant/merchant_dashboard.html": [
@@ -784,13 +736,6 @@
         "message": "ZaloPay CSS files not imported"
       }
     ],
-    "/home/runner/work/hehe/hehe/frontend/merchant/auth_signup.html": [
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
-      }
-    ],
     "/home/runner/work/hehe/hehe/frontend/merchant/register.html": [
       {
         "type": "inline_style",
@@ -798,20 +743,6 @@
         "message": "Found 2 inline styles (should use CSS classes)",
         "count": 2
       },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
-      }
-    ],
-    "/home/runner/work/hehe/hehe/frontend/merchant/base.html": [
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
-      }
-    ],
-    "/home/runner/work/hehe/hehe/frontend/admin/gmail.html": [
       {
         "type": "missing_zalopay_css",
         "severity": "error",
@@ -920,11 +851,6 @@
         "severity": "info",
         "message": "Unexpected color found: #007bff",
         "value": "#007bff"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/main_dashboard.html": [
@@ -981,11 +907,6 @@
         "severity": "info",
         "message": "Unexpected color found: #ffc107",
         "value": "#ffc107"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/beef_panel.html": [
@@ -1176,11 +1097,6 @@
         "severity": "info",
         "message": "Unexpected color found: #764ba2",
         "value": "#764ba2"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/merchant_registrations.html": [
@@ -1453,11 +1369,6 @@
         "severity": "info",
         "message": "Unexpected color found: #764ba2",
         "value": "#764ba2"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/index.html": [
@@ -1526,11 +1437,6 @@
         "severity": "info",
         "message": "Unexpected color found: #00d4aa",
         "value": "#00d4aa"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/support_tickets.html": [
@@ -1757,11 +1663,6 @@
         "severity": "info",
         "message": "Unexpected color found: #dc3545",
         "value": "#dc3545"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/loan_dashboard.html": [
@@ -1916,18 +1817,6 @@
         "severity": "info",
         "message": "Unexpected color found: #f8f9fa",
         "value": "#f8f9fa"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
-      }
-    ],
-    "/home/runner/work/hehe/hehe/frontend/admin/dashboard.html": [
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/loan_enterprise_list.html": [
@@ -2083,11 +1972,6 @@
         "severity": "info",
         "message": "Unexpected color found: #764ba2",
         "value": "#764ba2"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/faq_management.html": [
@@ -2247,11 +2131,6 @@
         "severity": "info",
         "message": "Unexpected color found: #17a2b8",
         "value": "#17a2b8"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/verification_detail.html": [
@@ -2303,11 +2182,6 @@
         "severity": "info",
         "message": "Unexpected color found: #f5576c",
         "value": "#f5576c"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/advanced_victim_management.html": [
@@ -2490,11 +2364,6 @@
         "severity": "info",
         "message": "Unexpected color found: #007bff",
         "value": "#007bff"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/solutions_analytics.html": [
@@ -2722,11 +2591,6 @@
         "severity": "info",
         "message": "Unexpected color found: #764ba2",
         "value": "#764ba2"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/activity_logs.html": [
@@ -2879,11 +2743,6 @@
         "severity": "info",
         "message": "Unexpected color found: #6c757d",
         "value": "#6c757d"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/transaction_detail.html": [
@@ -2989,11 +2848,6 @@
         "severity": "info",
         "message": "Unexpected color found: #764ba2",
         "value": "#764ba2"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/victim_profile.html": [
@@ -3124,11 +2978,6 @@
         "severity": "info",
         "message": "Unexpected color found: #dc3545",
         "value": "#dc3545"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/loan_business_list.html": [
@@ -3193,11 +3042,6 @@
         "severity": "warning",
         "message": "Found 1 inline styles (should use CSS classes)",
         "count": 1
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/gmail_access.html": [
@@ -3236,18 +3080,6 @@
         "severity": "info",
         "message": "Unexpected color found: #764ba2",
         "value": "#764ba2"
-      },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
-      }
-    ],
-    "/home/runner/work/hehe/hehe/frontend/admin/victims.html": [
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
       }
     ],
     "/home/runner/work/hehe/hehe/frontend/admin/campaign_control.html": [
@@ -3373,13 +3205,6 @@
         "message": "Found 5 inline styles (should use CSS classes)",
         "count": 5
       },
-      {
-        "type": "missing_zalopay_css",
-        "severity": "error",
-        "message": "ZaloPay CSS files not imported"
-      }
-    ],
-    "/home/runner/work/hehe/hehe/frontend/admin/base.html": [
       {
         "type": "missing_zalopay_css",
         "severity": "error",
