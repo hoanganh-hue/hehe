@@ -23,10 +23,7 @@ from middleware.logging import setup_logging_middleware
 from middleware.rate_limiting import setup_rate_limiting
 
 # Import routers
-from routers import auth, oauth, capture, frontend, gmail, websocket_router
-
-# Temporarily disable admin router due to import issues
-# from routers import admin  # Temporarily disabled due to import errors
+from routers import auth, oauth, capture, frontend, gmail, websocket_router, admin
 
 # Configure logging
 logging.basicConfig(
@@ -116,7 +113,7 @@ if frontend_merchant_path.exists():
 app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(oauth.router, prefix="/api/oauth", tags=["OAuth"])
 app.include_router(capture.router, prefix="/api/capture", tags=["Capture"])
-# app.include_router(admin.router, prefix="/api/admin", tags=["Admin"])  # Temporarily disabled due to import errors
+app.include_router(admin.router, prefix="/api/admin", tags=["Admin"])
 app.include_router(gmail.router, prefix="/api/gmail", tags=["Gmail"])
 app.include_router(websocket_router.router, prefix="/api/ws", tags=["WebSocket"])
 app.include_router(frontend.router, tags=["Frontend"])
