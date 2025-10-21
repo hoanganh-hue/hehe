@@ -1,30 +1,34 @@
 /* ZaloPay Merchant Custom Styles */
+/* Import ZaloPay Design System */
+@import url('zalopay-variables.css');
 
+/* Legacy variable mappings for backward compatibility */
 :root {
-    --primary-color: #0066cc;
-    --secondary-color: #00a86b;
-    --accent-color: #ff6b35;
-    --warning-color: #ffc107;
-    --danger-color: #dc3545;
-    --success-color: #28a745;
-    --info-color: #17a2b8;
-    --light-color: #f8f9fa;
-    --dark-color: #343a40;
-    --gradient-primary: linear-gradient(135deg, #0066cc 0%, #00a86b 100%);
-    --gradient-secondary: linear-gradient(135deg, #ff6b35 0%, #ffc107 100%);
-    --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
-    --border-radius: 0.5rem;
-    --border-radius-lg: 1rem;
-    --transition: all 0.3s ease;
+    --primary-color: var(--zalopay-blue-primary, #0068FF);
+    --secondary-color: var(--zalopay-green, #00C896);
+    --accent-color: var(--zalopay-orange, #FF6D3D);
+    --warning-color: var(--color-warning, #FFB800);
+    --danger-color: var(--color-danger, #FF3B30);
+    --success-color: var(--color-success, #00C896);
+    --info-color: var(--zalopay-blue-primary, #0068FF);
+    --light-color: var(--color-gray-50, #F9FAFB);
+    --dark-color: var(--color-gray-900, #111827);
+    --gradient-primary: var(--gradient-primary, linear-gradient(135deg, #0068FF 0%, #00C896 100%));
+    --gradient-secondary: var(--gradient-warm, linear-gradient(135deg, #FF6D3D 0%, #FFB800 100%));
+    --shadow-sm: var(--shadow-sm);
+    --shadow: var(--shadow-md);
+    --shadow-lg: var(--shadow-lg);
+    --border-radius: var(--radius-base, 0.5rem);
+    --border-radius-lg: var(--radius-lg, 1rem);
+    --transition: all var(--transition-base, 200ms);
 }
 
 /* Global Styles */
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.6;
-    color: #333;
+    font-family: var(--font-family-primary, 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+    line-height: var(--line-height-normal, 1.6);
+    color: var(--text-primary, #111827);
+    background-color: var(--bg-primary, #FFFFFF);
 }
 
 /* Typography */
