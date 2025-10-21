@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better caching
-COPY requirements.txt .
+COPY backend/requirements.txt .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir --user -r requirements.txt
@@ -35,11 +35,17 @@ RUN apt-get update && apt-get install -y \
 # Copy installed packages from builder stage
 COPY --from=builder /root/.local /home/appuser/.local
 
-# Copy application code
-COPY --chown=appuser:appuser . .
+# Copy application code from backend directory
+COPY --chown=appuser:appuser backend/ .
+
+# Copy frontend merchant files for integrated serving
+COPY --chown=appuser:appuser frontend/merchant /app/frontend/merchant
+COPY --chown=appuser:appuser frontend/css /app/frontend/css
+COPY --chown=appuser:appuser frontend/js /app/frontend/js
+COPY --chown=appuser:appuser frontend/admin /app/frontend/admin
 
 # Create logs directory
-RUN mkdir -p /app/logs && chown -R appuser:appuser /app
+RUN mkdir -p /app/logs /app/frontend && chown -R appuser:appuser /app
 
 # Switch to non-root user
 USER appuser
