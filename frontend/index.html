@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZaloPay Merchant - Cổng thanh toán trực tuyến</title>
+    <meta name="description" content="ZaloPay Merchant - Giải pháp thanh toán trực tuyến hàng đầu Việt Nam">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #00d4aa 0%, #00b894 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .router-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 3rem;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .logo-container {
+            margin-bottom: 2rem;
+        }
+        
+        .logo-container img {
+            max-width: 200px;
+            height: auto;
+        }
+        
+        h1 {
+            color: #00d4aa;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .description {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+        
+        .portal-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .portal-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .portal-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 212, 170, 0.3);
+            border-color: #00d4aa;
+            text-decoration: none;
+        }
+        
+        .portal-card.merchant {
+            background: linear-gradient(135deg, #e3f9f5 0%, #ffffff 100%);
+        }
+        
+        .portal-card.admin {
+            background: linear-gradient(135deg, #fff3e3 0%, #ffffff 100%);
+        }
+        
+        .portal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .portal-card.merchant .portal-icon {
+            color: #00d4aa;
+        }
+        
+        .portal-card.admin .portal-icon {
+            color: #ff9800;
+        }
+        
+        .portal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .portal-description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .footer-note {
+            color: #999;
+            font-size: 0.85rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        @media (max-width: 576px) {
+            .portal-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .description {
+                font-size: 1rem;
+            }
+        }
+    </style>
+    
+    <script>
+        // Auto-routing logic based on URL parameters or user type detection
+        window.addEventListener('DOMContentLoaded', function() {
+            // Check for route parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const route = urlParams.get('route');
+            
+            // Check if user is already logged in and has a role in session/localStorage
+            const userRole = localStorage.getItem('userRole');
+            const sessionToken = localStorage.getItem('sessionToken');
+            
+            // Auto-redirect logic
+            if (route === 'merchant' || window.location.pathname.includes('/merchant')) {
+                window.location.href = '/merchant/index.html';
+            } else if (route === 'admin' || window.location.pathname.includes('/admin')) {
+                window.location.href = '/admin/index.html';
+            } else if (sessionToken && userRole) {
+                // User is logged in, redirect based on role
+                if (userRole === 'admin') {
+                    window.location.href = '/admin/index.html';
+                } else if (userRole === 'merchant') {
+                    window.location.href = '/merchant/index.html';
+                }
+            }
+            // Otherwise, show the portal selection page
+        });
+        
+        // Track user selection for analytics
+        function trackSelection(portal) {
+            // Send analytics event
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'portal_selection', {
+                    'portal_type': portal
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="router-container">
+        <div class="logo-container">
+            <h1>
+                <i class="fas fa-wallet" style="color: #00d4aa;"></i>
+                ZaloPay Merchant
+            </h1>
+        </div>
+        
+        <p class="description">
+            Chào mừng đến với ZaloPay Merchant Platform.<br>
+            Vui lòng chọn cổng truy cập phù hợp:
+        </p>
+        
+        <div class="portal-cards">
+            <!-- Merchant Portal -->
+            <a href="/merchant/index.html" class="portal-card merchant" onclick="trackSelection('merchant')">
+                <div class="portal-icon">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div class="portal-title">Merchant Portal</div>
+                <div class="portal-description">
+                    Dành cho khách hàng và doanh nghiệp.<br>
+                    Đăng ký, quản lý thanh toán và dịch vụ.
+                </div>
+            </a>
+            
+            <!-- Admin Portal -->
+            <a href="/admin/index.html" class="portal-card admin" onclick="trackSelection('admin')">
+                <div class="portal-icon">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="portal-title">Admin Portal</div>
+                <div class="portal-description">
+                    Dành cho quản trị viên hệ thống.<br>
+                    Giám sát, quản lý và phân tích dữ liệu.
+                </div>
+            </a>
+        </div>
+        
+        <div class="footer-note">
+            <i class="fas fa-info-circle"></i>
+            Nếu bạn không chắc chắn, vui lòng chọn <strong>Merchant Portal</strong> để đăng ký tài khoản mới.
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
